@@ -3,8 +3,12 @@ import styled from "styled-components";
 import logo from "../../image/ohou_logo.PNG";
 import SNS from "./SNS";
 import Button from "../Layout/Button";
+import {useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
+  /** REACT-ROUTER-DOM */
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <LogoBox>
@@ -21,7 +25,7 @@ const LoginForm = () => {
         <Button btnName={"로그인"} />
         <Section>
           <Option>비밀번호 재설정</Option>
-          <Option>회원가입</Option>
+          <Option onClick={() => navigate("/new")}>회원가입</Option>
         </Section>
       </Form>
       <SNS />
@@ -84,6 +88,8 @@ const Section = styled.section`
 
 const Option = styled.div`
   font-size: 14px;
+
+  cursor: pointer;
 `;
 
 const GuideMsg = styled.div`

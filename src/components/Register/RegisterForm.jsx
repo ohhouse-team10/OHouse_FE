@@ -1,19 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import useInput from "../../hooks/useInput";
 import styled from "styled-components";
 import SNS from "../Login/SNS";
 import TOS from "./TOS";
 import Button from "../Layout/Button";
 import useIsValid from "../../hooks/useIsValid";
-
 import {
   mergeEmailId,
   isValidEmailForm,
   isValidPassword,
   isMatchedPassword,
 } from "../../utils/RegisterUtil";
+import {useNavigate} from "react-router-dom";
 
 const RegisterForm = () => {
+  /** REACT-ROUTER-DOM */
+  const navigate = useNavigate();
+
   /** User Input Management */
   const [id, onChangeHandlerId] = useInput();
   const [email, onChangeHandlerEmail] = useInput();
@@ -68,9 +71,9 @@ const RegisterForm = () => {
                 <option value="icloud.com">icloud.com</option>
               </select>
             </EmailField>
-            <ErrorMsg>
-              {!isValidEmail ? "이메일 형식이 올바르지 않습니다." : ""}
-            </ErrorMsg>
+            {!isValidEmail ? (
+              <ErrorMsg>이메일 형식이 올바르지 않습니다.</ErrorMsg>
+            ) : null}
             <Button btnName={"이메일 인증하기"} disabled={true} />
           </InputField>
           <InputField>
@@ -84,11 +87,11 @@ const RegisterForm = () => {
               onChange={onChangeHandlerPassword1}
               required
             />
-            <ErrorMsg>
-              {!isValidPW
-                ? "비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다."
-                : ""}
-            </ErrorMsg>
+            {!isValidPW ? (
+              <ErrorMsg>
+                비밀번호는 영문, 숫자를 포함하여 8자 이상이어야 합니다.
+              </ErrorMsg>
+            ) : null}
           </InputField>
           <InputField>
             <label>비밀번호 확인</label>
@@ -97,9 +100,9 @@ const RegisterForm = () => {
               placeholder="비밀번호 확인"
               onChange={onChangeHandlerpassword2}
             />
-            <ErrorMsg>
-              {!isMatchedPW ? "비밀번호가 일치하지 않습니다." : ""}
-            </ErrorMsg>
+            {!isMatchedPW ? (
+              <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
+            ) : null}
           </InputField>
           <InputField>
             <label>닉네임</label>
@@ -118,7 +121,8 @@ const RegisterForm = () => {
         <TOS />
         <Button btnName={"회원가입하기"} />
         <LoginQuestion>
-          이미 아이디가 있으신가요? <span>로그인</span>
+          이미 아이디가 있으신가요?{" "}
+          <span onClick={() => navigate("/login")}>로그인</span>
         </LoginQuestion>
       </Wrapper>
     </>
@@ -205,4 +209,7 @@ const EmailField = styled.div`
 
 const ErrorMsg = styled.div`
   color: red;
+  font-size: 13px;
+  letter-spacing: -1px;
+  margin: 10px 0px;
 `;
