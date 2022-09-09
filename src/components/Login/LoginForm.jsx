@@ -4,25 +4,45 @@ import logo from "../../image/ohou_logo.PNG";
 import SNS from "./SNS";
 import Button from "../Layout/Button";
 import {useNavigate} from "react-router-dom";
+import useInput from "../../hooks/useInput";
 
 const LoginForm = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+
+  /** User Input ManageMent */
+  const [email, onChangeEmail] = useInput();
+  const [password, onChangePassword] = useInput();
+
+  /** Button Click Event */
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  /** Temp Console */
+  console.log(email, password);
 
   return (
     <Wrapper>
       <LogoBox>
         <Logo src={logo} />
       </LogoBox>
-      <Form>
-        <Input name="email" type="email" position="top" placeholder="이메일" />
+      <Form onSubmit={handleSubmit}>
         <Input
+          onChange={onChangeEmail}
+          name="email"
+          type="email"
+          position="top"
+          placeholder="이메일"
+        />
+        <Input
+          onChange={onChangePassword}
           name="password"
           type="password"
           position="bottom"
           placeholder="비밀번호"
         />
-        <Button btnName={"로그인"} />
+        <Button btnName={"로그인"} type="submit" />
         <Section>
           <Option>비밀번호 재설정</Option>
           <Option onClick={() => navigate("/new")}>회원가입</Option>

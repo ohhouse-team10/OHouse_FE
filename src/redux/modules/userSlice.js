@@ -1,10 +1,12 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../api";
 
+/** USER TOKEN */
 const userToken = localStorage.getItem("access-token")
   ? localStorage.getItem("access-token")
   : null;
 
+/** InitialState */
 const initialState = {
   loading: false,
 
@@ -24,10 +26,40 @@ const initialState = {
   success: false,
 };
 
+/** THUNK */
+export const userLogin = createAsyncThunk(
+  "user/login",
+  async (payload, {getState, rejectWithValue}) => {
+    console.log(payload);
+    const {user} = getState();
+    console.log(user);
+    try {
+      const response = await api.post("/api/login", payload);
+      localStorage.setItem("access-token", response.headers.authorization);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+/** USERSLICE */
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      localStorage.removeItem("access-token");
+      state.loading = false;
+      state.userInfo = null;
+      state.userToken = null;
+      state.error = null;
+    },
+  },
   extraReducers: {},
 });
 

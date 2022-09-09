@@ -9,7 +9,7 @@ const useIsValid = (argArray, setIsValidFn, targetFn) => {
     if (count === argArray.length) return;
 
     setIsValidFn(targetFn);
-  }, [...argArray]);
+  }, [argArray, setIsValidFn, targetFn]);
 };
 
 export default useIsValid;
