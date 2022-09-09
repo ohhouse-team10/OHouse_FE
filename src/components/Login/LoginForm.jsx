@@ -73,7 +73,7 @@ const LogoBox = styled.div`
 
 const Form = styled.form`
   width: 300px;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
   padding: 0px;
 `;
 const Input = styled.input`
