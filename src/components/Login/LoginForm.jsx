@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../image/ohou_logo.PNG";
+import Logo from "../Layout/Logo";
 import SNS from "./SNS";
 import Button from "../Layout/Button";
 import {useNavigate} from "react-router-dom";
@@ -25,7 +25,7 @@ const LoginForm = () => {
   return (
     <Wrapper>
       <LogoBox>
-        <Logo src={logo} />
+        <Logo />
       </LogoBox>
       <Form onSubmit={handleSubmit}>
         <Input
@@ -69,11 +69,6 @@ const Wrapper = styled.div`
 
 const LogoBox = styled.div`
   margin-bottom: 30px;
-`;
-const Logo = styled.img`
-  width: 147px;
-  height: 50px;
-  margin: 0px auto;
 `;
 
 const Form = styled.form`
