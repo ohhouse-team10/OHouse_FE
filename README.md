@@ -4,9 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Member
 
-FE: 황준수
+FE: 황준수 (https://github.com/Hwang-Junsu) <br>
     이요한
-    김준하
+    김준하 (https://github.com/Dev-Dotoli)
 BE: 신진경
     김도현
 
