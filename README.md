@@ -6,13 +6,15 @@
 ## Member
 
 FE: <br>
-황준수 (https://github.com/Hwang-Junsu) <br>
-이요한 (https://github.com/LEE-YO-HAN) <br>
-김준하 (https://github.com/Dev-Dotoli)<br>
+
+- 황준수 (https://github.com/Hwang-Junsu) <br>
+- 이요한 (https://github.com/LEE-YO-HAN) <br>
+- 김준하 (https://github.com/Dev-Dotoli)<br>
 
 BE: <br>
-신진경 (https://github.com/JinKyong)<br>
-김도현 (hyundo717@gmail.com)<br>
+
+- 신진경 (https://github.com/JinKyong)<br>
+- 김도현 (https://github.com/hyundo717)<br>
 
 ### S.A
 
