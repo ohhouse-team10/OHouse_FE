@@ -3,11 +3,11 @@ import styled from "styled-components";
 
 import Header from "./Header";
 
-const Layout = ({ childeren }) => {
+const Layout = ({ children }) => {
   return (
     <LayoutWrapper>
       <Header />
-      <main>{childeren}</main>
+      <main>{children}</main>
     </LayoutWrapper>
   );
 };
