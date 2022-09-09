@@ -1,4 +1,4 @@
-# 오늘의 집 Clone Coding
+# 🏡 오늘의 집 Clone Coding
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
