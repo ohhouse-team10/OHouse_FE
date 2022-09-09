@@ -43,19 +43,20 @@ const RegisterForm = () => {
   );
 
   /** Temp Console */
-
+  console.log(isValidEmail, isValidPW, isMatchedPW);
   return (
     <>
       <Wrapper>
         <h3 style={{fontWeight: "600", marginBottom: "20px"}}>회원가입</h3>
         <SNS />
         <Form>
-          <InputField>
-            <label>이메일</label>
+          <InputField isValid={isValidEmail}>
+            <label htmlFor="email">이메일</label>
             <EmailField>
               <input
                 type="text"
                 placeholder="이메일"
+                id="email"
                 onChange={onChangeHandlerId}
                 required
               />
@@ -76,13 +77,14 @@ const RegisterForm = () => {
             ) : null}
             <Button btnName={"이메일 인증하기"} disabled={true} />
           </InputField>
-          <InputField>
-            <label>비밀번호</label>
+          <InputField isValid={isValidPW}>
+            <label htmlFor="pw1">비밀번호</label>
             <InputGuideMsg>
               영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
             </InputGuideMsg>
             <input
               type="password"
+              id="pw1"
               placeholder="비밀번호"
               onChange={onChangeHandlerPassword1}
               required
@@ -93,10 +95,11 @@ const RegisterForm = () => {
               </ErrorMsg>
             ) : null}
           </InputField>
-          <InputField>
-            <label>비밀번호 확인</label>
+          <InputField isValid={isMatchedPW}>
+            <label htmlFor="pw2">비밀번호 확인</label>
             <input
               type="password"
+              id="pw2"
               placeholder="비밀번호 확인"
               onChange={onChangeHandlerpassword2}
             />
@@ -104,13 +107,14 @@ const RegisterForm = () => {
               <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
             ) : null}
           </InputField>
-          <InputField>
-            <label>닉네임</label>
+          <InputField isValid={true}>
+            <label htmlFor="nickname">닉네임</label>
             <InputGuideMsg>
               다른 유저와 겹치지 않는 별명을 입력해주세요. (2~15자)
             </InputGuideMsg>
             <input
               type="text"
+              id="nickname"
               placeholder="별명 (2~15자)"
               onChange={onChangeHandlernickname}
               required
@@ -159,6 +163,10 @@ const InputField = styled.div`
   display: flex;
   flex-direction: column;
   input {
+    &:focus {
+      outline: ${(props) =>
+        props.isValid ? "2px solid rgb(192, 234, 247);" : "2px solid #e74c3c"};
+    }
     padding: 0 15px;
     transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
     display: block;
@@ -172,9 +180,8 @@ const InputField = styled.div`
     background-color: #fff;
     color: #424242;
     font-size: 12px;
-    &:focus {
-      outline: 2px solid rgb(192, 234, 247);
-    }
+    outline: ${(props) =>
+      props.isValid ? "1px solid #dbdbdb" : "2px solid #e74c3c"};
   }
   label {
     margin: 15px 0;
@@ -213,3 +220,25 @@ const ErrorMsg = styled.div`
   letter-spacing: -1px;
   margin: 10px 0px;
 `;
+
+/**
+#email {
+  outline: ${(props) =>
+    props.isValid ? "1px solid #dbdbdb" : "2px solid #e74c3c"};
+  border: 1px solid #dbdbdb;
+}
+#pw1 {
+  outline: ${(props) =>
+    props.isValid ? "1px solid #dbdbdb" : "2px solid #e74c3c"};
+  border: 1px solid #dbdbdb;
+}
+#pw2 {
+  outline: ${(props) =>
+    props.isValid ? "1px solid #dbdbdb" : "2px solid #e74c3c"};
+  border: 1px solid #dbdbdb;
+}
+#nickname {
+  outline: 2px solid rgb(192, 234, 247);
+  border: 1px solid #dbdbdb;
+}
+*/
