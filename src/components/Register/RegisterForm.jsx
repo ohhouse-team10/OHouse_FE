@@ -8,7 +8,7 @@ const RegisterForm = () => {
   return (
     <>
       <Wrapper>
-        <h3>회원가입</h3>
+        <h3 style={{fontWeight: "600", marginBottom: "20px"}}>회원가입</h3>
         <SNS />
         <Form>
           <InputField>
@@ -30,7 +30,7 @@ const RegisterForm = () => {
               </select>
             </EmailField>
             <div></div>
-            <Button btnName={"이메일 인증하기"} disabled />
+            <Button btnName={"이메일 인증하기"} />
           </InputField>
           <InputField>
             <label>비밀번호</label>
@@ -69,7 +69,7 @@ export default RegisterForm;
 const Wrapper = styled.div`
   display: flex;
   margin: 0px auto;
-  width: 360px;
+  width: 330px;
   justify-content: center;
 
   flex-direction: column;
@@ -80,12 +80,14 @@ const Wrapper = styled.div`
 const Form = styled.form`
   border-top: 1px solid gray;
   padding-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const InputGuideMsg = styled.div`
   color: gray;
   font-size: 13px;
   margin-bottom: 15px;
+  letter-spacing: -1px;
 `;
 
 const InputField = styled.div`
@@ -105,6 +107,9 @@ const InputField = styled.div`
     background-color: #fff;
     color: #424242;
     font-size: 12px;
+    &:focus {
+      outline: 2px solid rgb(192, 234, 247);
+    }
   }
   label {
     margin: 15px 0;

@@ -24,11 +24,12 @@ const Layout = styled.div`
 
 const Main = styled.section`
   padding-top: 40px;
-  width: calc(100% - 30px);
+  background-color: rgb(250, 250, 250);
   margin: auto;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
+  margin-top: 50px;
 `;

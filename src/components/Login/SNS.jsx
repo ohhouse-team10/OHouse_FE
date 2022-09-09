@@ -83,11 +83,12 @@ const SNSIcon = styled.div`
 `;
 
 const GuideSNS = styled.div`
-  font-size: 12px;
+  font-size: 11px;
   color: gray;
   margin-bottom: 20px;
   letter-spacing: -1px;
   text-align: center;
+  letter-spacing: -1px;
 `;
 
 const SectionSNS = styled.section`
