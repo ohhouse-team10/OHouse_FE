@@ -9,12 +9,13 @@ FE: <br>
 
 - 황준수 (https://github.com/Hwang-Junsu) <br>
 - 이요한 (https://github.com/LEE-YO-HAN) <br>
-- 김준하 (https://github.com/Dev-Dotoli)<br>
+- 김준하 (https://github.com/Dev-Dotoli) <br>
+- 김승원 (https://github.com/soonger3306) <br>
 
 BE: <br>
 
-- 신진경 (https://github.com/JinKyong)<br>
-- 김도현 (https://github.com/hyundo717)<br>
+- 신진경 (https://github.com/JinKyong) <br>
+- 김도현 (https://github.com/hyundo717) <br>
 
 ### S.A
 
