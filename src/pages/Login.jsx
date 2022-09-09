@@ -18,7 +18,7 @@ const Login = () => {
 export default Login;
 
 const Layout = styled.div`
-  height: 100vh;
+  height: calc(100vh - 45px);
 `;
 
 const Main = styled.div`
