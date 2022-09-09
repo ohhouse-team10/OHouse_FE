@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({btnName}) => {
-  return <Btn>{btnName}</Btn>;
+const Button = ({btnName, disabled}) => {
+  return <Btn disabled={disabled}>{btnName}</Btn>;
 };
 
 const Btn = styled.button`
@@ -12,8 +12,8 @@ const Btn = styled.button`
   line-height: 20px;
   font-size: 17px;
   min-height: 50px;
-  background-color: #35c5f0;
-  border-color: #35c5f0;
+  background-color: ${(props) => (props.disabled ? "#95a5a6" : "#35c5f0")};
+  border-color: ${(props) => (props.disabled ? "#95a5a6" : "#35c5f0")};
   color: #fff;
   user-select: none;
   position: relative;

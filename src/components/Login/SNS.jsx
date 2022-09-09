@@ -13,7 +13,7 @@ const SNS = () => {
             viewBox="0 0 48 48"
             preserveAspectRatio="xMidYMid meet"
           >
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
               <path
                 fill="#3B5998"
                 d="M0 24C0 10.745 10.745 0 24 0s24 10.745 24 24-10.745 24-24 24S0 37.255 0 24z"
@@ -25,18 +25,14 @@ const SNS = () => {
             </g>
           </svg>
         </SNSIcon>
-        <SNSIcon
-          datatype="kakao"
-          class="css-l0qndx e1ufx3to0"
-          href="/users/auth/kakao"
-        >
+        <SNSIcon datatype="kakao" href="/users/auth/kakao">
           <svg
             width="48"
             height="48"
             viewBox="0 0 48 48"
             preserveAspectRatio="xMidYMid meet"
           >
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
               <path
                 fill="#FFEB00"
                 d="M0 24C0 10.745 10.745 0 24 0s24 10.745 24 24-10.745 24-24 24S0 37.255 0 24z"
@@ -48,18 +44,14 @@ const SNS = () => {
             </g>
           </svg>
         </SNSIcon>
-        <SNSIcon
-          datatype="naver"
-          class="css-l0qndx e1ufx3to0"
-          href="/users/auth/naver"
-        >
+        <SNSIcon datatype="naver" href="/users/auth/naver">
           <svg
             width="48"
             height="48"
             viewBox="0 0 48 48"
             preserveAspectRatio="xMidYMid meet"
           >
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
               <path
                 fill="#00C63B"
                 d="M0 24C0 10.745 10.745 0 24 0s24 10.745 24 24-10.745 24-24 24S0 37.255 0 24z"
