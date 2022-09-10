@@ -1,5 +1,4 @@
 import React from "react";
-import Navi from "../components/Main/Navi";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import Layout from "../components/Layout/Layout";
@@ -10,8 +9,6 @@ const MainPage = () => {
   return (
     <Layout>
       <div>
-        <Navi />
-
         <Card className="card" style={{height: "80vh"}}>
           <Left
             className="left"
