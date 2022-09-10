@@ -2,59 +2,62 @@ import React from "react";
 import Navi from "../components/Main/Navi";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
+import Layout from "../components/Layout/Layout";
 
 import MainCard from "../components/Main/MainCard";
 
 const MainPage = () => {
   return (
-    <div>
-      <Navi />
+    <Layout>
+      <div>
+        <Navi />
 
-      <Card className="card" style={{height: "80vh"}}>
-        <Left
-          className="left"
-          style={{height: "82vh", width: "70%", float: "left"}}
-        >
-          <Div>
-            <div>
-              <H1>해당페이지 제목 </H1>
+        <Card className="card" style={{height: "80vh"}}>
+          <Left
+            className="left"
+            style={{height: "82vh", width: "70%", float: "left"}}
+          >
+            <Div>
+              <div>
+                <H1>해당페이지 제목 </H1>
 
-              <Div2>
-                <Img
-                  src="https://i.pinimg.com/564x/c1/86/54/c18654579c567258e4df5bad55930381.jpg"
-                  className="rounded float-start"
-                  alt="..."
-                />
-                <h3 style={{marginLeft: "10px", color: "white"}}> 닉네임</h3>
-              </Div2>
+                <Div2>
+                  <Img
+                    src="https://i.pinimg.com/564x/c1/86/54/c18654579c567258e4df5bad55930381.jpg"
+                    className="rounded float-start"
+                    alt="..."
+                  />
+                  <h3 style={{marginLeft: "10px", color: "white"}}> 닉네임</h3>
+                </Div2>
 
-              <br />
-            </div>
-            <Button
-              variant="outlined"
-              style={{
-                float: "right",
-                borderColor: "#ffffff",
-                color: "#ffffff",
-                position: "relative",
-                bottom: "40px",
-                height: "50px",
-              }}
-            >
-              Outlined
-            </Button>
-          </Div>
-        </Left>
+                <br />
+              </div>
+              <Button
+                variant="outlined"
+                style={{
+                  float: "right",
+                  borderColor: "#ffffff",
+                  color: "#ffffff",
+                  position: "relative",
+                  bottom: "40px",
+                  height: "50px",
+                }}
+              >
+                Outlined
+              </Button>
+            </Div>
+          </Left>
 
-        <Right
-          className="right"
-          style={{height: "82vh", width: "27%", float: "right"}}
-        ></Right>
-      </Card>
-      <div style={{marginTop: "50px"}}>
-        <MainCard />
+          <Right
+            className="right"
+            style={{height: "82vh", width: "27%", float: "right"}}
+          ></Right>
+        </Card>
+        <div style={{marginTop: "50px"}}>
+          <MainCard />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

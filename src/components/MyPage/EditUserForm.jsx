@@ -8,7 +8,7 @@ const EditUserForm = () => {
     <>
       <EditHeader>
         <div>회원정보수정</div>
-        <a>탈퇴하기</a>
+        <span>탈퇴하기</span>
       </EditHeader>
       <Form>
         <FormItem
@@ -41,7 +41,7 @@ const EditHeader = styled.div`
     font-weight: 700;
     flex: 1 0 0px;
   }
-  a {
+  span {
     font-size: 14px;
     color: #ccc;
     text-decoration: underline;
