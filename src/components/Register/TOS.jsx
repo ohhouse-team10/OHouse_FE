@@ -4,12 +4,12 @@ import styled from "styled-components";
 const TOS = () => {
   return (
     <>
-      <h4>약관동의</h4>
+      <h4 style={{fontWeight: "600", marginBottom: "20px"}}>약관동의</h4>
       <Wrapper>
         <Container>
           <label>
             <input type="checkbox" value="false" name="agreeAll"></input>
-            <span>전체동의</span>
+            <span style={{fontWeight: "600"}}>전체동의</span>
             <span id="option">선택항목에 대한 동의 포함</span>
           </label>
         </Container>
@@ -65,18 +65,19 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  font-size: 14px;
-  letter-spacing: -1px;
+  font-size: 13px;
   margin: 15px 0;
 
   span {
     font-weight: 500;
+    letter-spacing: -1px;
   }
 
   #option {
     font-size: 11px;
     margin-left: 3px;
     font-weight: 300;
+    opacity: 0.7;
   }
   #option-blue {
     font-size: 11px;

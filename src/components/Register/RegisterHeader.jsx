@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../image/ohou_logo.PNG";
+import Logo from "../Layout/Logo";
 
 const RegisterHeader = () => {
   return (
     <Wrapper>
-      <Logo src={logo} />
+      <LogoBox>
+        <Logo width={110} height={50} />
+      </LogoBox>
     </Wrapper>
   );
 };
@@ -14,12 +16,11 @@ const Wrapper = styled.div`
   width: 100%;
   position: relative;
 `;
-const Logo = styled.img`
+
+const LogoBox = styled.div`
   position: absolute;
-  width: 110px;
-  height: 50px;
-  top: 10px;
-  left: 10px;
+  top: 20px;
+  left: 20px;
 `;
 
 export default RegisterHeader;

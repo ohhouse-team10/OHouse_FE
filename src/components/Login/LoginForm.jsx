@@ -1,27 +1,51 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../image/ohou_logo.PNG";
+import Logo from "../Layout/Logo";
 import SNS from "./SNS";
 import Button from "../Layout/Button";
+import {useNavigate} from "react-router-dom";
+import useInput from "../../hooks/useInput";
 
 const LoginForm = () => {
+  /** REACT-ROUTER-DOM */
+  const navigate = useNavigate();
+
+  /** User Input ManageMent */
+  const [email, onChangeEmail] = useInput();
+  const [password, onChangePassword] = useInput();
+
+  /** Button Click Event */
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  /** Temp Console */
+  console.log(email, password);
+
   return (
     <Wrapper>
       <LogoBox>
-        <Logo src={logo} />
+        <Logo />
       </LogoBox>
-      <Form>
-        <Input name="email" type="email" position="top" placeholder="이메일" />
+      <Form onSubmit={handleSubmit}>
         <Input
+          onChange={onChangeEmail}
+          name="email"
+          type="email"
+          position="top"
+          placeholder="이메일"
+        />
+        <Input
+          onChange={onChangePassword}
           name="password"
           type="password"
           position="bottom"
           placeholder="비밀번호"
         />
-        <Button btnName={"로그인"} />
+        <Button btnName={"로그인"} type="submit" />
         <Section>
           <Option>비밀번호 재설정</Option>
-          <Option>회원가입</Option>
+          <Option onClick={() => navigate("/new")}>회원가입</Option>
         </Section>
       </Form>
       <SNS />
@@ -46,15 +70,10 @@ const Wrapper = styled.div`
 const LogoBox = styled.div`
   margin-bottom: 30px;
 `;
-const Logo = styled.img`
-  width: 147px;
-  height: 50px;
-  margin: 0px auto;
-`;
 
 const Form = styled.form`
   width: 300px;
-  margin: 0px;
+  margin: 0px 0px 20px 0px;
   padding: 0px;
 `;
 const Input = styled.input`
@@ -84,6 +103,8 @@ const Section = styled.section`
 
 const Option = styled.div`
   font-size: 14px;
+
+  cursor: pointer;
 `;
 
 const GuideMsg = styled.div`
