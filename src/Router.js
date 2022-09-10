@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
@@ -19,5 +19,4 @@ const Router = () => {
     </BrowserRouter>
   );
 };
-
 export default Router;
