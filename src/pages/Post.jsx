@@ -1,14 +1,14 @@
 import React from "react";
 import Layout from "../components/Layout/Layout";
 import styled from "styled-components";
-import Header from "../components/Layout/Header";
+import text_logo from "../image/ohou_text_logo.PNG";
 
 const Post = () => {
   return (
     <Layout>
       {/* <Header /> */}
       <Postheader>
-        <Logo>logo</Logo>
+        <Logo src={text_logo} />
         <Addbutton type="submit">
           <span>올리기</span>
         </Addbutton>
@@ -114,18 +114,25 @@ const Post = () => {
 };
 
 export default Post;
-const Postheader = styled.div``;
-const Logo = styled.div``;
+const Postheader = styled.div`
+  /* height: 80px;
+  line-height: 80px; */
+  display: block;
+`;
+const Logo = styled.img`
+  margin-left: 8%;
+`;
 const Addbutton = styled.button`
+  float: right;
   cursor: pointer;
   touch-action: manipulation;
-  margin: 0px;
+  margin-right: 10%;
   border: none;
-  background: none transparent;
-  font-style: inherit;
+  /* background: none transparent; */
+  /* font-style: inherit;
   font-variant: inherit;
   font-stretch: inherit;
-  font-family: inherit;
+  font-family: inherit; */
   position: relative;
   display: inline-block;
   width: auto;
