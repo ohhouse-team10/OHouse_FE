@@ -4,12 +4,12 @@ import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const Layout = ({children, visible = true}) => {
+const Layout = ({children, header = true, footer = true}) => {
   return (
     <LayoutWrapper>
-      <Header />
+      {header ? <Header /> : null}
       <main>{children}</main>
-      {visible ? <Footer /> : null}
+      {footer ? <Footer /> : null}
     </LayoutWrapper>
   );
 };

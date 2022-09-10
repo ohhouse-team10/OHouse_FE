@@ -5,7 +5,7 @@ import text_logo from "../image/ohou_text_logo.PNG";
 
 const Post = () => {
   return (
-    <Layout visible={false}>
+    <Layout footer={false} header={false}>
       {/* <Header /> */}
       <Postheader>
         <Logo src={text_logo} />
