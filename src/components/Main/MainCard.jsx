@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 const MainCard = () => {
   const [like, setLike] = useState(false);
@@ -20,7 +20,7 @@ const MainCard = () => {
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h3 style={{ margin: "2px" }}>soOoO0ng</h3>
               <h>@soonger</h>
             </div>
           </Media>
@@ -62,7 +62,7 @@ const MainCard = () => {
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h3 style={{ margin: "2px" }}>soOoO0ng</h3>
               <h>@soonger</h>
             </div>
           </Media>
@@ -104,7 +104,7 @@ const MainCard = () => {
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h3 style={{ margin: "2px" }}>soOoO0ng</h3>
               <h>@soonger</h>
             </div>
           </Media>
@@ -146,11 +146,10 @@ const MainCard = () => {
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h3 style={{ margin: "2px" }}>soOoO0ng</h3>
               <h>@soonger</h>
             </div>
           </Media>
-
           <div class="card-image">
             <figure class="image is-4by3">
               <Img
@@ -188,7 +187,7 @@ const MainCard = () => {
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h3 style={{ margin: "2px" }}>soOoO0ng</h3>
               <h>@soonger</h>
             </div>
           </Media>
