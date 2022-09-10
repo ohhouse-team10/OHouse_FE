@@ -39,7 +39,6 @@ const A = styled.a`
   margin-right: 54px;
   color: #484747;
   position: relative;
-
   :hover {
     color: #009dff;
   }
