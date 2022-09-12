@@ -9,10 +9,10 @@ const MainRecommendCard = () => {
     return (
         <div>
            
-      <Card className="card" style={{ width:"98%",height: "82vh"}}>
+      <Card className="card" style={{ width:"98%",height: "55vh"}}>
         <Left
           className="left"
-          style={{height: "82vh", width: "70%", float: "left"}}
+          style={{height: "55vh", width: "70%", float: "left"}}
         >
           <Div>
             <div>
@@ -36,7 +36,7 @@ const MainRecommendCard = () => {
                 borderColor: "#ffffff",
                 color: "#ffffff",
                 
-                bottom: "60px",
+                bottom: "90px",
                 height: "50px",
               }}
             >
@@ -47,7 +47,7 @@ const MainRecommendCard = () => {
 
         <Right
           className="right"
-          style={{height: "82vh", width: "27%", float: "right"}}
+          style={{height: "55vh", width: "27%", float: "right"}}
         ></Right>
       </Card> 
         </div>
@@ -67,7 +67,7 @@ const Div = styled.div`
   overflow: hidden;
   position: absolute;
   flex-wrap: wrap;
-  top: 67%;
+  top: 60%;
   width: 95%;
 
 `;

@@ -32,14 +32,14 @@ const MainCard = () => {
                 src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
                 alt="Placeholder image"
                 style={{
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "30px",
                 }}
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h4 style={{margin: "1px"}}>soOoO0ng</h4>
               <h>@soonger</h>
             </div>
           </Media>
@@ -69,14 +69,14 @@ const MainCard = () => {
                 src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
                 alt="Placeholder image"
                 style={{
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "30px",
                 }}
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h4 style={{margin: "1px"}}>soOoO0ng</h4>
               <h>@soonger</h>
             </div>
           </Media>
@@ -106,14 +106,14 @@ const MainCard = () => {
                 src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
                 alt="Placeholder image"
                 style={{
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "30px",
                 }}
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h4 style={{margin: "1px"}}>soOoO0ng</h4>
               <h>@soonger</h>
             </div>
           </Media>
@@ -143,14 +143,14 @@ const MainCard = () => {
                 src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
                 alt="Placeholder image"
                 style={{
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "30px",
                 }}
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h4 style={{margin: "1px"}}>soOoO0ng</h4>
               <h>@soonger</h>
             </div>
           </Media>
@@ -180,14 +180,14 @@ const MainCard = () => {
                 src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
                 alt="Placeholder image"
                 style={{
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                   borderRadius: "30px",
                 }}
               />
             </div>
             <div class="media-content">
-              <h3 style={{margin: "2px"}}>soOoO0ng</h3>
+              <h4 style={{margin: "1px"}}>soOoO0ng</h4>
               <h>@soonger</h>
             </div>
           </Media>
@@ -219,10 +219,11 @@ export default MainCard;
 
 const Media = styled.div`
   display: flex;
+  margin: 5px;
 `;
 const Img = styled.img`
-  width: 400px;
-  height: 400px;
+  width: 330px;
+  height: 330px;
   background-size: cover;
   border-radius: 10px;
   max-height: 100%;
@@ -233,17 +234,20 @@ const Div = styled.div`
   align-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  margin: 10px;
+  margin: 22px;
 
   position: relative;
 `;
 
 const Card = styled.div`
   flex-wrap: wrap;
-  width: 24%;
+  width:30%;
   flex-direction: column;
   align-content: flex-start;
-  margin: 5px;
+  margin-right: 30px;
+  margin-left: 7px;
+  margin-bottom: 15px;
+   
   overflow: hidden;
 `;
 
