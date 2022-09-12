@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <Layout>
       <MainRecommendCard />
-      <div style={{marginTop: "50px", height: "82vh"}}>
+      <div style={{marginTop: "50px"}}>
         <MainCard />
       </div>
     </Layout>
