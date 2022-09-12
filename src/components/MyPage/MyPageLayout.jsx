@@ -7,4 +7,6 @@ const MyPageLayout = ({children}) => {
 
 export default MyPageLayout;
 
-const Container = styled.div``;
+const Container = styled.div`
+  flex: 0 0 auto;
+`;
