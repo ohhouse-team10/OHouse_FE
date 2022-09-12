@@ -10,44 +10,36 @@ export default function CommentList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(getComments())    
-  }, []);
+    dispatch(getComments());
+  }, [dispatch]);
+
   const data = useSelector((state) => state.comments);
+  // let newData = [...data];
+  let newData = data.comments;
+  console.log(data.comments);
 
-    const CommentListData = data
-  console.log(CommentListData);
-
-//   let DataSet = {
-//     profile_image: "imageUrl",
-//     nickname: "고양잉",
-//     content: "내집은 어디있낭",
-//     createdAt: "31분 전",
-//     isEditable: true,
-//   };
+  //   let DataSet = {
+  //     profile_image: "imageUrl",
+  //     nickname: "고양잉",
+  //     content: "내집은 어디있낭",
+  //     createdAt: "31분 전",
+  //     isEditable: true,
+  //   };
 
   return (
     <>
-      {/* {data.map((item) => (
-        <CommentCard
-          key={item.id}
-          id={item.id}
-        //   profile_image={item.profile_image}
-          nickname={item.nickname}
-          content={item.content}
-        //   createdAt={item.createdAt}
-        //   isEditable={item.isEditable}
-        />
-      ))} */}
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
-      <CommentCard />
+      {newData &&
+        newData.map((item) => (
+          <CommentCard
+            key={item.id}
+            id={item.id}
+            //   profile_image={item.profile_image}
+            nickname={item.nickname}
+            content={item.content}
+            //   createdAt={item.createdAt}
+            isEditable={item.isEditable}
+          />
+        ))}
     </>
   );
 }

@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
-const BASE_URL = "http://localhost:3001"
+const BASE_URL = "http://localhost:3001";
 
 /* InitialState */
 // data, isLoading, error로 상태관리
 const initialState = {
-    Comments: [],
+  Comments: [],
   isLoading: false,
   error: null,
 };
@@ -19,7 +18,7 @@ export const getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/comments`);
-      return thunkAPI.fulfillWithValue(data);
+      return thunkAPI.fulfillWithValue([...data]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -30,9 +29,7 @@ export const getEachComment = createAsyncThunk(
   "GET_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        `${BASE_URL}/${payload}`
-      );
+      const { data } = await axios.get(`${BASE_URL}/${payload}`);
       console.log("data", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
@@ -46,7 +43,7 @@ export const addComments = createAsyncThunk(
   "POST_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${BASE_URL}`, payload);
+      const { data } = await axios.post(`${BASE_URL}/comments`, payload);
       console.log("data", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (errer) {
@@ -60,10 +57,7 @@ export const updataComments = createAsyncThunk(
   "UPDATAE_Comments",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.put(
-        `${BASE_URL}/${payload.id}`,
-        payload
-      );
+      const response = await axios.put(`${BASE_URL}/${payload.id}`, payload);
       console.log("response", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -77,7 +71,7 @@ export const deleteComments = createAsyncThunk(
   "DELETE_Comments",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:5001/posts/${payload}`);
+      await axios.delete(`${BASE_URL}/comments/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -121,7 +115,9 @@ export const CommentsSlice = createSlice({
     },
     [addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments = state.comments.filter((item) => item.id !== action.payload);
+      state.comments = state.comments.filter(
+        (item) => item.id !== action.payload
+      );
     },
     [updataComments.fulfilled]: (state, action) => {
       state.isLoading = false;

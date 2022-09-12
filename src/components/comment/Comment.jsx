@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CommentList from "./CommentList";
 
-import {addComments} from "../../redux/modules/comments";
+import { addComments, getComments } from "../../redux/modules/comments";
+import { useDispatch, useSelector } from "react-redux";
 
 const FormStyle = styled.form`
   position: relative;
@@ -74,24 +75,42 @@ const ButtonStyle = styled.button`
 `;
 
 export default function Comment() {
+  const dispatch = useDispatch();
+
   const [disabled, setDisabled] = useState(true);
   const [commentInput, setCommentInput] = useState("");
- const AllCommentCnt = 0
-  
-  
+  const [allCommentsCnt, setAllCommentsCnt] = useState(0);
+
+  useEffect(() => {
+    dispatch(getComments());
+  }, [dispatch]);
+  const commentList = useSelector((state) => state.comments);
+  let newList = commentList.comments;
+  console.log(newList);
+
+  useEffect(() => {
+    setAllCommentsCnt(newList && newList.length);
+  });
+
   const inputHandle = (e) => {
     commentInput.length > 1 ? setDisabled(false) : setDisabled(true);
     setCommentInput(e.target.value);
   };
 
   let data = {
-    nickname:"닉네임",
-    content:"content"
-  }
+    nickname: "닉네임",
+    content: commentInput,
+    isEditable: true,
+    postId: 1,
+  };
 
-  const addComment =()=>{
-    console.log('댓글 추가!')
-  }
+  const addComment = () => {
+    console.log("댓글 추가!");
+    dispatch(addComments(data));
+    document.getElementById("commentEnter").value = "";
+    setDisabled(true);
+    dispatch(getComments());
+  };
 
   return (
     <>
@@ -99,17 +118,20 @@ export default function Comment() {
       <section>
         <div>
           <p>
-            댓글 <span>{AllCommentCnt}</span>
+            댓글 <span>{allCommentsCnt}</span>
           </p>
         </div>
         <FormStyle>
           <Image src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQb2EH%2FbtrKdRqtkYJ%2FiuflvkiIkWB0wvFxrhkqD1%2Fimg.png" />
           <InputBox>
             <InputStyle
+              id="commentEnter"
               onChange={inputHandle}
               placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다. :)"
             />
-            <ButtonStyle onClick={addComment} type="button" disabled={disabled}>입력</ButtonStyle>
+            <ButtonStyle onClick={addComment} type="button" disabled={disabled}>
+              입력
+            </ButtonStyle>
           </InputBox>
         </FormStyle>
         <CommentList />
