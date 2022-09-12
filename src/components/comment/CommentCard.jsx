@@ -6,6 +6,11 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+
 import { useDispatch } from "react-redux";
 
 import { deleteComments } from "../../redux/modules/comments";
@@ -39,8 +44,6 @@ export default function CommentCard(props) {
   // console.log(props.id)
   const dispatch = useDispatch();
 
-  
-
   const deleteComment = () => {
     if (window.confirm("삭제하실?")) {
       console.log("댓글 삭제!");
@@ -51,7 +54,9 @@ export default function CommentCard(props) {
     }
   };
 
-
+  const editComment = () => {
+    console.log("수정하기");
+  };
 
 
   if (props.isEditable === true) {
@@ -107,6 +112,13 @@ export default function CommentCard(props) {
             </span>
             <CardInfoFooter style={{ cursor: "pointer" }}>
               답글 달기
+            </CardInfoFooter>
+            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
+              {" "}
+              ·{" "}
+            </span>
+            <CardInfoFooter style={{ cursor: "pointer" }} onClick={editComment}>
+              수정
             </CardInfoFooter>
             <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
               {" "}

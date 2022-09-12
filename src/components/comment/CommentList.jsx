@@ -14,8 +14,8 @@ export default function CommentList() {
   }, [dispatch]);
 
   const data = useSelector((state) => state.comments.comments);
-  // let newData = [...data];
-  let newData = data;
+  let newData = data&&data
+  // 파라미터자리
   console.log(data);
 
   //   let DataSet = {

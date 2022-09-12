@@ -2,10 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
+import "./pagenation.css"
 import CommentList from "./CommentList";
 
 import { addComments, getComments } from "../../redux/modules/comments";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+import Pagination from "react-js-pagination";
 
 const FormStyle = styled.form`
   position: relative;
@@ -74,7 +78,31 @@ const ButtonStyle = styled.button`
   }
 `;
 
+
+const Paging = () => {
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
+  return (
+    <Pagination
+      activePage={page}
+      itemsCountPerPage={5}
+      totalItemsCount={450}
+      pageRangeDisplayed={5}
+      prevPageText={"<"}
+      nextPageText={">"}
+      onChange={handlePageChange}
+      style={{}}
+    />
+  );
+};
+
+
 export default function Comment() {
+  const param = useParams();
   const dispatch = useDispatch();
 
   const [disabled, setDisabled] = useState(true);
@@ -135,6 +163,7 @@ export default function Comment() {
           </InputBox>
         </FormStyle>
         <CommentList />
+        <Paging />
       </section>
     </>
   );
