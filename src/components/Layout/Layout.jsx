@@ -16,6 +16,4 @@ const Layout = ({children, header = true, footer = true}) => {
 
 export default Layout;
 
-const LayoutWrapper = styled.div`
-  height: calc(100vh - 45px);
-`;
+const LayoutWrapper = styled.div``;
