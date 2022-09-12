@@ -13,10 +13,10 @@ export default function CommentList() {
     dispatch(getComments());
   }, [dispatch]);
 
-  const data = useSelector((state) => state.comments);
+  const data = useSelector((state) => state.comments.comments);
   // let newData = [...data];
-  let newData = data.comments;
-  console.log(data.comments);
+  let newData = data;
+  console.log(data);
 
   //   let DataSet = {
   //     profile_image: "imageUrl",

@@ -84,8 +84,8 @@ export default function Comment() {
   useEffect(() => {
     dispatch(getComments());
   }, [dispatch]);
-  const commentList = useSelector((state) => state.comments);
-  let newList = commentList.comments;
+  const commentList = useSelector((state) => state.comments.comments);
+  let newList = commentList;
   console.log(newList);
 
   useEffect(() => {
