@@ -7,7 +7,7 @@ const SearchBox = () => {
     <Container>
       <InputBox>
         <SearchIcon style={{color: "#c2c8cc"}} />
-        <Input type="text" value="" placeholder="통합검색" autoComplete="off" />
+        <Input type="text" placeholder="통합검색" autoComplete="off" />
       </InputBox>
     </Container>
   );
