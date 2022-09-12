@@ -14,17 +14,9 @@ export default function CommentList() {
   }, [dispatch]);
 
   const data = useSelector((state) => state.comments.comments);
-  let newData = data&&data
+  let newData = data;
   // 파라미터자리
   console.log(data);
-
-  //   let DataSet = {
-  //     profile_image: "imageUrl",
-  //     nickname: "고양잉",
-  //     content: "내집은 어디있낭",
-  //     createdAt: "31분 전",
-  //     isEditable: true,
-  //   };
 
   return (
     <>

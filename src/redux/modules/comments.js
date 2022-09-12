@@ -53,11 +53,12 @@ export const addComments = createAsyncThunk(
 );
 
 // [UPDATE]
-export const updataComments = createAsyncThunk(
+export const updateComments = createAsyncThunk(
   "UPDATAE_Comments",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.put(`${BASE_URL}/${payload.id}`, payload);
+      console.log(payload)
+      const response = await axios.put(`${BASE_URL}/comments/${payload.id}`, payload);
       console.log("response", response);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -119,7 +120,7 @@ export const CommentsSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    [updataComments.fulfilled]: (state, action) => {
+    [updateComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.comments = state.comments.map((item) =>
         item.id === action.id
@@ -148,7 +149,7 @@ export const CommentsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    [updataComments.rejected]: (state, action) => {
+    [updateComments.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

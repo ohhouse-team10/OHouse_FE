@@ -6,58 +6,67 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
+import TextField from "@mui/material/TextField";
 
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 import { deleteComments } from "../../redux/modules/comments";
 import { getComments } from "../../redux/modules/comments";
-
-const CardBody = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const CardInfo = styled.div``;
-
-const CardInfoFooter = styled.span`
-  color: rgb(187, 187, 187);
-  font-size: 12px;
-`;
-
-const MyComment = styled.span`
-  font-size: 10px;
-  padding: 0px 4px;
-  color: rgb(255, 255, 255);
-  background-color: rgb(53, 197, 240);
-  display: inline-block;
-  font-weight: 700;
-  height: 16px;
-  line-height: 16px;
-  border-radius: 4px;
-  margin-left: 5px;
-`;
+import { updateComments } from "../../redux/modules/comments";
 
 export default function CommentCard(props) {
-  // console.log(props.id)
+  console.log(props);
   const dispatch = useDispatch();
+  const [editCheck, setEditCheck] = useState("수정");
+  const [editInput, setEditInput] = useState(props.content);
+
+  const sendReport = () => {
+    alert("해당 댓글의 신고 접수가 완료되었습니다!");
+  };
 
   const deleteComment = () => {
-    if (window.confirm("삭제하실?")) {
+    if (window.confirm("삭제하실건가욥...?")) {
       console.log("댓글 삭제!");
-      dispatch(deleteComments(props.id));
       dispatch(getComments());
+      dispatch(deleteComments(props.id));
     } else {
       alert("휴");
     }
+    dispatch(getComments());
+  };
+
+  const editBtn = (e) => {
+    console.log("수정하기");
+    if (e.target.innerText === "수정") {
+      console.log("수정이에오");
+      setEditCheck("취소");
+    } else {
+      console.log("취소에옹");
+      setEditCheck("수정");
+    }
+    dispatch(getComments());
+  };
+
+  const editInputText = (e) => {
+    setEditInput(e.target.value);
+    console.log(editInput);
+  };
+
+  let editData = {
+    nickname: props.nickname,
+    content: editInput,
+    postId: props.postId,
+    isEditable: true,
+    id: props.id,
   };
 
   const editComment = () => {
-    console.log("수정하기");
+    dispatch(getComments());
+    dispatch(updateComments(editData));
+    dispatch(getComments());
+    setEditCheck("수정");
   };
-
 
   if (props.isEditable === true) {
     return (
@@ -90,40 +99,48 @@ export default function CommentCard(props) {
               </React.Fragment>
             }
             secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: "inline" }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  {props.content}
-                </Typography>
-              </React.Fragment>
+              editCheck === "수정" ? (
+                <React.Fragment>
+                  <Typography
+                    sx={{ display: "inline" }}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    {props.content}
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Typography
+                    sx={{ display: "inline" }}
+                    style={{ display: "flex", alignItems: "center" }}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
+                  >
+                    <EditerInput
+                      onChange={editInputText}
+                      type="text"
+                      defaultValue={props.content}
+                    />
+                    <EditerButton onClick={editComment}>수정</EditerButton>
+                  </Typography>
+                </React.Fragment>
+              )
             }
           />
           <CardInfo>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              30분 전
-            </span>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              {" "}
-              ·{" "}
-            </span>
+            <CardInfoSpan>30분 전</CardInfoSpan>
+            <CardInfoSpan> · </CardInfoSpan>
             <CardInfoFooter style={{ cursor: "pointer" }}>
               답글 달기
             </CardInfoFooter>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              {" "}
-              ·{" "}
-            </span>
-            <CardInfoFooter style={{ cursor: "pointer" }} onClick={editComment}>
-              수정
+            <CardInfoSpan> · </CardInfoSpan>
+            <CardInfoFooter style={{ cursor: "pointer" }}>
+              <CardInfoSpan onClick={editBtn}>{editCheck}</CardInfoSpan>
             </CardInfoFooter>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              {" "}
-              ·{" "}
-            </span>
+            <CardInfoSpan> · </CardInfoSpan>
             <CardInfoFooter
               style={{ cursor: "pointer" }}
               onClick={deleteComment}
@@ -162,24 +179,69 @@ export default function CommentCard(props) {
             }
           />
           <CardInfo>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              30분 전
-            </span>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              {" "}
-              ·{" "}
-            </span>
+            <CardInfoSpan>30분 전</CardInfoSpan>
+            <CardInfoSpan> · </CardInfoSpan>
             <CardInfoFooter style={{ cursor: "pointer" }}>
               답글 달기
             </CardInfoFooter>
-            <span style={{ color: "rgb(187, 187, 187)", fontSize: "12px" }}>
-              {" "}
-              ·{" "}
-            </span>
-            <CardInfoFooter style={{ cursor: "pointer" }}>신고</CardInfoFooter>
+            <CardInfoSpan> · </CardInfoSpan>
+            <CardInfoFooter style={{ cursor: "pointer" }} onClick={sendReport}>
+              신고
+            </CardInfoFooter>
           </CardInfo>
         </CardBody>
       </ListItem>
     );
   }
 }
+
+const CardBody = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const CardInfo = styled.div``;
+
+const CardInfoFooter = styled.span`
+  color: rgb(187, 187, 187);
+  font-size: 12px;
+`;
+
+const MyComment = styled.span`
+  font-size: 10px;
+  padding: 0px 4px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(53, 197, 240);
+  display: inline-block;
+  font-weight: 700;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 4px;
+  margin-left: 5px;
+`;
+
+const EditerInput = styled.textarea`
+  width: 300px;
+  height: 20px;
+  max-height: 100px;
+  resize: none;
+  overflow: hidden;
+`;
+const CardInfoSpan = styled.span`
+  color: rgb(187, 187, 187);
+  font-size: 12px;
+`;
+
+const EditerButton = styled.button`
+  width: 45px;
+  height: 43px;
+  float: top;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(53, 197, 240);
+  &:disabled {
+    color: rgb(196, 196, 196);
+  }
+`;

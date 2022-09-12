@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-import "./pagenation.css"
+import "./pagenation.css";
 import CommentList from "./CommentList";
 
 import { addComments, getComments } from "../../redux/modules/comments";
@@ -10,6 +10,97 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import Pagination from "react-js-pagination";
+
+const Paging = () => {
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
+  return (
+    <Pagination
+      activePage={page}
+      itemsCountPerPage={5}
+      totalItemsCount={450}
+      pageRangeDisplayed={5}
+      prevPageText={"<"}
+      nextPageText={">"}
+      onChange={handlePageChange}
+      style={{}}
+    />
+  );
+};
+
+export default function Comment() {
+  const param = useParams();
+  const dispatch = useDispatch();
+
+  const [disabled, setDisabled] = useState(true);
+  const [commentInput, setCommentInput] = useState("");
+  const [allCommentsCnt, setAllCommentsCnt] = useState(0);
+
+  useEffect(() => {
+    dispatch(getComments());
+  }, [dispatch]);
+  const commentList = useSelector((state) => state.comments.comments);
+  let newList = commentList;
+  console.log(newList);
+
+  useEffect(() => {
+    setAllCommentsCnt(newList && newList.length);
+  });
+
+  const inputHandle = (e) => {
+    setCommentInput(e.target.value);
+    commentInput.length > 0 ? setDisabled(false) : setDisabled(true);
+  };
+
+  let data = {
+    nickname: "닉네임",
+    content: commentInput,
+    isEditable: true,
+    postId: 1,
+  };
+
+  const addComment = () => {
+    console.log("댓글 추가!");
+    dispatch(addComments(data));
+    document.getElementById("commentEnter").value = "";
+    setDisabled(true);
+
+    dispatch(getComments());
+    dispatch(getComments());
+  };
+
+  return (
+    <>
+      <hr style={{ height: "1px", backgroundColor: "rgb(234, 237, 239)" }} />
+      <section>
+        <div>
+          <p>
+            댓글 <span>{allCommentsCnt}</span>
+          </p>
+        </div>
+        <FormStyle>
+          <Image src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQb2EH%2FbtrKdRqtkYJ%2FiuflvkiIkWB0wvFxrhkqD1%2Fimg.png" />
+          <InputBox>
+            <InputStyle
+              id="commentEnter"
+              onChange={inputHandle}
+              placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)"
+            />
+            <ButtonStyle onClick={addComment} type="button" disabled={disabled}>
+              입력
+            </ButtonStyle>
+          </InputBox>
+        </FormStyle>
+        <CommentList />
+        <Paging />
+      </section>
+    </>
+  );
+}
 
 const FormStyle = styled.form`
   position: relative;
@@ -51,6 +142,7 @@ const InputBox = styled.div`
 `;
 const InputStyle = styled.input`
   max-width: 500px;
+  min-width: 100px;
   width: 500px;
   height: 39px;
   float: left;
@@ -77,94 +169,3 @@ const ButtonStyle = styled.button`
     color: rgb(196, 196, 196);
   }
 `;
-
-
-const Paging = () => {
-  const [page, setPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setPage(page);
-  };
-
-  return (
-    <Pagination
-      activePage={page}
-      itemsCountPerPage={5}
-      totalItemsCount={450}
-      pageRangeDisplayed={5}
-      prevPageText={"<"}
-      nextPageText={">"}
-      onChange={handlePageChange}
-      style={{}}
-    />
-  );
-};
-
-
-export default function Comment() {
-  const param = useParams();
-  const dispatch = useDispatch();
-
-  const [disabled, setDisabled] = useState(true);
-  const [commentInput, setCommentInput] = useState("");
-  const [allCommentsCnt, setAllCommentsCnt] = useState(0);
-
-  useEffect(() => {
-    dispatch(getComments());
-  }, [dispatch]);
-  const commentList = useSelector((state) => state.comments.comments);
-  let newList = commentList;
-  console.log(newList);
-
-  useEffect(() => {
-    setAllCommentsCnt(newList && newList.length);
-  });
-
-  const inputHandle = (e) => {
-    commentInput.length > 1 ? setDisabled(false) : setDisabled(true);
-    setCommentInput(e.target.value);
-  };
-
-  let data = {
-    nickname: "닉네임",
-    content: commentInput,
-    isEditable: true,
-    postId: 1,
-  };
-
-  const addComment = () => {
-    console.log("댓글 추가!");
-    dispatch(addComments(data));
-    document.getElementById("commentEnter").value = "";
-    setDisabled(true);
-    dispatch(getComments());
-  };
-
-  return (
-    <>
-      <hr style={{ height: "1px", backgroundColor: "rgb(234, 237, 239)" }} />
-      <section>
-        <div>
-          <p>
-            댓글 <span>{allCommentsCnt}</span>
-          </p>
-        </div>
-        <FormStyle>
-          <Image src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQb2EH%2FbtrKdRqtkYJ%2FiuflvkiIkWB0wvFxrhkqD1%2Fimg.png" />
-          <InputBox>
-            <InputStyle
-              id="commentEnter"
-              onChange={inputHandle}
-              placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다. :)"
-            />
-            <ButtonStyle onClick={addComment} type="button" disabled={disabled}>
-              입력
-            </ButtonStyle>
-          </InputBox>
-        </FormStyle>
-        <CommentList />
-        <Paging />
-      </section>
-    </>
-  );
-}
