@@ -1,17 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({btnName, disabled}) => {
-  return <Btn disabled={disabled}>{btnName}</Btn>;
+const Button = ({fontSize = 18, btnName, disabled, padding = "15px 10px"}) => {
+  return (
+    <Btn disabled={disabled} padding={padding} fontSize={fontSize}>
+      {btnName}
+    </Btn>
+  );
 };
 
 const Btn = styled.button`
   margin: 20px 0px;
   width: 100%;
-  padding: 15px 10px;
+  padding: ${(props) => props.padding};
   line-height: 20px;
-  font-size: 17px;
-  min-height: 50px;
+  font-size: ${(props) => props.fontSize}px;
   background-color: ${(props) => (props.disabled ? "#95a5a6" : "#35c5f0")};
   border-color: ${(props) => (props.disabled ? "#95a5a6" : "#35c5f0")};
   color: #fff;
