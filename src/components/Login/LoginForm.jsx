@@ -5,10 +5,15 @@ import SNS from "./SNS";
 import Button from "../Layout/Button";
 import {useNavigate} from "react-router-dom";
 import useInput from "../../hooks/useInput";
+import {useDispatch} from "react-redux";
+import {__userLogin} from "../../redux/modules/userSlice";
 
 const LoginForm = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+
+  /** REACT-REDUX */
+  const dispatch = useDispatch();
 
   /** User Input ManageMent */
   const [email, onChangeEmail] = useInput();
@@ -17,10 +22,10 @@ const LoginForm = () => {
   /** Button Click Event */
   const handleSubmit = (event) => {
     event.preventDefault();
+    dispatch(__userLogin({email: email, password: password}));
   };
 
   /** Temp Console */
-  console.log(email, password);
 
   return (
     <Wrapper>

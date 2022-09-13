@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import useInput from "../../hooks/useInput";
 import styled from "styled-components";
 import SNS from "../Login/SNS";
@@ -12,14 +12,19 @@ import {
   isMatchedPassword,
 } from "../../utils/RegisterUtil";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {__register} from "../../redux/modules/userSlice";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const RegisterForm = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+  /** REACT-REDUX */
+  const dispatch = useDispatch();
 
   /** User Input Management */
   const [id, onChangeHandlerId] = useInput();
-  const [email, onChangeHandlerEmail] = useInput();
+  const [email, setEmail] = useState("");
   const [password1, onChangeHandlerPassword1] = useInput();
   const [password2, onChangeHandlerpassword2] = useInput();
   const [nickname, onChangeHandlernickname] = useInput();
@@ -28,6 +33,26 @@ const RegisterForm = () => {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidPW, setIsValidPW] = useState(true);
   const [isMatchedPW, setIsMatchedPW] = useState(true);
+
+  /** Direct Input */
+  const [isDirect, setIsDirect] = useState(false);
+  const ref = useRef(null);
+  const currentValue = ref?.current?.value;
+  const onClickX = () => {
+    setIsDirect(false);
+    setEmail("");
+    ref.current.value = "1";
+  };
+  useEffect(() => {
+    if (currentValue !== "__manual") return;
+    setIsDirect(true);
+    setEmail("");
+  }, [currentValue, setIsDirect]);
+
+  /** Email Handler */
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+  };
 
   /** Valid Checker */
   useIsValid(
@@ -42,14 +67,27 @@ const RegisterForm = () => {
     isMatchedPassword(password1, password2)
   );
 
+  /** Button Click Event */
+  const handleSubmit = (event) => {
+    const emailString = mergeEmailId(id, email);
+    event.preventDefault();
+    dispatch(
+      __register({
+        email: emailString,
+        password: password1,
+        nickname: nickname,
+      })
+    );
+  };
+
   /** Temp Console */
-  console.log(isValidEmail, isValidPW, isMatchedPW);
+
   return (
     <>
       <Wrapper>
         <h3 style={{fontWeight: "600", marginBottom: "20px"}}>회원가입</h3>
         <SNS />
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <InputField isValid={isValidEmail}>
             <label htmlFor="email">이메일</label>
             <EmailField>
@@ -61,16 +99,27 @@ const RegisterForm = () => {
                 required
               />
               <span>@</span>
-              <select type="text" onChange={onChangeHandlerEmail}>
-                <option value="">선택해주세요</option>
-                <option value="naver.com">naver.com</option>
-                <option value="hanmail.net">hanmail.net</option>
-                <option value="daum.net">daum.net</option>
-                <option value="gmail.com">gmail.com</option>
-                <option value="nate.com">nate.com</option>
-                <option value="hotmail.com">hotmail.com</option>
-                <option value="icloud.com">icloud.com</option>
-              </select>
+              <SelectBox>
+                <select type="text" onChange={emailHandler} ref={ref}>
+                  <option value="1">선택해주세요</option>
+                  <option value="naver.com">naver.com</option>
+                  <option value="hanmail.net">hanmail.net</option>
+                  <option value="daum.net">daum.net</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="nate.com">nate.com</option>
+                  <option value="hotmail.com">hotmail.com</option>
+                  <option value="icloud.com">icloud.com</option>
+                  <option value="__manual">직접입력</option>
+                </select>
+                {isDirect ? (
+                  <>
+                    <DirectInput onChange={emailHandler} />
+                    <XButton onClick={onClickX}>
+                      <ClearIcon />
+                    </XButton>
+                  </>
+                ) : null}
+              </SelectBox>
             </EmailField>
             {!isValidEmail ? (
               <ErrorMsg>이메일 형식이 올바르지 않습니다.</ErrorMsg>
@@ -121,9 +170,9 @@ const RegisterForm = () => {
             />
             <ErrorMsg></ErrorMsg>
           </InputField>
+          <TOS />
+          <Button type="submit" btnName={"회원가입하기"} />
         </Form>
-        <TOS />
-        <Button btnName={"회원가입하기"} />
         <LoginQuestion>
           이미 아이디가 있으신가요?{" "}
           <span onClick={() => navigate("/login")}>로그인</span>
@@ -162,7 +211,8 @@ const InputGuideMsg = styled.div`
 const InputField = styled.div`
   display: flex;
   flex-direction: column;
-  input {
+  input,
+  select {
     &:focus {
       outline: ${(props) =>
         props.isValid ? "2px solid rgb(192, 234, 247);" : "2px solid #e74c3c"};
@@ -212,6 +262,27 @@ const EmailField = styled.div`
   span {
     margin: 0 10px;
   }
+`;
+
+const SelectBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #dbdbdb;
+`;
+
+const DirectInput = styled.input`
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #dbdbdb;
+`;
+
+const XButton = styled.span`
+  position: absolute;
+  top: 12px;
+  right: -5px;
 `;
 
 const ErrorMsg = styled.div`

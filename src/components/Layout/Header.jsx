@@ -3,12 +3,21 @@ import styled from "styled-components";
 import logo from "../../image/ohou_text_logo.PNG";
 import SearchBox from "./SearchBox";
 import Button from "./Button";
+import ToggleMenu from "./ToggleMenu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {useNavigate} from "react-router-dom";
+import {AnimatePresence} from "framer-motion";
 
 const Header = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+
+  /** Write Menu Management */
+  const [isOpen, setIsOpen] = React.useState(false);
+  const onSetIsOpen = () => {
+    // onClick
+    setIsOpen((props) => !props);
+  };
 
   return (
     <Wrapper>
@@ -33,10 +42,17 @@ const Header = () => {
                   <span onClick={() => navigate("/login")}>로그인</span>
                   <span onClick={() => navigate("/new")}>회원가입</span>
                   <span>고객센터</span>
-                  <BtnBox>
-                    <Button btnName={"글쓰기"} />
-                  </BtnBox>
                 </NotLogin>
+                <BtnBox onClick={onSetIsOpen}>
+                  <Button
+                    btnName={"글쓰기"}
+                    padding={"8px 1px"}
+                    fontSize={13}
+                  />
+                </BtnBox>
+                <AnimatePresence>
+                  {isOpen ? <ToggleMenu /> : null}
+                </AnimatePresence>
               </EtcWrapper>
             </Etc>
           </Section>
@@ -180,7 +196,7 @@ const NotLogin = styled.div`
   }
 `;
 const BtnBox = styled.div`
-  width: 110px;
+  width: 80px;
   margin-left: 10px;
 `;
 const NavigationLayout = styled.div`
