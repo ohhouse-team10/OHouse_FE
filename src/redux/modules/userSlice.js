@@ -1,19 +1,24 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../server/api";
 import {
   setAccessToken,
   getAccessToken,
   removeAccessToken,
+  setRefreshToken,
+  getRefreshToken,
+  removeRefreshToken,
 } from "../../server/cookie";
 
 /** USER TOKEN */
-const userToken = getAccessToken() ? getAccessToken() : null;
+const userAccessToken = getAccessToken() ? getAccessToken() : null;
+const userRefreshToken = getRefreshToken() ? getRefreshToken() : null;
 
 /** InitialState */
 const initialState = {
   loading: false,
   userInfo: null, // 유저데이터를 받아서 넣음.
-  userToken, // isLogedIn값과 마찬가지 , 로그인한 사용자인지 아닌지 판별
+  userAccessToken, // isLogedIn값과 마찬가지 , 로그인한 사용자인지 아닌지 판별
+  userRefreshToken,
   loginSuccess: false,
   error: null,
 };
@@ -23,19 +28,14 @@ const initialState = {
 // 유저 로그인
 export const __userLogin = createAsyncThunk(
   "user/login",
-  async (payload, { getState, rejectWithValue }) => {
-    console.log(payload);
-    const { user } = getState();
+  async (payload, thunkAPI) => {
     try {
       const response = await api.post("/member/login", payload);
-      // localStorage.setItem("access-token", response.headers.authorization);
       setAccessToken(response.headers.authorization);
-      console.log(response);
-      return response;
+      setRefreshToken(response.headers.refreshtoken);
+      return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.log(user);
-      //setAccessToken("Temp-Token");
-      return rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -43,36 +43,14 @@ export const __userLogin = createAsyncThunk(
 // 유저 회원가입
 export const __register = createAsyncThunk(
   "user/register",
-  async (payload, { rejectWithValue }) => {
+  async (payload, {rejectWithValue}) => {
     try {
-      console.log(payload);
-      const response = await api.post("/member/signup", payload);
-      console.log(response);
+      await api.post("/member/signup", payload);
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
-
-// export const userLogin = createAsyncThunk(
-//   "user/login",
-//   async (payload, {getState, rejectWithValue}) => {
-//     console.log(payload);
-//     const {user} = getState();
-//     console.log(user);
-//     try {
-//       const response = await api.post("/api/login", payload);
-//       // localStorage.setItem("access-token", response.headers.authorization);
-//       return response;
-//     } catch (error) {
-//       if (error.response && error.response.data.message) {
-//         return rejectWithValue(error.response.data.message);
-//       } else {
-//         return rejectWithValue(error.message);
-//       }
-//     }
-//   }
-// );
 
 /** USERSLICE */
 const userSlice = createSlice({
@@ -80,18 +58,35 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state = initialState;
+      removeAccessToken();
+      removeRefreshToken();
+      localStorage.removeItem("user");
+      return (state = initialState);
+    },
+    loadUser: (state, {payload}) => {
+      return (state = payload);
     },
   },
   extraReducers: {
     [__userLogin.pending]: (state, payload) => {
       state.loading = true;
     },
-    [__userLogin.fulfilled]: (state, payload) => {
+    [__userLogin.fulfilled]: (state, {payload}) => {
       state.loading = false;
       state.loginSuccess = true;
-      state.userInfo = payload.data;
-      state.userToken = getAccessToken();
+      state.userInfo = payload.data?.data;
+      state.userAccessToken = getAccessToken();
+      state.userRefreshToken = getRefreshToken();
+      state.error = null;
+      // console.log(
+      //   state.loading,
+      //   state.loginSuccess,
+      //   state.userInfo,
+      //   state.userAccessToken,
+      //   state.userRefreshToken,
+      //   state.error
+      // );
+      localStorage.setItem("user", JSON.stringify(state));
     },
     [__userLogin.rejected]: (state, payload) => {
       state.loading = false;
@@ -113,3 +108,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+export const {logout, loadUser} = userSlice.actions;

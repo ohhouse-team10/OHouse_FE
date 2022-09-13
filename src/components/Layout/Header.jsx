@@ -1,23 +1,57 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../image/ohou_text_logo.PNG";
+import defaultImage from "../../image/defaultImage.jpg";
 import SearchBox from "./SearchBox";
 import Button from "./Button";
 import ToggleMenu from "./ToggleMenu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {useNavigate} from "react-router-dom";
 import {AnimatePresence} from "framer-motion";
+import {useSelector, useDispatch} from "react-redux";
+import {logout} from "../../redux/modules/userSlice";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const Header = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+  /** REACT-REDUX */
+  const state = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  /** Write Menu Management */
-  const [isOpen, setIsOpen] = React.useState(false);
-  const onSetIsOpen = () => {
+  /** Toggle Menu Management */
+  const [isOpen, setIsOpen] = React.useState("initial");
+  const onSetIsOpen = (menuName) => {
     // onClick
-    setIsOpen((props) => !props);
+    if (isOpen === menuName) {
+      setIsOpen((props) => (props !== "initial" ? "initial" : menuName));
+    } else {
+      setIsOpen(menuName);
+    }
   };
+
+  /** Menu List */
+  const WriteMenu = [
+    {
+      title: "사진/동영상 올리기",
+      subTitle: "우리 집의 공간과 나의 일상을 기록해 보세요.",
+      clickFn: () => {
+        navigate("/post");
+      },
+    },
+  ];
+  const MyPageMenu = [
+    {title: "마이페이지", clickFn: () => navigate("/mypage/123")},
+    {
+      title: "로그아웃",
+      clickFn: () => {
+        dispatch(logout());
+        navigate("/");
+      },
+    },
+  ];
 
   return (
     <Wrapper>
@@ -35,15 +69,33 @@ const Header = () => {
             <Etc>
               <EtcWrapper>
                 <SearchBox />
-                <div>
-                  <ShoppingCartIcon />
-                </div>
-                <NotLogin>
-                  <span onClick={() => navigate("/login")}>로그인</span>
-                  <span onClick={() => navigate("/new")}>회원가입</span>
-                  <span>고객센터</span>
-                </NotLogin>
-                <BtnBox onClick={onSetIsOpen}>
+                {!state.loginSuccess ? (
+                  <>
+                    <div>
+                      <ShoppingCartIcon />
+                    </div>
+                    <NotLogin>
+                      <span onClick={() => navigate("/login")}>로그인</span>
+                      <span onClick={() => navigate("/new")}>회원가입</span>
+                      <span>고객센터</span>
+                    </NotLogin>
+                  </>
+                ) : (
+                  <IsLogin>
+                    <BookmarkBorderIcon />
+                    <NotificationsNoneIcon />
+                    <AddShoppingCartIcon />
+                    <ProfileImage
+                      src={defaultImage}
+                      onClick={() => onSetIsOpen("mypage")}
+                    />
+                    {isOpen === "mypage" ? (
+                      <ToggleMenu itemList={MyPageMenu} interval={50} />
+                    ) : null}
+                  </IsLogin>
+                )}
+
+                <BtnBox onClick={() => onSetIsOpen("write")}>
                   <Button
                     btnName={"글쓰기"}
                     padding={"8px 1px"}
@@ -51,7 +103,14 @@ const Header = () => {
                   />
                 </BtnBox>
                 <AnimatePresence>
-                  {isOpen ? <ToggleMenu /> : null}
+                  {isOpen === "write" ? (
+                    <ToggleMenu
+                      hasIcon={true}
+                      hasSubTitle={true}
+                      itemList={WriteMenu}
+                      interval={70}
+                    />
+                  ) : null}
                 </AnimatePresence>
               </EtcWrapper>
             </Etc>
@@ -64,12 +123,12 @@ const Header = () => {
             <NaviWrapper>
               <NavigationItems>
                 <NavigationItem isHome={true}>
-                <span onClick={() => navigate("/")}>홈</span>
+                  <span onClick={() => navigate("/")}>홈</span>
                 </NavigationItem>
-                  <NavigationItem>
-                <span onClick={() => navigate("/community")}>사진</span>
-                  </NavigationItem>
-                <NavigationItem>팔로잉</NavigationItem> 
+                <NavigationItem>
+                  <span onClick={() => navigate("/community")}>사진</span>
+                </NavigationItem>
+                <NavigationItem>팔로잉</NavigationItem>
                 <NavigationItem>집들이</NavigationItem>
                 <NavigationItem>노하우</NavigationItem>
                 <NavigationItem>전문가집들이</NavigationItem>
@@ -181,6 +240,7 @@ const EtcWrapper = styled.div`
 `;
 
 const NotLogin = styled.div`
+  position: relative;
   display: flex;
   margin: 0 10px 0 8px;
   align-items: center;
@@ -195,6 +255,30 @@ const NotLogin = styled.div`
     cursor: pointer;
   }
 `;
+const IsLogin = styled.div`
+  position: relative;
+  display: flex;
+  width: 30%;
+  margin: 0 6px 0 8px;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
+const ProfileImage = styled.img`
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  position: relative;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  outline: none;
+  cursor: pointer;
+`;
+
 const BtnBox = styled.div`
   width: 80px;
   margin-left: 10px;

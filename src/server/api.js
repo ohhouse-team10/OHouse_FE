@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getRefreshToken, getAccessToken} from "./cookie";
 
 const BASE_URL = " http://3.38.162.168";
 
@@ -9,14 +10,23 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  function (config) {
+api.interceptors.request.use((config) => {
+  const refreshToken = getRefreshToken();
+  const accessToken = getAccessToken();
+
+  if (!accessToken || !refreshToken) {
+    config.headers["authorization"] = null;
+    config.headers["refreshtoken"] = null;
     return config;
-  },
-  function (error) {
-    //요청 오류가 있는 작업 수행
-    return Promise.reject(error);
+  } else {
+    config.headers["authorization"] = accessToken;
+    config.headers["refreshtoken"] = refreshToken;
+    return config;
   }
-);
+});
+
+api.interceptors.response.use((response) => {
+  return response;
+});
 
 export default api;
