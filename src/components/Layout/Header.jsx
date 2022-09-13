@@ -63,9 +63,13 @@ const Header = () => {
           <Navigation>
             <NaviWrapper>
               <NavigationItems>
-                <NavigationItem isHome={true}>홈</NavigationItem>
-                <NavigationItem>팔로잉</NavigationItem>
-                <NavigationItem>사진</NavigationItem>
+                <NavigationItem isHome={true}>
+                <span onClick={() => navigate("/")}>홈</span>
+                </NavigationItem>
+                  <NavigationItem>
+                <span onClick={() => navigate("/community")}>사진</span>
+                  </NavigationItem>
+                <NavigationItem>팔로잉</NavigationItem> 
                 <NavigationItem>집들이</NavigationItem>
                 <NavigationItem>노하우</NavigationItem>
                 <NavigationItem>전문가집들이</NavigationItem>
