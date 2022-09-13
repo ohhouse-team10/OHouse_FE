@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 
 const Selectbox = () => {
-  // console.log(this.value);
+  // const selectBoxChange = function (value) {
+  //   console.log("test 값" + value);
+  // };
 
   return (
     <Selectboxes>
@@ -18,6 +20,7 @@ const Selectbox = () => {
           <Option value="4">40평대</Option>
           <Option value="5">50평 이상</Option>
         </Select1>
+        <input type="text" style={{ display: "none" }} />
         <Select2>
           <option value="" disabled="">
             주거형태

@@ -1,14 +1,19 @@
-import React from "react";
+import { React, useRef } from "react";
 import styled from "styled-components";
 
 const Textbox = () => {
-  const fileInput = React.useRef(null);
-  const handleButtonClick = (e) => {
+  const fileInput = useRef(null);
+  const imageUpload = () => {
     fileInput.current.click();
   };
-
   const handleChange = (e) => {
     console.log(e.target.files[0]);
+  };
+
+  const contentInput = useRef(null);
+  const textareaHandler = (e) => {
+    e.preventDefault();
+    console.log("textarea" + contentInput);
   };
 
   return (
@@ -20,7 +25,7 @@ const Textbox = () => {
           onChange={handleChange}
           style={{ display: "none" }}
         />
-        <Photo onClick={handleButtonClick}>
+        <Photo onClick={imageUpload}>
           <svg
             width="48"
             height="48"
@@ -55,11 +60,14 @@ const Textbox = () => {
           <Option value="13">외관&amp;기타</Option>
         </Select4>
         <Textarea
+          onchange={textareaHandler}
+          ref={contentInput}
           field="[object Object]"
           name="description"
           placeholder="사진에 대해 설명해주세요."
           rows="6"
         ></Textarea>
+        {/* <button onSubmit={textareaHandler}> add </button> */}
         <Footbox>#키워드</Footbox>
       </Divright>
     </Divboxes>
