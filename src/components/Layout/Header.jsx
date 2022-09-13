@@ -38,7 +38,11 @@ const Header = () => {
       title: "사진/동영상 올리기",
       subTitle: "우리 집의 공간과 나의 일상을 기록해 보세요.",
       clickFn: () => {
-        navigate("/post");
+        if (state.userAccessToken) {
+          navigate("/post");
+        } else {
+          navigate("/login");
+        }
       },
     },
   ];
@@ -59,7 +63,7 @@ const Header = () => {
         <Container>
           <Section>
             <LogoBox>
-              <LogoImg src={logo} />
+              <LogoImg src={logo} onClick={() => navigate("/")} />
             </LogoBox>
             <NavItems>
               <Nav isHome={true}>커뮤니티</Nav>
