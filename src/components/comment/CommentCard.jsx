@@ -6,9 +6,8 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import { deleteComments } from "../../redux/modules/comments";
@@ -20,6 +19,8 @@ export default function CommentCard(props) {
   const dispatch = useDispatch();
   const [editCheck, setEditCheck] = useState("수정");
   const [editInput, setEditInput] = useState(props.content);
+
+  const commentsData = useSelector((state)=>state.comments.comments)
 
   const sendReport = () => {
     alert("해당 댓글의 신고 접수가 완료되었습니다!");
@@ -68,6 +69,7 @@ export default function CommentCard(props) {
     setEditCheck("수정");
   };
 
+  
   if (props.isEditable === true) {
     return (
       <ListItem alignItems="flex-start">

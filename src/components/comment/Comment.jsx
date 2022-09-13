@@ -70,7 +70,6 @@ export default function Comment() {
     setDisabled(true);
 
     dispatch(getComments());
-    dispatch(getComments());
   };
 
   return (
