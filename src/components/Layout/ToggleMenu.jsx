@@ -19,7 +19,6 @@ const ToggleMenu = ({
     >
       <Items>
         {itemList.map((item) => {
-          console.log(item);
           return (
             <ToggleMenuItem
               key={item.title}
