@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../server/api";
 import {
   setAccessToken,
@@ -23,13 +23,14 @@ const initialState = {
 // 유저 로그인
 export const __userLogin = createAsyncThunk(
   "user/login",
-  async (payload, {getState, rejectWithValue}) => {
+  async (payload, { getState, rejectWithValue }) => {
     console.log(payload);
-    const {user} = getState();
+    const { user } = getState();
     try {
       const response = await api.post("/member/login", payload);
       // localStorage.setItem("access-token", response.headers.authorization);
       setAccessToken(response.headers.authorization);
+      console.log(response);
       return response;
     } catch (error) {
       console.log(user);
@@ -42,10 +43,11 @@ export const __userLogin = createAsyncThunk(
 // 유저 회원가입
 export const __register = createAsyncThunk(
   "user/register",
-  async (payload, {rejectWithValue}) => {
+  async (payload, { rejectWithValue }) => {
     try {
       console.log(payload);
-      await api.post("/member/signup", payload);
+      const response = await api.post("/member/signup", payload);
+      console.log(response);
     } catch (error) {
       return rejectWithValue(error.message);
     }

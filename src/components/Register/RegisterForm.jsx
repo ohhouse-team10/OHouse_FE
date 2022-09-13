@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import useInput from "../../hooks/useInput";
 import styled from "styled-components";
 import SNS from "../Login/SNS";
@@ -11,9 +11,9 @@ import {
   isValidPassword,
   isMatchedPassword,
 } from "../../utils/RegisterUtil";
-import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {__register} from "../../redux/modules/userSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { __register } from "../../redux/modules/userSlice";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const RegisterForm = () => {
@@ -23,7 +23,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   /** User Input Management */
-  const [id, onChangeHandlerId] = useInput();
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [password1, onChangeHandlerPassword1] = useInput();
   const [password2, onChangeHandlerpassword2] = useInput();
@@ -37,6 +37,7 @@ const RegisterForm = () => {
   /** Direct Input */
   const [isDirect, setIsDirect] = useState(false);
   const ref = useRef(null);
+  const inputRef = useRef(null);
   const currentValue = ref?.current?.value;
   const onClickX = () => {
     setIsDirect(false);
@@ -46,10 +47,33 @@ const RegisterForm = () => {
   useEffect(() => {
     if (currentValue !== "__manual") return;
     setIsDirect(true);
+    inputRef.current.focus();
     setEmail("");
   }, [currentValue, setIsDirect]);
 
   /** Email Handler */
+  useEffect(() => {
+    // ref는 항상 존재여부를 검사하고 사용해야 한다(단축평가 Good!)
+    const initial = inputRef.current;
+  }, []);
+  // 실제 DOM에 반영된 이후, DOM취득 가능
+
+  const idHandler = (e) => {
+    let val = e.target.value;
+    let cur = e.nativeEvent.data;
+    if (cur === "@") {
+      ref.current.value = "__manual";
+      setIsDirect(true);
+      val = val.slice(0, -1);
+
+      setId(val);
+      e.target.value = val;
+      inputRef.current.focus();
+      return;
+    }
+    setId(val);
+  };
+
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -85,7 +109,7 @@ const RegisterForm = () => {
   return (
     <>
       <Wrapper>
-        <h3 style={{fontWeight: "600", marginBottom: "20px"}}>회원가입</h3>
+        <h3 style={{ fontWeight: "600", marginBottom: "20px" }}>회원가입</h3>
         <SNS />
         <Form onSubmit={handleSubmit}>
           <InputField isValid={isValidEmail}>
@@ -95,7 +119,7 @@ const RegisterForm = () => {
                 type="text"
                 placeholder="이메일"
                 id="email"
-                onChange={onChangeHandlerId}
+                onChange={idHandler}
                 required
               />
               <span>@</span>
@@ -111,14 +135,16 @@ const RegisterForm = () => {
                   <option value="icloud.com">icloud.com</option>
                   <option value="__manual">직접입력</option>
                 </select>
-                {isDirect ? (
-                  <>
-                    <DirectInput onChange={emailHandler} />
-                    <XButton onClick={onClickX}>
-                      <ClearIcon />
-                    </XButton>
-                  </>
-                ) : null}
+                <DirectInputField isVisible={isDirect}>
+                  <DirectInput
+                    placeholder="직접입력"
+                    onChange={emailHandler}
+                    ref={inputRef}
+                  />
+                  <XButton onClick={onClickX}>
+                    <ClearIcon />
+                  </XButton>
+                </DirectInputField>
               </SelectBox>
             </EmailField>
             {!isValidEmail ? (
@@ -260,7 +286,9 @@ const EmailField = styled.div`
     border: 1px solid #dbdbdb;
   }
   span {
-    margin: 0 10px;
+    margin: 0 5px;
+    font-weight: 600;
+    opacity: 0.2;
   }
 `;
 
@@ -269,6 +297,10 @@ const SelectBox = styled.div`
   width: 100%;
   height: 40px;
   border: 1px solid #dbdbdb;
+`;
+
+const DirectInputField = styled.div`
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
 `;
 
 const DirectInput = styled.input`
