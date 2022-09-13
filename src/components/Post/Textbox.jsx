@@ -2,10 +2,25 @@ import React from "react";
 import styled from "styled-components";
 
 const Textbox = () => {
+  const fileInput = React.useRef(null);
+  const handleButtonClick = (e) => {
+    fileInput.current.click();
+  };
+
+  const handleChange = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   return (
     <Divboxes>
       <Divleft>
-        <Photo>
+        <input
+          type="file"
+          ref={fileInput}
+          onChange={handleChange}
+          style={{ display: "none" }}
+        />
+        <Photo onClick={handleButtonClick}>
           <svg
             width="48"
             height="48"
@@ -67,7 +82,7 @@ const Divleft = styled.div`
   width: 49.5%;
   /* margin: 1%; */
 `;
-const Photo = styled.div`
+const Photo = styled.button`
   cursor: pointer;
   font: inherit;
   margin: 0;
