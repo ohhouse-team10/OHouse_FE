@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
 import Register from "./pages/Register";
 import Post from "./pages/Post";
+import Community from "./pages/Community";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/new" element={<Register />} />
         <Route path="/mypage/:id" element={<MyPage />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </BrowserRouter>
   );
