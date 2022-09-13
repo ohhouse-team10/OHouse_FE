@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import "./pagenation.css";
 import CommentList from "./CommentList";
 
-import { addComments, getComments } from "../../redux/modules/comments";
+import { addComments, getComments } from "../../redux/modules/commentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 

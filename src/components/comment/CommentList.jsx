@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getComments } from "../../redux/modules/comments";
+import { getComments } from "../../redux/modules/commentsSlice";
 
 import CommentCard from "./CommentCard";
 

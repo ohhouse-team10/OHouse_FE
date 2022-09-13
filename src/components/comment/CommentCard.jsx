@@ -10,9 +10,9 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
-import { deleteComments } from "../../redux/modules/comments";
-import { getComments } from "../../redux/modules/comments";
-import { updateComments } from "../../redux/modules/comments";
+import { deleteComments } from "../../redux/modules/commentsSlice";
+import { getComments } from "../../redux/modules/commentsSlice";
+import { updateComments } from "../../redux/modules/commentsSlice";
 
 export default function CommentCard(props) {
   console.log(props);

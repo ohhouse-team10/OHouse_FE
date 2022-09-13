@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import comments from "../modules/comments";
+import comments from "../modules/commentsSlice";
 
 const store = configureStore({
   reducer: {
