@@ -3,15 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     post: [
-        {
-            "id":1,
-            "title":"title",
-            "nickname":"@#@@#@#t",
-            "statusMessage" : "ddddddddddd",
-            "like_num":3
-    
-    
-           }
+     
 
     ],
     isLoading: false,
@@ -24,7 +16,7 @@ export const getHouseList = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const data = await axios.get("http://localhost:3001/post");
-            console.log(data.data);
+            // console.log(data.data);
             return thunkAPI.fulfillWithValue(data.data);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -32,10 +24,37 @@ export const getHouseList = createAsyncThunk(
     }
 );
 
+
+//무한스크롤
+export const getInfiniteList = createAsyncThunk(
+    "house/getInfiniteList ",
+    async (payload, thunkAPI) => {
+        try {
+            const data = await axios.get(`http://localhost:3001/post?_limit=6&_page=${payload}`); //3의 배수
+            // console.log(data.data);
+          return thunkAPI.fulfillWithValue(data.data);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+
+
+
 const post = createSlice({
     name: "post",
     initialState,
-    reducers: {},
+    reducers: {
+
+     initial:(state,action) =>{
+     return initialState
+     
+     }   
+     
+
+
+    },
     extraReducers: {
       
         // getHouseList Thunk
@@ -45,14 +64,26 @@ const post = createSlice({
         [getHouseList.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.post = action.payload;
-            console.log(state);
+            // console.log(state);
         },
         [getHouseList.rejected]: (state, action) => {
             state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
             state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
         },
 
+
+        [getInfiniteList.pending]: (state) => {
+           console.log("확인") // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
+        },
+
+        [getInfiniteList.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.post  =[...state.post, ...action.payload];
+            console.log(state.post);
+        },
+
       
     },
 });
 export default post.reducer;
+export const {initial} = post.actions; // 액션내보내기
