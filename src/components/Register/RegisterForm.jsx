@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import useInput from "../../hooks/useInput";
 import styled from "styled-components";
 import SNS from "../Login/SNS";
@@ -11,9 +11,9 @@ import {
   isValidPassword,
   isMatchedPassword,
 } from "../../utils/RegisterUtil";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { __register } from "../../redux/modules/userSlice";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {__register} from "../../redux/modules/userSlice";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const RegisterForm = () => {
@@ -92,9 +92,30 @@ const RegisterForm = () => {
   );
 
   /** Button Click Event */
-  const handleSubmit = (event) => {
-    const emailString = mergeEmailId(id, email);
+
+  const emailRef = useRef(null);
+  const pw1Ref = useRef(null);
+  const pw2Ref = useRef(null);
+  useEffect(() => {
+    // ref는 항상 존재여부를 검사하고 사용해야 한다(단축평가 Good!)
+    const emailInit = emailRef.current;
+    const pw1Init = pw1Ref.current;
+    const pw2Init = pw2Ref.current;
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!isValidEmail || !isValidPW || !isMatchedPW) {
+      if (!isValidEmail) {
+        emailRef.current.focus();
+      } else if (!isValidPW) {
+        pw1Ref.current.focus();
+      } else {
+        pw2Ref.current.focus();
+      }
+      return;
+    }
+    const emailString = mergeEmailId(id, email);
     dispatch(
       __register({
         email: emailString,
@@ -109,7 +130,7 @@ const RegisterForm = () => {
   return (
     <>
       <Wrapper>
-        <h3 style={{ fontWeight: "600", marginBottom: "20px" }}>회원가입</h3>
+        <h3 style={{fontWeight: "600", marginBottom: "20px"}}>회원가입</h3>
         <SNS />
         <Form onSubmit={handleSubmit}>
           <InputField isValid={isValidEmail}>
@@ -121,6 +142,7 @@ const RegisterForm = () => {
                 id="email"
                 onChange={idHandler}
                 required
+                ref={emailRef}
               />
               <span>@</span>
               <SelectBox>
@@ -162,6 +184,7 @@ const RegisterForm = () => {
               id="pw1"
               placeholder="비밀번호"
               onChange={onChangeHandlerPassword1}
+              ref={pw1Ref}
               required
             />
             {!isValidPW ? (
@@ -176,7 +199,9 @@ const RegisterForm = () => {
               type="password"
               id="pw2"
               placeholder="비밀번호 확인"
+              ref={pw2Ref}
               onChange={onChangeHandlerpassword2}
+              required
             />
             {!isMatchedPW ? (
               <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>

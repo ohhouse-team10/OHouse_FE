@@ -1,14 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 
 const TOS = () => {
+  const [allAgree, setAllAgree] = useState(false);
+  const [items, setItems] = useState([]);
+
+  const allAgreeHandler = () => {};
+  const agreeHandler = () => {};
+
   return (
     <>
       <h4 style={{fontWeight: "600", marginBottom: "20px"}}>약관동의</h4>
       <Wrapper>
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agreeAll"></input>
+            <input
+              type="checkbox"
+              value="false"
+              name="agreeAll"
+              onChange={allAgreeHandler}
+            ></input>
             <span style={{fontWeight: "600"}}>전체동의</span>
             <span id="option">선택항목에 대한 동의 포함</span>
           </label>
@@ -16,7 +27,12 @@ const TOS = () => {
         <hr style={{margin: "18px 0", backgroundColor: "#EAEDEF"}} />
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agree1"></input>
+            <input
+              type="checkbox"
+              value="false"
+              name="agree1"
+              onChange={agreeHandler}
+            ></input>
             <span>만 14세 이상입니다.</span>
             <span id="option-blue">(필수)</span>
           </label>
