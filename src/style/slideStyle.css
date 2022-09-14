@@ -33,12 +33,17 @@
 #next-btn,#prev-btn{
     cursor: pointer;
     background: transparent;
+    opacity: 0.2;
     border: none;
     padding: 5px;
     color: rgba(255, 255, 255, 0.598);
-
+   
 }
 #next-btn:focus , #prev-btn:focus{
 outline: none;
 
+}
+#next-btn:hover,#prev-btn:hover{
+    opacity: 0.7;
+   
 }
