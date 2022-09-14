@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import api from "../../server/api";
+import {userAPI} from "../../server/api";
+
 import {
   setAccessToken,
   getAccessToken,
@@ -30,7 +31,7 @@ export const __userLogin = createAsyncThunk(
   "user/login",
   async (payload, thunkAPI) => {
     try {
-      const response = await api.post("/member/login", payload);
+      const response = await userAPI.logIn(payload);
       setAccessToken(response.headers.authorization);
       setRefreshToken(response.headers.refreshtoken);
       return thunkAPI.fulfillWithValue(response);
@@ -45,7 +46,7 @@ export const __register = createAsyncThunk(
   "user/register",
   async (payload, {rejectWithValue}) => {
     try {
-      const response = await api.post("/member/signup", payload);
+      const response = await userAPI.signUp(payload);
       console.log(response);
     } catch (error) {
       return rejectWithValue(error.message);

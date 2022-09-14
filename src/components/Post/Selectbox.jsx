@@ -1,10 +1,20 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
+import { useState } from "react";
 
-const Selectbox = () => {
-  // const selectBoxChange = function (value) {
-  //   console.log("test 값" + value);
-  // };
+const Selectbox = ({ typeInfo, styleInfo }) => {
+  const [type, setType] = useState("");
+  const [style, setStyle] = useState("");
+
+  const typeChangeHandler = (e) => {
+    setType(e.target.value); // type을 받고
+    typeInfo(e.target.value); // props에 담고
+  };
+
+  const styleChangeHandler = (e) => {
+    setStyle(e.target.value);
+    styleInfo(e.target.value);
+  };
 
   return (
     <Selectboxes>
@@ -20,31 +30,31 @@ const Selectbox = () => {
           <Option value="4">40평대</Option>
           <Option value="5">50평 이상</Option>
         </Select1>
-        <input type="text" style={{ display: "none" }} />
-        <Select2>
+        <Select2 onChange={typeChangeHandler}>
           <option value="" disabled="">
             주거형태
           </option>
-          <Option value="0">원룸&amp;오피스텔</Option>
-          <Option value="1">아파트</Option>
-          <Option value="2">빌라&amp;연립</Option>
-          <Option value="3">단독주택</Option>
-          <Option value="4">사무공간</Option>
-          <Option value="5">상업공간</Option>
-          <Option value="6">기타</Option>
+          <Option value="원룸&amp;오피스텔">원룸&amp;오피스텔</Option>
+          <Option value="아파트">아파트</Option>
+          <Option value="빌라&amp;연립">빌라&amp;연립</Option>
+          <Option value="단독주택">단독주택</Option>
+          <Option value="사무공간">사무공간</Option>
+          <Option value="상업공간">상업공간</Option>
+          <Option value="기타">기타</Option>
         </Select2>
-        <Select3>
+
+        <Select3 onChange={styleChangeHandler}>
           <option value="" disabled="">
             스타일
           </option>
-          <Option value="0">모던</Option>
-          <Option value="1">북유럽</Option>
-          <Option value="2">빈티지</Option>
-          <Option value="3">내추럴</Option>
-          <Option value="4">프로방스&amp;로맨틱</Option>
-          <Option value="5">클래식&amp;앤틱</Option>
-          <Option value="6">한국&amp;아시아</Option>
-          <Option value="7">유니크</Option>
+          <Option value="모던">모던</Option>
+          <Option value="북유럽">북유럽</Option>
+          <Option value="빈티지">빈티지</Option>
+          <Option value="내추럴">내추럴</Option>
+          <Option value="프로방스&amp;로맨틱">프로방스&amp;로맨틱</Option>
+          <Option value="클래식&amp;앤틱">클래식&amp;앤틱</Option>
+          <Option value="한국&amp;아시아">한국&amp;아시아</Option>
+          <Option value="유니크">유니크</Option>
         </Select3>
       </Selectleft>
       <Selectright></Selectright>
