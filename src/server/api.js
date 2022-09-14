@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const BASE_URL = " http://3.38.162.168/api";
+const BASE_URL = " http://3.38.162.168";
 
 const api = axios.create({
   baseURL: BASE_URL,
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
   },
 });
 

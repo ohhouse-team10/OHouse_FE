@@ -13,15 +13,49 @@ const CommunityCard = ({post}) => {
 
     const navigate = useNavigate();
 
-    const {nickname,like_num,statusMessage} = post;
+    const {nickname,like_num,statusMessage,isFollow,content,post_id,isLike} = post;
 
-    const data = {
-       nickname:nickname,
-       like_num:like_num,
-       statusMessage:statusMessage
-    };
+    // const data = {
+    //    nickname:nickname,
+    //    like_num:like_num,
+    //    statusMessage:statusMessage,
+    //    isFollow : isFollow,
+    //    content :content, 
+    //    post_id
+       
+
+    // };
+
+  //팔로우토글 
+  const [follow, setFollow] = useState(true);
+  const [followCount, setFollowCount] = useState(false);
+
+  const followeHandler = (e) => {
+    e.preventDefault();
+    setFollowCount(followCount == isFollow);
+    setFollow(!follow);
+    // axios.post("/post", { postId: id });
+  };
+
+  const cancelfollowHandler = (e) => {
+    e.preventDefault();
+    if (joinCount > 0) {
+      setFollowCount(followCount == isFollow);
+    }
+    setFollow(!follow);
+    // axios.post("/post", { postId: id });
+  };
+
    
    //하트토글 
+
+
+  //  const likeHandler = (e) => { e.preventDefault()
+  //  const updateLike = { id, like: !like }
+  //   dispatch(__updateMusic(updateLike)) if(!like)alert("liked!") };
+
+
+
   const [like, setLike] = useState(true);
     const [joinCount, setJoinCount] = useState(0);
   
@@ -76,8 +110,19 @@ const CommunityCard = ({post}) => {
               />
             </div>
             <div className="media-content">
-              <h4 style={{margin: "1px"}}>sooong{nickname}</h4>
-              <h>@soonger</h>
+              <div style={{display:"flex"}}>
+              <h3 style={{margin: "1px", fontSize:"18px",fontWeight: "bold"}}>{nickname}</h3>
+          
+
+              {follow ? (
+                <Follow  onClick={followeHandler}>팔로우</Follow>
+              ) : (
+                <Follow style={{color:"gray"}} onClick={cancelfollowHandler}>팔로우</Follow>
+              )}{followCount == isFollow}
+
+              </div>
+              <h>@soonger{post_id}</h>
+             
             </div>
           </Media>
 
@@ -96,8 +141,13 @@ const CommunityCard = ({post}) => {
               ) : (
                 <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
               )}
+
+{/* {like ? ( <Like onClick={likeHandler}>♥️</Like> 
+) : (
+   <Like onClick={likeHandler}>♡</Like> )} */}
+
               <div  style={{margin:"6px"}} >
-              {like_num}
+              {like_num+joinCount}
              </div>
               </div>
               </Media>
@@ -132,7 +182,7 @@ const CommunityCard = ({post}) => {
             <div className="media-left"
             style={{margin:"6px"}}
             >
-             {statusMessage}
+             {content}
             </div>
             <div className="media-content"></div>
           </Media>
@@ -153,6 +203,7 @@ const Media = styled.div`
   display: flex;
   margin: 5px;
   overflow:hidden;
+
 `;
 const Img = styled.img`
  overflow:hidden;
@@ -194,6 +245,22 @@ const JoinBtn = styled.img`
 const CommentBtn = styled.img`
   width: 33px;
  
+ 
+
+`;
+const Follow = styled.button`
+font-size: 18px;
+font-weight: bold;
+color: #00b3f9;
+background-color:transparent;
+border: 0;
+outline: 0;
+&:hover {
+     
+      opacity:0.5;
+      
+    
+    } 
  
 
 `;
