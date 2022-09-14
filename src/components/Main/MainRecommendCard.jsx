@@ -13,18 +13,16 @@ const MainRecommendCard = ({ posts }) => {
 
  
     return (
-        <div>
+    
            
       <Card className="card" style={{ width:"98%",height: "55vh"}}>
         <Left
           className="left"
-          style={{height: "55vh", width: "70%", float: "left"}}
+          style={{height: "55vh", width: "70%", float: "left"
+        }}
         >
           <Div>
-              <H1>해당페이지 제목 
-         
-              
-              </H1>
+              <H1>해당페이지 제목 </H1>
               
                <Div2>
                 <Img
@@ -44,7 +42,7 @@ const MainRecommendCard = ({ posts }) => {
                 borderColor: "#ffffff",
                 color: "#ffffff",
                 position: "relative",
-                bottom: "35%",
+                bottom: "28%",
                 height: "50px",
               }}
             >
@@ -109,7 +107,7 @@ const MainRecommendCard = ({ posts }) => {
 
         </Right>
       </Card> 
-        </div>
+   
     );
 };
 
@@ -145,13 +143,14 @@ const Div2 = styled.div`
 const H1 = styled.h1`
   margin: 20px;
   color: white;
+  font-size: 40px;
 `;
 
 const Img = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 30px;
-  top: 15px;
+  bottom: 8px;
   position: relative;
 `;
 
@@ -169,6 +168,7 @@ const Left = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/165709897724260294.jpg?gif=1&w=1080&webp=1);
+
 `;
 const Right = styled.div`
   float: right;
