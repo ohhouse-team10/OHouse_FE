@@ -23,7 +23,7 @@ const RegisterForm = () => {
   const dispatch = useDispatch();
 
   /** User Input Management */
-  const [id, onChangeHandlerId] = useInput();
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [password1, onChangeHandlerPassword1] = useInput();
   const [password2, onChangeHandlerpassword2] = useInput();
@@ -37,6 +37,7 @@ const RegisterForm = () => {
   /** Direct Input */
   const [isDirect, setIsDirect] = useState(false);
   const ref = useRef(null);
+  const inputRef = useRef(null);
   const currentValue = ref?.current?.value;
   const onClickX = () => {
     setIsDirect(false);
@@ -46,10 +47,33 @@ const RegisterForm = () => {
   useEffect(() => {
     if (currentValue !== "__manual") return;
     setIsDirect(true);
+    inputRef.current.focus();
     setEmail("");
   }, [currentValue, setIsDirect]);
 
   /** Email Handler */
+  useEffect(() => {
+    // ref는 항상 존재여부를 검사하고 사용해야 한다(단축평가 Good!)
+    const initial = inputRef.current;
+  }, []);
+  // 실제 DOM에 반영된 이후, DOM취득 가능
+
+  const idHandler = (e) => {
+    let val = e.target.value;
+    let cur = e.nativeEvent.data;
+    if (cur === "@") {
+      ref.current.value = "__manual";
+      setIsDirect(true);
+      val = val.slice(0, -1);
+
+      setId(val);
+      e.target.value = val;
+      inputRef.current.focus();
+      return;
+    }
+    setId(val);
+  };
+
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -68,9 +92,30 @@ const RegisterForm = () => {
   );
 
   /** Button Click Event */
-  const handleSubmit = (event) => {
-    const emailString = mergeEmailId(id, email);
+
+  const emailRef = useRef(null);
+  const pw1Ref = useRef(null);
+  const pw2Ref = useRef(null);
+  useEffect(() => {
+    // ref는 항상 존재여부를 검사하고 사용해야 한다(단축평가 Good!)
+    const emailInit = emailRef.current;
+    const pw1Init = pw1Ref.current;
+    const pw2Init = pw2Ref.current;
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!isValidEmail || !isValidPW || !isMatchedPW) {
+      if (!isValidEmail) {
+        emailRef.current.focus();
+      } else if (!isValidPW) {
+        pw1Ref.current.focus();
+      } else {
+        pw2Ref.current.focus();
+      }
+      return;
+    }
+    const emailString = mergeEmailId(id, email);
     dispatch(
       __register({
         email: emailString,
@@ -78,6 +123,7 @@ const RegisterForm = () => {
         nickname: nickname,
       })
     );
+    navigate("/login");
   };
 
   /** Temp Console */
@@ -95,8 +141,9 @@ const RegisterForm = () => {
                 type="text"
                 placeholder="이메일"
                 id="email"
-                onChange={onChangeHandlerId}
+                onChange={idHandler}
                 required
+                ref={emailRef}
               />
               <span>@</span>
               <SelectBox>
@@ -111,14 +158,16 @@ const RegisterForm = () => {
                   <option value="icloud.com">icloud.com</option>
                   <option value="__manual">직접입력</option>
                 </select>
-                {isDirect ? (
-                  <>
-                    <DirectInput onChange={emailHandler} />
-                    <XButton onClick={onClickX}>
-                      <ClearIcon />
-                    </XButton>
-                  </>
-                ) : null}
+                <DirectInputField isVisible={isDirect}>
+                  <DirectInput
+                    placeholder="직접입력"
+                    onChange={emailHandler}
+                    ref={inputRef}
+                  />
+                  <XButton onClick={onClickX}>
+                    <ClearIcon />
+                  </XButton>
+                </DirectInputField>
               </SelectBox>
             </EmailField>
             {!isValidEmail ? (
@@ -136,6 +185,7 @@ const RegisterForm = () => {
               id="pw1"
               placeholder="비밀번호"
               onChange={onChangeHandlerPassword1}
+              ref={pw1Ref}
               required
             />
             {!isValidPW ? (
@@ -150,7 +200,9 @@ const RegisterForm = () => {
               type="password"
               id="pw2"
               placeholder="비밀번호 확인"
+              ref={pw2Ref}
               onChange={onChangeHandlerpassword2}
+              required
             />
             {!isMatchedPW ? (
               <ErrorMsg>비밀번호가 일치하지 않습니다.</ErrorMsg>
@@ -260,7 +312,9 @@ const EmailField = styled.div`
     border: 1px solid #dbdbdb;
   }
   span {
-    margin: 0 10px;
+    margin: 0 5px;
+    font-weight: 600;
+    opacity: 0.2;
   }
 `;
 
@@ -269,6 +323,10 @@ const SelectBox = styled.div`
   width: 100%;
   height: 40px;
   border: 1px solid #dbdbdb;
+`;
+
+const DirectInputField = styled.div`
+  visibility: ${(props) => (props.isVisible ? "visible" : "hidden")};
 `;
 
 const DirectInput = styled.input`

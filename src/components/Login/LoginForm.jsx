@@ -20,9 +20,17 @@ const LoginForm = () => {
   const [password, onChangePassword] = useInput();
 
   /** Button Click Event */
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(__userLogin({email: email, password: password}));
+    const {payload} = await dispatch(
+      __userLogin({email: email, password: password})
+    );
+    console.log(payload);
+    if (payload.data.isSuccess) {
+      navigate("/");
+    } else {
+      alert(payload.data.message);
+    }
   };
 
   /** Temp Console */
