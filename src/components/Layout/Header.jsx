@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import logo from "../../image/ohou_text_logo.PNG";
 import defaultImage from "../../image/defaultImage.jpg";
@@ -6,10 +6,10 @@ import SearchBox from "./SearchBox";
 import Button from "./Button";
 import ToggleMenu from "./ToggleMenu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {AnimatePresence} from "framer-motion";
 import {useSelector, useDispatch} from "react-redux";
-import {logout} from "../../redux/modules/userSlice";
+import {__userLogOut} from "../../redux/modules/userSlice";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -17,6 +17,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 const Header = () => {
   /** REACT-ROUTER-DOM */
   const navigate = useNavigate();
+  const {pathname} = useLocation();
   /** REACT-REDUX */
   const state = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -51,11 +52,13 @@ const Header = () => {
     {
       title: "로그아웃",
       clickFn: () => {
-        dispatch(logout());
+        dispatch(__userLogOut());
         navigate("/");
       },
     },
   ];
+
+  /** HEADER */
 
   return (
     <Wrapper>
@@ -126,10 +129,10 @@ const Header = () => {
           <Navigation>
             <NaviWrapper>
               <NavigationItems>
-                <NavigationItem isHome={true}>
+                <NavigationItem isHome={pathname === "/"}>
                   <span onClick={() => navigate("/")}>홈</span>
                 </NavigationItem>
-                <NavigationItem>
+                <NavigationItem isHome={pathname === "/community"}>
                   <span onClick={() => navigate("/community")}>사진</span>
                 </NavigationItem>
                 <NavigationItem>팔로잉</NavigationItem>

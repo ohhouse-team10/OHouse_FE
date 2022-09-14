@@ -54,17 +54,24 @@ export const __register = createAsyncThunk(
   }
 );
 
+// 유저 로그아웃
+export const __userLogOut = createAsyncThunk(
+  "user/logout",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await userAPI.logout();
+      console.log(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 /** USERSLICE */
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => {
-      removeAccessToken();
-      removeRefreshToken();
-      localStorage.removeItem("user");
-      return (state = initialState);
-    },
     loadUser: (state, {payload}) => {
       return (state = payload);
     },
@@ -102,6 +109,20 @@ const userSlice = createSlice({
       state.loading = false;
     },
     [__register.rejected]: (state, payload) => {
+      state.loading = false;
+      state.error = payload;
+      console.log(state.error);
+    },
+    [__userLogOut.pending]: (state, payload) => {
+      state.loading = true;
+    },
+    [__userLogOut.fulfilled]: (state, payload) => {
+      removeAccessToken();
+      removeRefreshToken();
+      localStorage.removeItem("user");
+      return (state = initialState);
+    },
+    [__userLogOut.rejected]: (state, payload) => {
       state.loading = false;
       state.error = payload;
       console.log(state.error);

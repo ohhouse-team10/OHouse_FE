@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import Logo from "../Layout/Logo";
 import SNS from "./SNS";
@@ -7,6 +7,9 @@ import {useNavigate} from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import {useDispatch} from "react-redux";
 import {__userLogin} from "../../redux/modules/userSlice";
+import ErrorMessage from "./ErrorMessage";
+import {SendToMobile} from "@mui/icons-material";
+import {AnimatePresence} from "framer-motion";
 
 const LoginForm = () => {
   /** REACT-ROUTER-DOM */
@@ -25,46 +28,61 @@ const LoginForm = () => {
     const {payload} = await dispatch(
       __userLogin({email: email, password: password})
     );
-    console.log(payload);
     if (payload.data.isSuccess) {
       navigate("/");
     } else {
-      alert(payload.data.message);
+      sendErrorMsg(payload.data.message);
     }
+  };
+
+  /** ErrorMessage */
+  const [isError, setIsError] = useState(false);
+  const [msg, setMsg] = useState("");
+  const sendErrorMsg = (msg) => {
+    setIsError(true);
+    setMsg(msg);
+    setTimeout(() => {
+      setIsError(false);
+    }, 2000);
   };
 
   /** Temp Console */
 
   return (
-    <Wrapper>
-      <LogoBox>
-        <Logo />
-      </LogoBox>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          onChange={onChangeEmail}
-          name="email"
-          type="email"
-          position="top"
-          placeholder="이메일"
-        />
-        <Input
-          onChange={onChangePassword}
-          name="password"
-          type="password"
-          position="bottom"
-          placeholder="비밀번호"
-        />
-        <Button btnName={"로그인"} type="submit" />
-        <Section>
-          <Option>비밀번호 재설정</Option>
-          <Option onClick={() => navigate("/new")}>회원가입</Option>
-        </Section>
-      </Form>
-      <SNS />
-      <GuideMsg>로그인에 문제가 있으신가요?</GuideMsg>
-      <NonLoginMsg>비회원 주문 조회하기</NonLoginMsg>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <LogoBox>
+          <Logo />
+        </LogoBox>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            onChange={onChangeEmail}
+            name="email"
+            type="email"
+            position="top"
+            placeholder="이메일"
+          />
+          <Input
+            onChange={onChangePassword}
+            name="password"
+            type="password"
+            position="bottom"
+            placeholder="비밀번호"
+          />
+          <Button btnName={"로그인"} type="submit" />
+          <Section>
+            <Option>비밀번호 재설정</Option>
+            <Option onClick={() => navigate("/new")}>회원가입</Option>
+          </Section>
+        </Form>
+        <SNS />
+        <GuideMsg>로그인에 문제가 있으신가요?</GuideMsg>
+        <NonLoginMsg>비회원 주문 조회하기</NonLoginMsg>
+      </Wrapper>
+      <AnimatePresence>
+        {isError ? <ErrorMessage msg={msg} /> : null}
+      </AnimatePresence>
+    </>
   );
 };
 export default LoginForm;
