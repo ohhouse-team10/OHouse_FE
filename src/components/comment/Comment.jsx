@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 
 export default function Comment() {
+
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -20,6 +21,7 @@ export default function Comment() {
   const [commentInput, setCommentInput] = useState("");
   const [allCommentsCnt, setAllCommentsCnt] = useState(1);
 
+  // 페이지네이션 페이징 state
   const [page, setPage] = useState(1);
   const handlePageChange = (page) => {
     setPage(page);
@@ -33,6 +35,7 @@ export default function Comment() {
     commentList && commentList.filter((element) => element.postId === 1);
   // id는 파라미터자리
 
+  // 댓글개수 확인
   useEffect(() => {
     setAllCommentsCnt(newList && newList.length);
   });
@@ -43,6 +46,7 @@ export default function Comment() {
   };
 
   let data = {
+    // profile_image:"imageUrl"
     nickname: "닉네임",
     content: commentInput,
     isEditable: true,
@@ -50,15 +54,16 @@ export default function Comment() {
   };
 
   const addComment = () => {
-    console.log("댓글 추가!");
     dispatch(addComments(data));
     setDisabled(true);
     document.getElementById("commentEnter").value = "";
   };
 
+
+
   return (
     <CommentLayout>
-      <hr style={{ height: "1px", backgroundColor: "rgb(234, 237, 239)" }} />
+      <HeadLine />
       <section>
         <div>
           <p>
@@ -78,15 +83,13 @@ export default function Comment() {
             </ButtonStyle>
           </InputBox>
         </FormStyle>
-        {/* <Suspense> */}
           <CommentList page={page} />
-        {/* </Suspense> */}
         <Pagination
           activePage={page}
-          // itemsCountPerPage={5}
+          itemsCountPerPage={5}
           totalItemsCount={allCommentsCnt === undefined ? 1 : allCommentsCnt}
           // totalItemsCount={50}
-          pageRangeDisplayed={5}
+          // pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}
           onChange={handlePageChange}
@@ -95,6 +98,23 @@ export default function Comment() {
     </CommentLayout>
   );
 }
+
+const HeadLine = styled.hr`
+  display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    margin: 0px;
+    margin-top:40px;
+    margin-bottom:48px;
+    padding: 0px;
+    height: 1px;
+    border: none;
+    background-color: rgb(234, 237, 239);
+`
 
 const CommentLayout = styled.div`
   margin-right: auto;
