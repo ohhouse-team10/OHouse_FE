@@ -31,6 +31,4 @@ export default Preview;
 const PreviewImage = styled.img`
   height: 80px;
   width: 100px;
-
-  border: 1px dashed red;
 `;
