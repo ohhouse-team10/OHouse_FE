@@ -6,7 +6,7 @@ const Preview = ({ img }) => {
 
   console.log("pre img", img);
 
-  const imgSrc = URL.createObjectURL(img);
+  //   const imgSrc = URL.createObjectURL(img);
 
   //   const encodeFileToBase64 = (fileBlob) => {
   //     const reader = new FileReader();
@@ -23,7 +23,7 @@ const Preview = ({ img }) => {
 
   return (
     <div>
-      <PreviewImage src={imgSrc} />
+      <PreviewImage src={img} />
       preview compo
     </div>
   );
