@@ -6,9 +6,8 @@ import styled from "styled-components";
 const Preview = ({ img }) => {
   const reader = new FileReader();
   const file = img;
-  const [imgSrc, setImgSrc] = useState("");
 
-  console.log("file", file);
+  const [imgSrc, setImgSrc] = useState("");
 
   useEffect(() => {
     if (file) {
