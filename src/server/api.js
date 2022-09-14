@@ -25,16 +25,30 @@ api.interceptors.request.use((config) => {
   }
 });
 
-api.interceptors.response.use((response) => {
-  return response;
-});
+api.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    // 오류 응답을 처리
+    try {
+      if (error.response.data.code === "EXPIRED_TOKEN") {
+        return api.request(error.config);
+      }
+    } catch (error) {
+      window.location.href = "/login";
+    }
+    console.log(error.response);
+    return Promise.reject(error);
+  }
+);
 
 export default api;
 
 // auth는 인증이 필요한 URL (로그인이 되어있어야 함.);
 
 export const userAPI = {
-  signUp: (request) => api.post("/member/singup", request), //회원가입
+  signUp: (request) => api.post("/member/signup", request), //회원가입
   logIn: (request) => api.post("/member/login", request), // 로그인
   logout: () => api.delete("/auth/member/logout"), // 로그아웃
   userUpdate: (request) => api.put("/auth/member/update", request), // 회원정보 수정

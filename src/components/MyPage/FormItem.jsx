@@ -1,7 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
+import {
+  setNickName,
+  setProfileImage,
+  setStatusMessage,
+} from "../../redux/modules/userEditSlice";
 
-const FormItem = ({title, required = false, isImg = false, msg = ""}) => {
+const FormItem = ({
+  title,
+  required = false,
+  isImg = false,
+  msg = "",
+  getInfo = null,
+  disable = false,
+}) => {
+  const [input, setInput] = useState("");
+  const onChangeInput = (event) => {
+    setInput(event.target.value);
+  };
+
+  useEffect(() => {
+    if (getInfo !== null) getInfo(input);
+  }, [input, setInput]);
+
   return (
     <Container>
       <FormItemTitle>
@@ -19,7 +40,7 @@ const FormItem = ({title, required = false, isImg = false, msg = ""}) => {
               />
             </FormImgBox>
           ) : (
-            <FormItemInput />
+            <FormItemInput onChange={onChangeInput} disabled={disable} />
           )}
         </FormItemInputBox>
         <Msg>{msg}</Msg>
@@ -69,7 +90,7 @@ const FormItemInput = styled.input`
   padding: 0 15px;
   line-height: 40px;
   border: 1px solid #dbdbdb;
-  background-color: #fff;
+  background-color: ${(props) => (props.disabled ? "#ddd" : "#fff")};
   color: #424242;
 `;
 

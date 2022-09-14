@@ -1,7 +1,7 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../server/api";
-import { postAPI } from "../../server/api";
+import {postAPI} from "../../server/api";
 import {userAPI} from "../../server/api";
 
 import {
@@ -12,8 +12,6 @@ import {
   getRefreshToken,
   removeRefreshToken,
 } from "../../server/cookie";
-
-
 
 const initialState = {
   post: [],
@@ -40,25 +38,22 @@ export const getHouseList = createAsyncThunk(
 export const getDetailPage = createAsyncThunk(
   "travel/getDetailPage ",
   async (post_id, thunkAPI) => {
-      try {
-          const data = await api.get(
-              `/post/${post_id}`
-          );
-          console.log(data.data);
-          return thunkAPI.fulfillWithValue(data.data);
-      } catch (error) {
-          return thunkAPI.rejectWithValue(error.message);
-      }
+    try {
+      const data = await api.get(`/post/${post_id}`);
+      console.log(data.data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
-
 
 //무한스크롤
 export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await api.get(
+      const {data} = await api.get(
         `/post?page=${payload}&size=6&sort=createdAt,desc`
       ); //3의 배수
       return thunkAPI.fulfillWithValue(data.data);
@@ -84,35 +79,32 @@ export const _addPost = createAsyncThunk(
   }
 );
 
-//좋아요 요청 
+//좋아요 요청
 export const _likepost = createAsyncThunk(
   "like/post",
   async (post_id, thunkAPI) => {
+    try {
+      const {data} = await postAPI.likePost(post_id);
 
-      try {
-          const {data} = await postAPI.likePost(post_id);
-
-       return thunkAPI.fulfillWithValue(data.data);
-      } catch (error) {
-          return thunkAPI.rejectWithValue(error);
-      }
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
 );
-
 
 export const _deletelikepost = createAsyncThunk(
   "like/delete",
   async (post_id, thunkAPI) => {
-      try {await postAPI.deletelikePost(post_id);
-          
-          return thunkAPI.fulfillWithValue(post_id);
-      } catch (error) {
-          return thunkAPI.rejectWithValue(error);
-      }
+    try {
+      await postAPI.deletelikePost(post_id);
+
+      return thunkAPI.fulfillWithValue(post_id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
 );
-
-
 
 const post = createSlice({
   name: "post",
@@ -160,44 +152,38 @@ const post = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-      //좋아요 
-      [_likepost.pending]: (state) => {
-        state.success = true;
-      },
-      [_likepost.fulfilled]: (state, action) => {
-        state.success = false;
-        const newState = state.post.map((p)=>{
-          if(action.payload.arg === p.post_id)p.isLike = !p.isLike
-        })
-        state.post = newState
-         return state  
+    //좋아요
+    [_likepost.pending]: (state) => {
+      state.success = true;
+    },
+    [_likepost.fulfilled]: (state, action) => {
+      state.success = false;
+      const newState = state.post.map((p) =>
+        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+      );
+      state.post = newState;
+      return state;
+    },
 
-      
-        console.log("ㅎㅎ",action);
-      },
+    [_likepost.rejected]: (state, action) => {
+      state.success = false;
+      state.error = action.payload.data;
+    },
 
-      [_likepost.rejected]: (state, action) => {
-        state.success = false;
-        state.error = action.payload.data;
-      },
+    //좋아요 삭제하기
 
-     //좋아요 삭제하기 
-    
-        [ _deletelikepost.pending]: (state) => {
-          state.success = true;
-      },
-      [ _deletelikepost.fulfilled]: (state, action) => {
-          state.success = false;
-          state.post = state.posts.filter(
-              (like) => like.id !== action.payload
-          );
-      },
-      [ _deletelikepost.rejected]: (state, action) => {
-          state.success = false;
-          state.error = action.payload;
-      },
-
+    [_deletelikepost.pending]: (state) => {
+      state.success = true;
+    },
+    [_deletelikepost.fulfilled]: (state, action) => {
+      state.success = false;
+      state.post = state.post.filter((like) => like.id !== action.payload);
+    },
+    [_deletelikepost.rejected]: (state, action) => {
+      state.success = false;
+      state.error = action.payload;
+    },
   },
 });
 export default post.reducer;
-export const { initial } = post.actions; // 액션내보내기
+export const {initial} = post.actions; // 액션내보내기

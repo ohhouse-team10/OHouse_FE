@@ -1,13 +1,9 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import emptyheart from "../../image/emptyheart.png";
-import heart from "../../image/heart.png";
-import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import CommunityCard from "./CommunityCard";
 import useFetch from "../../hooks/useFetch";
 import {useRef} from "react";
-import {initial} from "../../redux/modules/PostSlice";
 const CommunityCardList = () => {
   //무한스크롤 구현
 
@@ -33,7 +29,6 @@ const CommunityCardList = () => {
   //데이터 불러오기
   const dispatch = useDispatch();
   const {post: posts} = useSelector((state) => state.post);
-  console.log(posts);
   //초기화진행 포스트 슬라이스 리듀서 불러옴
   //  useEffect(() => {
 
@@ -42,13 +37,13 @@ const CommunityCardList = () => {
 
   //  }, []);
 
-  const {list, hasMore, isLoading} = useFetch(pageNum);
+  const {_, hasMore, isLoading} = useFetch(pageNum);
 
   return (
     <Wrapper>
       <Div className="col-sm-4 col-xs-12">
         {posts.map((post) => (
-          <CommunityCard className="card" key={post.post_id} post={post} />
+          <CommunityCard key={post.post_id} post={post} />
         ))}
       </Div>
 

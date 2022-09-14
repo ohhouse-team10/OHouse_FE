@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SNS from "../Login/SNS";
 import TOS from "./TOS";
 import Button from "../Layout/Button";
+import MailValidator from "./MailValidator";
 import useIsValid from "../../hooks/useIsValid";
 import {
   mergeEmailId,
@@ -97,6 +98,18 @@ const RegisterForm = () => {
     setPass(bool);
   };
 
+  /** Email Validator */
+  const [emailValidator, setEmailValidator] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const onClickEmailValidator = (event) => {
+    event.preventDefault();
+    setEmailValidator(true);
+  };
+  const getIsValid = (bool) => {
+    console.log(bool);
+    setEmailValid(bool);
+  };
+
   /** Button Click Event */
 
   const emailRef = useRef(null);
@@ -113,15 +126,17 @@ const RegisterForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!isValidEmail || !isValidPW || !isMatchedPW || !pass) {
+    if (!isValidEmail || !isValidPW || !isMatchedPW || !pass || !emailValid) {
       if (!isValidEmail) {
         emailRef.current.focus();
       } else if (!isValidPW) {
         pw1Ref.current.focus();
       } else if (!isMatchedPW) {
         pw2Ref.current.focus();
-      } else {
+      } else if (!pass) {
         alert("필수 항목에 동의해 주세요!");
+      } else if (!emailValid) {
+        alert("이메일 인증을 완료해주세요!");
       }
       return;
     }
@@ -185,8 +200,19 @@ const RegisterForm = () => {
             {!isValidEmail ? (
               <ErrorMsg>이메일 형식이 올바르지 않습니다.</ErrorMsg>
             ) : null}
-            <Button btnName={"이메일 인증하기"} disabled={true} />
           </InputField>
+          <BtnBox onClick={onClickEmailValidator}>
+            <Button
+              btnName={"이메일 인증하기"}
+              disabled={!isValidEmailForm(mergeEmailId(id, email))}
+            />
+          </BtnBox>
+          {emailValidator ? (
+            <MailValidator
+              email={mergeEmailId(id, email)}
+              getIsValid={getIsValid}
+            />
+          ) : null}
           <InputField isValid={isValidPW}>
             <label htmlFor="pw1">비밀번호</label>
             <InputGuideMsg>
@@ -332,6 +358,8 @@ const EmailField = styled.div`
     opacity: 0.2;
   }
 `;
+
+const BtnBox = styled.div``;
 
 const SelectBox = styled.div`
   position: relative;
