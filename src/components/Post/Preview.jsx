@@ -1,9 +1,9 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import {useState} from "react";
+import {useEffect} from "react";
 import styled from "styled-components";
 
-const Preview = ({ img }) => {
+const Preview = ({img}) => {
   const reader = new FileReader();
   const file = img;
 
@@ -13,23 +13,18 @@ const Preview = ({ img }) => {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        console.log(reader.result);
         setImgSrc(reader.result);
       };
     }
   });
 
-  return (
-    <div>
-      <PreviewImage src={imgSrc} />
-    </div>
-  );
+  return <PreviewImage src={imgSrc} />;
 };
 
 export default Preview;
 
 const PreviewImage = styled.img`
-  /* position: absolute; */
-  height: 80px;
-  width: 80px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 `;

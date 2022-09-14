@@ -67,7 +67,7 @@ export const __userLogOut = createAsyncThunk(
   }
 );
 
-const __userUpdate = createAsyncThunk(
+export const __userUpdate = createAsyncThunk(
   "user/userUpdate",
   async (payload, thunkAPI) => {
     try {
