@@ -7,20 +7,17 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 import { deleteComments } from "../../redux/modules/commentsSlice";
-import { getComments } from "../../redux/modules/commentsSlice";
 import { updateComments } from "../../redux/modules/commentsSlice";
 
 export default function CommentCard(props) {
-  console.log(props);
+  // console.log(props); //card data
   const dispatch = useDispatch();
   const [editCheck, setEditCheck] = useState("수정");
   const [editInput, setEditInput] = useState(props.content);
-
-  const commentsData = useSelector((state)=>state.comments.comments)
 
   const sendReport = () => {
     alert("해당 댓글의 신고 접수가 완료되었습니다!");
@@ -28,25 +25,19 @@ export default function CommentCard(props) {
 
   const deleteComment = () => {
     if (window.confirm("삭제하실건가욥...?")) {
-      console.log("댓글 삭제!");
-      dispatch(getComments());
       dispatch(deleteComments(props.id));
     } else {
       alert("휴");
     }
-    dispatch(getComments());
   };
 
   const editBtn = (e) => {
     console.log("수정하기");
     if (e.target.innerText === "수정") {
-      console.log("수정이에오");
       setEditCheck("취소");
     } else {
-      console.log("취소에옹");
       setEditCheck("수정");
     }
-    dispatch(getComments());
   };
 
   const editInputText = (e) => {
@@ -63,13 +54,11 @@ export default function CommentCard(props) {
   };
 
   const editComment = () => {
-    dispatch(getComments());
     dispatch(updateComments(editData));
-    dispatch(getComments());
     setEditCheck("수정");
   };
 
-  
+  // 본인의 댓글인 경우 수정/삭제 가능(내 댓글 표시 추가)
   if (props.isEditable === true) {
     return (
       <ListItem alignItems="flex-start">
