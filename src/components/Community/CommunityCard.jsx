@@ -97,7 +97,6 @@ const CommunityCard = ({post}) => {
       <Media className="media">
         <div className="media-left">
           <img
-          
             src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
             alt="Placeholdser image"
             style={{
@@ -126,17 +125,14 @@ const CommunityCard = ({post}) => {
         </div>
       </Media>
 
-
       <span onClick={() => navigate("/detail")}>
-      <div className="card-image" style={{overflow: "hidden"}}>
-        <Img
-          src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
-          alt="Placeholder image"
-        />
-      </div>
+        <div className="card-image" style={{overflow: "hidden"}}>
+          <Img
+            src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
+            alt="Placeholder image"
+          />
+        </div>
       </span>
-
-
 
       <Buttons>
         <Media className="media">

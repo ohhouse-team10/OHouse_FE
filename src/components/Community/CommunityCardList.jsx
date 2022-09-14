@@ -2,83 +2,70 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import emptyheart from "../../image/emptyheart.png";
 import heart from "../../image/heart.png";
-import { useEffect } from "react";
-import {useDispatch,useSelector} from "react-redux"
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import CommunityCard from "./CommunityCard";
 import useFetch from "../../hooks/useFetch";
-import { useRef } from "react";
-import { initial } from "../../redux/modules/PostSlice";
-const  CommunityCardList = () => {
+import {useRef} from "react";
+import {initial} from "../../redux/modules/PostSlice";
+const CommunityCardList = () => {
+  //무한스크롤 구현
 
+  const [pageNum, setPageNum] = useState(0);
 
-//무한스크롤 구현 
+  const observerRef = useRef();
 
+  const observer = (node) => {
+    if (isLoading) return;
+    if (observerRef.current) observerRef.current.disconnect();
 
-const [pageNum, setPageNum] = useState(0);
+    observerRef.current = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasMore) {
+        //둘이 확인이 되면 페이지 넘겨줌
 
-const observerRef = useRef();
+        setPageNum((page) => page + 1);
+      }
+    });
 
-const observer = (node) => {
-  if (isLoading) return;
-  if (observerRef.current) observerRef.current.disconnect();
+    node && observerRef.current.observe(node);
+  };
 
+  //데이터 불러오기
+  const dispatch = useDispatch();
+  const {post: posts} = useSelector((state) => state.post);
+  console.log(posts);
+  //초기화진행 포스트 슬라이스 리듀서 불러옴
+  //  useEffect(() => {
 
-  observerRef.current = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting && hasMore) {  //둘이 확인이 되면 페이지 넘겨줌
-  
-      setPageNum((page) => page + 1);
-    }
-  });
+  //   dispatch(initial());
+  //   console.log("초기화진행",pageNum)
 
-  node && observerRef.current.observe(node);
-};
+  //  }, []);
 
- //데이터 불러오기
- const dispatch = useDispatch();
- const {post} = useSelector ((state) =>state.post)
-
- //초기화진행 포스트 슬라이스 리듀서 불러옴
-//  useEffect(() => {
-
-//   dispatch(initial());
-//   console.log("초기화진행",pageNum)
- 
-//  }, []);
-
-const { list, hasMore, isLoading } = useFetch(pageNum);
+  const {list, hasMore, isLoading} = useFetch(pageNum);
 
   return (
     <Wrapper>
-       
-      <Div className="col-sm-4 col-xs-12"
-    
-      >
-         {post.map((post) => (
-        <CommunityCard className="card"  
-         key={post.id}
-         post={post}
-       />
-         
-         ))}  
+      <Div className="col-sm-4 col-xs-12">
+        {posts.map((post) => (
+          <CommunityCard className="card" key={post.post_id} post={post} />
+        ))}
       </Div>
 
-     
-      <div ref={observer}
-      style={{
-        zIndex:"999",
-        color: "blue",
-        height: "20px",
-        width: "100%"
-      }}
+      <div
+        ref={observer}
+        style={{
+          zIndex: "999",
+          color: "blue",
+          height: "20px",
+          width: "100%",
+        }}
       />
-
-
     </Wrapper>
   );
 };
 
 export default CommunityCardList;
-
 
 const Div = styled.div`
   overflow: hidden;

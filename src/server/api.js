@@ -37,6 +37,7 @@ export const userAPI = {
   signUp: (request) => api.post("/member/singup", request), //회원가입
   logIn: (request) => api.post("/member/login", request), // 로그인
   logout: () => api.delete("/auth/member/logout"), // 로그아웃
+  userUpdate: (request) => api.put("/auth/member/update", request), // 회원정보 수정
 };
 
 export const postAPI = {
@@ -52,6 +53,8 @@ export const postAPI = {
   getPost: (postId) => api.get(`/post/${postId}`), // 게시글 하나 가져오기
   putPost: (request, postId) => api.put(`/auth/post/${postId}`, request), // 게시글 수정하기
   deletePost: (postId) => api.delete(`/auth/post/${postId}`), // 게시글 삭제하기
+
+  likePost: (postId) => api.post(`/auth/likes/${postId}`),
 };
 
 export const commentAPI = {
