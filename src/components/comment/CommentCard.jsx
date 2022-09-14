@@ -25,7 +25,6 @@ export default function CommentCard(props) {
 
   const deleteComment = () => {
     if (window.confirm("삭제하실건가욥...?")) {
-      console.log("댓글 삭제!");
       dispatch(deleteComments(props.id));
     } else {
       alert("휴");
@@ -35,10 +34,8 @@ export default function CommentCard(props) {
   const editBtn = (e) => {
     console.log("수정하기");
     if (e.target.innerText === "수정") {
-      console.log("수정이에오");
       setEditCheck("취소");
     } else {
-      console.log("취소에옹");
       setEditCheck("수정");
     }
   };
@@ -49,6 +46,7 @@ export default function CommentCard(props) {
   };
 
   let editData = {
+    // profile_image:"imageUrl"
     nickname: props.nickname,
     content: editInput,
     postId: props.postId,
@@ -61,6 +59,7 @@ export default function CommentCard(props) {
     setEditCheck("수정");
   };
 
+  // 본인의 댓글인 경우 수정/삭제 가능(내 댓글 표시 추가)
   if (props.isEditable === true) {
     return (
       <ListItem alignItems="flex-start">

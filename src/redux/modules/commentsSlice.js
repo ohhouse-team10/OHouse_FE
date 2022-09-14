@@ -18,6 +18,7 @@ export const getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/comments`);
+      // const { data } = await axios.get(`${BASE_URL}/${payload}/comments`);
       return thunkAPI.fulfillWithValue([...data]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -30,8 +31,8 @@ export const getEachComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/${payload}`);
-      console.log("data", data);
-      return thunkAPI.fulfillWithValue(data);
+      // const { data } = await axios.get(`${BASE_URL}/${payload}`);
+      return thunkAPI.fulfillWithValue([...data]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -44,7 +45,6 @@ export const addComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.post(`${BASE_URL}/comments`, payload);
-      console.log("data", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (errer) {
       return thunkAPI.rejectWithValue(errer);
@@ -130,12 +130,16 @@ export const CommentsSlice = createSlice({
       );
       state.comments = newState;
       return state;
+      state.comments = newState;
+      return state;
     },
     [deleteComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       const newState = state.comments.filter(
         (item) => item.id !== action.meta.arg
       );
+      state.comments = newState;
+      return state;
       state.comments = newState;
       return state;
     },

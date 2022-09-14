@@ -1,31 +1,32 @@
-import { React, useRef } from "react";
+import { React, useState } from "react";
 import styled from "styled-components";
+import Preview from "./Preview";
 
-const Textbox = () => {
-  const fileInput = useRef(null);
-  const imageUpload = () => {
-    fileInput.current.click();
-  };
+const Textbox = ({ contentInfo, imgInfo }) => {
+  const [content, setContent] = useState("");
+  const [img, setImg] = useState("");
+
   const handleChange = (e) => {
-    console.log(e.target.files[0]);
+    setImg(e.target.files[0]);
+    imgInfo(e.target.files[0]);
   };
 
-  const contentInput = useRef(null);
   const textareaHandler = (e) => {
-    e.preventDefault();
-    console.log("textarea" + contentInput);
+    setContent(e.target.value); // content 받고
+    contentInfo(e.target.value); // props에 담고
   };
 
   return (
     <Divboxes>
       <Divleft>
         <input
+          id="imgInput"
           type="file"
-          ref={fileInput}
           onChange={handleChange}
           style={{ display: "none" }}
         />
-        <Photo onClick={imageUpload}>
+
+        <Photo htmlFor="imgInput">
           <svg
             width="48"
             height="48"
@@ -37,6 +38,7 @@ const Textbox = () => {
           </svg>
           <span>사진 올리기</span>
           <span>(*최대 10장까지)</span>
+          <Preview img={img} />
         </Photo>
       </Divleft>
       <Divright>
@@ -60,16 +62,16 @@ const Textbox = () => {
           <Option value="13">외관&amp;기타</Option>
         </Select4>
         <Textarea
-          onchange={textareaHandler}
-          ref={contentInput}
+          onChange={textareaHandler}
           field="[object Object]"
           name="description"
           placeholder="사진에 대해 설명해주세요."
           rows="6"
         ></Textarea>
-        {/* <button onSubmit={textareaHandler}> add </button> */}
         <Footbox>#키워드</Footbox>
       </Divright>
+
+      {/* <img src={img} alt="pre" /> */}
     </Divboxes>
   );
 };
@@ -90,7 +92,7 @@ const Divleft = styled.div`
   width: 49.5%;
   /* margin: 1%; */
 `;
-const Photo = styled.button`
+const Photo = styled.label`
   cursor: pointer;
   font: inherit;
   margin: 0;
