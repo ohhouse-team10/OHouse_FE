@@ -46,6 +46,7 @@ export default function CommentCard(props) {
   };
 
   let editData = {
+    // profile_image:"imageUrl"
     nickname: props.nickname,
     content: editInput,
     postId: props.postId,

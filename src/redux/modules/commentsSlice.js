@@ -18,6 +18,7 @@ export const getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/comments`);
+      // const { data } = await axios.get(`${BASE_URL}/${payload}/comments`);
       return thunkAPI.fulfillWithValue([...data]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -30,7 +31,8 @@ export const getEachComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${BASE_URL}/${payload}`);
-      return thunkAPI.fulfillWithValue(data);
+      // const { data } = await axios.get(`${BASE_URL}/${payload}`);
+      return thunkAPI.fulfillWithValue([...data]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-
 import "./pagenation.css";
 import CommentList from "./CommentList";
 
@@ -46,6 +45,7 @@ export default function Comment() {
   };
 
   let data = {
+    // profile_image:"imageUrl"
     nickname: "닉네임",
     content: commentInput,
     isEditable: true,
@@ -53,7 +53,6 @@ export default function Comment() {
   };
 
   const addComment = () => {
-    console.log("댓글 추가!");
     dispatch(addComments(data));
     setDisabled(true);
     document.getElementById("commentEnter").value = "";
@@ -63,7 +62,7 @@ export default function Comment() {
 
   return (
     <CommentLayout>
-      <hr style={{ height: "1px", backgroundColor: "rgb(234, 237, 239)" }} />
+      <HeadLine />
       <section>
         <div>
           <p>
@@ -89,7 +88,7 @@ export default function Comment() {
           itemsCountPerPage={5}
           totalItemsCount={allCommentsCnt === undefined ? 1 : allCommentsCnt}
           // totalItemsCount={50}
-          pageRangeDisplayed={5}
+          // pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}
           onChange={handlePageChange}
@@ -98,6 +97,23 @@ export default function Comment() {
     </CommentLayout>
   );
 }
+
+const HeadLine = styled.hr`
+  display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    margin: 0px;
+    margin-top:40px;
+    margin-bottom:48px;
+    padding: 0px;
+    height: 1px;
+    border: none;
+    background-color: rgb(234, 237, 239);
+`
 
 const CommentLayout = styled.div`
   margin-right: auto;
