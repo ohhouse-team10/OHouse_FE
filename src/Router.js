@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Post from "./pages/Post";
 import Community from "./pages/Community";
 import Comment from "./components/comment/Comment";
+import DetailPage from "./pages/DetailPage";
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
         <Route path="/post" element={<Post />} />
         <Route path="/community" element={<Community />} />
         <Route path="/comment" element={<Comment />} />
+        <Route path="/detail/" element={<DetailPage />} />
       </Routes>
     </BrowserRouter>
   );
