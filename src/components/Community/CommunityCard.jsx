@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
@@ -7,8 +7,8 @@ import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import { _likepost } from "../../redux/modules/PostSlice";
-import { _deletelikepost} from "../../redux/modules/PostSlice";
+import { _likepost, } from "../../redux/modules/PostSlice";
+import { _deletelikepost, } from "../../redux/modules/PostSlice";
 import {useDispatch} from "react-redux"
 import { useSelector } from "react-redux";
 
@@ -24,6 +24,7 @@ const CommunityCard = ({post}) => {
     content,
     post_id,
     isLike,
+  
   } = post;
 
  
@@ -69,21 +70,23 @@ const CommunityCard = ({post}) => {
   const [joinCount, setJoinCount] = useState(0);
   const likeHandler = (e) => {
     e.preventDefault();
-    
+    if (joinCount >0) {
     setJoinCount(joinCount + 1);
+    }
     setLike(!like);
  dispatch( _likepost(post_id));
   };
 
   const cencelHandler = (e) => {
     e.preventDefault();
-    if (joinCount > 0) {
+    if (joinCount >0) {
       setJoinCount(joinCount - 1);
     }
     setLike(!like);
-    dispatch( _deletelikepost(post_id)); if(!like)alert("좋아요 취소하시겠습니까?")
+    dispatch( _deletelikepost(post_id));
   
   };
+ 
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -138,7 +141,7 @@ const CommunityCard = ({post}) => {
       <span onClick={() => navigate("/detail")}>
       <div className="card-image" style={{overflow: "hidden"}}>
         <Img
-          src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
+         hover src={thumbnail}
           alt="Placeholder image"
         />
       </div>
@@ -150,18 +153,16 @@ const CommunityCard = ({post}) => {
         <Media className="media">
           <div className="media-left" style={{display: "flex"}}>
             {!isLike ? (
-              <JoinBtn src={emptyheart} onClick={likeHandler}></JoinBtn>
+              <JoinBtn src={emptyheart} onClick={(e)=>likeHandler(e)}></JoinBtn>
             ) : 
             (
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
             )
             }
 
-            {/* {like ? ( <Like onClick={likeHandler}>♥️</Like> 
-) : (
-   <Like onClick={likeHandler}>♡</Like> )} */}
 
-            <div style={{margin: "6px"}}>{like_num + joinCount}</div>
+
+            <div style={{margin: "6px"}}>{like_num}</div>
           </div>
         </Media>
         <Media className="media">
