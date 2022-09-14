@@ -123,6 +123,7 @@ const RegisterForm = () => {
         nickname: nickname,
       })
     );
+    navigate("/login");
   };
 
   /** Temp Console */
