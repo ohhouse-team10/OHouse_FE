@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+
 
 import "./pagenation.css";
 import CommentList from "./CommentList";
@@ -11,41 +12,26 @@ import { useParams } from "react-router-dom";
 
 import Pagination from "react-js-pagination";
 
-const Paging = () => {
-  const [page, setPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setPage(page);
-  };
-
-  return (
-    <Pagination
-      activePage={page}
-      itemsCountPerPage={5}
-      totalItemsCount={450}
-      pageRangeDisplayed={5}
-      prevPageText={"<"}
-      nextPageText={">"}
-      onChange={handlePageChange}
-      style={{}}
-    />
-  );
-};
-
 export default function Comment() {
   const param = useParams();
   const dispatch = useDispatch();
 
   const [disabled, setDisabled] = useState(true);
   const [commentInput, setCommentInput] = useState("");
-  const [allCommentsCnt, setAllCommentsCnt] = useState(0);
+  const [allCommentsCnt, setAllCommentsCnt] = useState(1);
+
+  const [page, setPage] = useState(1);
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
 
   useEffect(() => {
     dispatch(getComments());
   }, [dispatch]);
   const commentList = useSelector((state) => state.comments.comments);
-  let newList = commentList;
-  console.log(newList);
+  let newList =
+    commentList && commentList.filter((element) => element.postId === 1);
+  // id는 파라미터자리
 
   useEffect(() => {
     setAllCommentsCnt(newList && newList.length);
@@ -66,14 +52,12 @@ export default function Comment() {
   const addComment = () => {
     console.log("댓글 추가!");
     dispatch(addComments(data));
-    document.getElementById("commentEnter").value = "";
     setDisabled(true);
-
-    dispatch(getComments());
+    document.getElementById("commentEnter").value = "";
   };
 
   return (
-    <>
+    <CommentLayout>
       <hr style={{ height: "1px", backgroundColor: "rgb(234, 237, 239)" }} />
       <section>
         <div>
@@ -94,12 +78,32 @@ export default function Comment() {
             </ButtonStyle>
           </InputBox>
         </FormStyle>
-        <CommentList />
-        <Paging />
+        {/* <Suspense> */}
+          <CommentList page={page} />
+        {/* </Suspense> */}
+        <Pagination
+          activePage={page}
+          // itemsCountPerPage={5}
+          totalItemsCount={allCommentsCnt === undefined ? 1 : allCommentsCnt}
+          // totalItemsCount={50}
+          pageRangeDisplayed={5}
+          prevPageText={"<"}
+          nextPageText={">"}
+          onChange={handlePageChange}
+        />
       </section>
-    </>
+    </CommentLayout>
   );
 }
+
+const CommentLayout = styled.div`
+  margin-right: auto;
+  margin-left: auto;
+  width: 1136px;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 1px;
+`;
 
 const FormStyle = styled.form`
   position: relative;
@@ -140,9 +144,9 @@ const InputBox = styled.div`
   }
 `;
 const InputStyle = styled.input`
-  max-width: 500px;
-  min-width: 100px;
-  width: 500px;
+  max-width: 90%;
+  min-width: 30%;
+  width: 1000px;
   height: 39px;
   float: left;
   margin: auto;
