@@ -1,12 +1,39 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 
-const TOS = () => {
-  const [allAgree, setAllAgree] = useState(false);
+const TOS = ({bringPassInfo}) => {
+  /** CheckBox Handler */
   const [items, setItems] = useState([]);
 
-  const allAgreeHandler = () => {};
-  const agreeHandler = () => {};
+  const allAgreeHandler = (event) => {
+    if (event.target.checked) {
+      setItems(["0", "1", "2", "3", "4"]);
+    } else {
+      setItems([]);
+    }
+  };
+  const agreeHandler = (event) => {
+    if (items.includes(event.target.value)) {
+      setItems(items.filter((item) => item != event.target.value));
+    } else {
+      setItems([...items, event.target.value]);
+    }
+  };
+  const isCheck = (value) => {
+    return items.includes(value);
+  };
+  console.log(items);
+  /** PASS */
+  const [pass, setPass] = useState(false);
+
+  useEffect(() => {
+    setPass(
+      items.includes("0") && items.includes("1") && items.includes("2")
+        ? true
+        : false
+    );
+    bringPassInfo(pass);
+  }, [items, pass, setPass]);
 
   return (
     <>
@@ -29,9 +56,10 @@ const TOS = () => {
           <label>
             <input
               type="checkbox"
-              value="false"
+              value="0"
               name="agree1"
               onChange={agreeHandler}
+              checked={isCheck("0")}
             ></input>
             <span>만 14세 이상입니다.</span>
             <span id="option-blue">(필수)</span>
@@ -39,28 +67,52 @@ const TOS = () => {
         </Container>
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agree2"></input>
+            <input
+              type="checkbox"
+              value="1"
+              name="agree2"
+              onChange={agreeHandler}
+              checked={isCheck("1")}
+            ></input>
             <span>이용약관</span>
             <span id="option-blue">(필수)</span>
           </label>
         </Container>
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agree3"></input>
+            <input
+              type="checkbox"
+              value="2"
+              name="agree3"
+              onChange={agreeHandler}
+              checked={isCheck("2")}
+            ></input>
             <span>개인정보수집 및 이용동의</span>
             <span id="option-blue">(필수)</span>
           </label>
         </Container>
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agree4"></input>
+            <input
+              type="checkbox"
+              value="3"
+              name="agree4"
+              onChange={agreeHandler}
+              checked={isCheck("3")}
+            ></input>
             <span>개인정보 마케팅 활용 동의</span>
             <span id="option">(선택)</span>
           </label>
         </Container>
         <Container>
           <label>
-            <input type="checkbox" value="false" name="agree5"></input>
+            <input
+              type="checkbox"
+              value="4"
+              name="agree5"
+              onChange={agreeHandler}
+              checked={isCheck("4")}
+            ></input>
             <span>이벤트, 쿠폰, 특가 알림 메일 및 SMS 등 수신</span>
             <span id="option">(선택)</span>
           </label>

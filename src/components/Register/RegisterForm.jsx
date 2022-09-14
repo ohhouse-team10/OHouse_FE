@@ -91,38 +91,50 @@ const RegisterForm = () => {
     isMatchedPassword(password1, password2)
   );
 
+  /** BRING PASS INFO */
+  const [pass, setPass] = useState(false);
+  const bringPassInfo = (bool) => {
+    setPass(bool);
+  };
+
   /** Button Click Event */
 
   const emailRef = useRef(null);
   const pw1Ref = useRef(null);
   const pw2Ref = useRef(null);
+  const tosRef = useRef(null);
   useEffect(() => {
     // ref는 항상 존재여부를 검사하고 사용해야 한다(단축평가 Good!)
     const emailInit = emailRef.current;
     const pw1Init = pw1Ref.current;
     const pw2Init = pw2Ref.current;
+    const tosInit = tosRef.current;
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!isValidEmail || !isValidPW || !isMatchedPW) {
+    if (!isValidEmail || !isValidPW || !isMatchedPW || !pass) {
       if (!isValidEmail) {
         emailRef.current.focus();
       } else if (!isValidPW) {
         pw1Ref.current.focus();
-      } else {
+      } else if (!isMatchedPW) {
         pw2Ref.current.focus();
+      } else {
+        alert("필수 항목에 동의해 주세요!");
       }
       return;
     }
     const emailString = mergeEmailId(id, email);
-    dispatch(
+    const response = await dispatch(
       __register({
         email: emailString,
         password: password1,
         nickname: nickname,
       })
     );
+    // Error Code가 오면 return logic 추가
+    // Duplicate Error
     navigate("/login");
   };
 
@@ -222,7 +234,10 @@ const RegisterForm = () => {
             />
             <ErrorMsg></ErrorMsg>
           </InputField>
-          <TOS />
+          <div>
+            <TOS bringPassInfo={bringPassInfo} />
+            {!pass ? <ErrorMsg>필수 항목에 동의해주세요.</ErrorMsg> : null}
+          </div>
           <Button type="submit" btnName={"회원가입하기"} />
         </Form>
         <LoginQuestion>
