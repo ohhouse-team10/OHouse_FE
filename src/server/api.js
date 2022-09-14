@@ -40,7 +40,6 @@ export const postAPI = {
   getPostAll: () => api.get("/post/all"), // 모든 게시글 가져오기
   getPostInfinite: (page) =>
     api.get(`/post?page=${page}&size=6&sort=createdAt,desc`), // // 게시글 가져오기(InfiniteScroll)
-  // writePost: (request) => api.post("/auth/post", request), // 게시글 작성하기
   writePost: (request) =>
     api.post("/auth/post", request, {
       headers: { "Content-Type": `multipart/form-data` },

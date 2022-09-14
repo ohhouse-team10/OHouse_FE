@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -28,16 +27,23 @@ const PostContainer = () => {
   const imgInfo = (img) => {
     setImg(img);
   };
-  const addPost = {
-    // style: style, BE요청후에 추가
-    // type: type,
-    image: img,
-    content: content,
-  };
+
+  // BE요청 후 수정 / 추가
+  // const addPost = {
+  //   // style: style,
+  //   // type: type,
+  //   // image: img,
+  //   content: content,
+  // };
 
   const addClickHandler = () => {
-    dispatch(_addPost(addPost));
-    console.log("_addPost요청", addPost);
+    let formData = new FormData();
+    formData.append(
+      "content",
+      new Blob([JSON.stringify(content)], { type: "application/json" })
+    );
+    formData.append("image", img);
+    dispatch(_addPost(formData));
   };
 
   return (
