@@ -7,6 +7,10 @@ import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import { _likepost } from "../../redux/modules/PostSlice";
+import { _deletelikepost} from "../../redux/modules/PostSlice";
+import {useDispatch} from "react-redux"
+import { useSelector } from "react-redux";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -22,6 +26,7 @@ const CommunityCard = ({post}) => {
     isLike,
   } = post;
 
+ 
   // const data = {
   //    nickname:nickname,
   //    like_num:like_num,
@@ -54,18 +59,20 @@ const CommunityCard = ({post}) => {
 
   //하트토글
 
-  //  const likeHandler = (e) => { e.preventDefault()
-  //  const updateLike = { id, like: !like }
-  //   dispatch(__updateMusic(updateLike)) if(!like)alert("liked!") };
 
-  const [like, setLike] = useState(true);
+
+  const dispatch = useDispatch();
+
+
+
+  const [like, setLike] = useState(isLike);
   const [joinCount, setJoinCount] = useState(0);
-
   const likeHandler = (e) => {
     e.preventDefault();
+    
     setJoinCount(joinCount + 1);
     setLike(!like);
-    // axios.post("/post", { postId: id });
+ dispatch( _likepost(post_id));
   };
 
   const cencelHandler = (e) => {
@@ -74,7 +81,8 @@ const CommunityCard = ({post}) => {
       setJoinCount(joinCount - 1);
     }
     setLike(!like);
-    // axios.post("/post", { postId: id });
+    dispatch( _deletelikepost(post_id)); if(!like)alert("좋아요 취소하시겠습니까?")
+  
   };
 
   //북마크토글
@@ -141,11 +149,13 @@ const CommunityCard = ({post}) => {
       <Buttons>
         <Media className="media">
           <div className="media-left" style={{display: "flex"}}>
-            {like ? (
+            {!isLike ? (
               <JoinBtn src={emptyheart} onClick={likeHandler}></JoinBtn>
-            ) : (
+            ) : 
+            (
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
-            )}
+            )
+            }
 
             {/* {like ? ( <Like onClick={likeHandler}>♥️</Like> 
 ) : (

@@ -53,10 +53,10 @@ const { list, hasMore, isLoading } = useFetch(pageNum);
       <Div className="col-sm-4 col-xs-12"
     
       >
-         {post.map((post) => (
+         {post.map((p) => (
         <CommunityCard className="card"  
-         key={post.id}
-         post={post}
+         key={p.content}
+         post={p}
        />
          
          ))}  
