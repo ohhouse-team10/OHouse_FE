@@ -1,30 +1,28 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Preview = ({ img }) => {
-  //   let blob = new Blob([new ArrayBuffer(img)], { type: "image/*" });
+  const reader = new FileReader();
+  const file = img;
+  const [imgSrc, setImgSrc] = useState("");
 
-  console.log("pre img", img);
+  console.log("file", file);
 
-  //   const imgSrc = URL.createObjectURL(img);
-
-  //   const encodeFileToBase64 = (fileBlob) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(fileBlob);
-  //     return new Promise((resolve) => {
-  //       reader.onload = () => {
-  //         resolve();
-  //       };
-  //     });
-  //   };
-
-  //   const imgSrc = encodeFileToBase64(img);
-  //   console.log("imgSrc", imgSrc);
+  useEffect(() => {
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        console.log(reader.result);
+        setImgSrc(reader.result);
+      };
+    }
+  });
 
   return (
     <div>
-      <PreviewImage src={img} />
-      preview compo
+      <PreviewImage src={imgSrc} />
     </div>
   );
 };
@@ -32,9 +30,8 @@ const Preview = ({ img }) => {
 export default Preview;
 
 const PreviewImage = styled.img`
-  /* height: 48px; */
-  /* width: 48px; */
+  height: 80px;
+  width: 100px;
 
   border: 1px dashed red;
-  /* background-image: url(img); */
 `;
