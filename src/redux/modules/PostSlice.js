@@ -30,7 +30,6 @@ export const getInfiniteList = createAsyncThunk(
       const {data} = await api.get(
         `/post?page=${payload}&size=6&sort=createdAt,desc`
       ); //3의 배수
-      console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -62,7 +61,7 @@ const post = createSlice({
     },
 
     [getInfiniteList.pending]: (state) => {
-      console.log("확인"); // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
+      state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
 
     [getInfiniteList.fulfilled]: (state, action) => {
