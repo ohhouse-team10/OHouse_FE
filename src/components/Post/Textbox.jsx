@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import styled from "styled-components";
+import Preview from "./Preview";
 
 const Textbox = ({ contentInfo, imgInfo }) => {
   const [content, setContent] = useState("");
@@ -24,6 +25,7 @@ const Textbox = ({ contentInfo, imgInfo }) => {
           onChange={handleChange}
           style={{ display: "none" }}
         />
+
         <Photo htmlFor="imgInput">
           <svg
             width="48"
@@ -36,6 +38,7 @@ const Textbox = ({ contentInfo, imgInfo }) => {
           </svg>
           <span>사진 올리기</span>
           <span>(*최대 10장까지)</span>
+          <Preview img={img} />
         </Photo>
       </Divleft>
       <Divright>
@@ -67,6 +70,8 @@ const Textbox = ({ contentInfo, imgInfo }) => {
         ></Textarea>
         <Footbox>#키워드</Footbox>
       </Divright>
+
+      {/* <img src={img} alt="pre" /> */}
     </Divboxes>
   );
 };
