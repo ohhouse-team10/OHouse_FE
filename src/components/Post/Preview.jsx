@@ -1,30 +1,27 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Preview = ({ img }) => {
-  //   let blob = new Blob([new ArrayBuffer(img)], { type: "image/*" });
+  const reader = new FileReader();
+  const file = img;
 
-  console.log("pre img", img);
+  const [imgSrc, setImgSrc] = useState("");
 
-  //   const imgSrc = URL.createObjectURL(img);
-
-  //   const encodeFileToBase64 = (fileBlob) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(fileBlob);
-  //     return new Promise((resolve) => {
-  //       reader.onload = () => {
-  //         resolve();
-  //       };
-  //     });
-  //   };
-
-  //   const imgSrc = encodeFileToBase64(img);
-  //   console.log("imgSrc", imgSrc);
+  useEffect(() => {
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        console.log(reader.result);
+        setImgSrc(reader.result);
+      };
+    }
+  });
 
   return (
     <div>
-      <PreviewImage src={img} />
-      preview compo
+      <PreviewImage src={imgSrc} />
     </div>
   );
 };
@@ -32,9 +29,7 @@ const Preview = ({ img }) => {
 export default Preview;
 
 const PreviewImage = styled.img`
-  /* height: 48px; */
-  /* width: 48px; */
-
-  border: 1px dashed red;
-  /* background-image: url(img); */
+  /* position: absolute; */
+  height: 80px;
+  width: 80px;
 `;

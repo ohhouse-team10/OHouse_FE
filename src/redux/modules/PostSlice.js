@@ -63,14 +63,16 @@ export const getInfiniteList = createAsyncThunk(
   }
 );
 
-// post요청
+// 게시글post요청
 export const _addPost = createAsyncThunk(
   "post/posts",
   async (payload, thunkAPI) => {
     try {
       console.log("payload", payload);
+
       const data = await postAPI.writePost(payload);
       console.log(data);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
