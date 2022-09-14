@@ -7,8 +7,10 @@ import Selectbox from "../Post/Selectbox";
 import Textbox from "../Post/Textbox";
 import Button from "../Layout/Button";
 import { _addPost } from "../../redux/modules/PostSlice";
+import { useNavigate } from "react-router-dom";
 
 const PostContainer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [type, setType] = useState("");
   const [style, setStyle] = useState("");
@@ -53,6 +55,8 @@ const PostContainer = () => {
     }
     // console.log("formData", formData);
     dispatch(_addPost(formData));
+
+    navigate("/community");
   };
 
   return (
