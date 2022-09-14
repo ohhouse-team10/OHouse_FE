@@ -14,6 +14,7 @@ const PostContainer = () => {
   const [type, setType] = useState("");
   const [style, setStyle] = useState("");
   const [content, setContent] = useState("");
+  const [img, setImg] = useState("");
 
   const typeInfo = (type) => {
     setType(type);
@@ -24,11 +25,13 @@ const PostContainer = () => {
   const contentInfo = (content) => {
     setContent(content);
   };
-
+  const imgInfo = (img) => {
+    setImg(img);
+  };
   const addPost = {
     // style: style, BE요청후에 추가
     // type: type,
-    image: "",
+    image: img,
     content: content,
   };
 
@@ -40,7 +43,7 @@ const PostContainer = () => {
   return (
     <Wraper>
       <Selectbox typeInfo={typeInfo} styleInfo={styleInfo} />
-      <Textbox contentInfo={contentInfo} />
+      <Textbox contentInfo={contentInfo} imgInfo={imgInfo} />
       <BtnBox onClick={addClickHandler}>
         <Button btnName={"올리기"} />
       </BtnBox>

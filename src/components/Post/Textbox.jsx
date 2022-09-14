@@ -1,16 +1,13 @@
 import { React, useRef, useState } from "react";
 import styled from "styled-components";
 
-const Textbox = ({ contentInfo }) => {
+const Textbox = ({ contentInfo, imgInfo }) => {
   const [content, setContent] = useState("");
-
-  const fileInput = useRef(null);
-  const imageUpload = () => {
-    fileInput.current.click();
-  };
+  const [img, setImg] = useState("");
 
   const handleChange = (e) => {
-    console.log(e.target.files[0]);
+    setImg(e.target.files[0]);
+    imgInfo(e.target.files[0]);
   };
 
   const textareaHandler = (e) => {
@@ -22,12 +19,12 @@ const Textbox = ({ contentInfo }) => {
     <Divboxes>
       <Divleft>
         <input
+          id="imgInput"
           type="file"
-          ref={fileInput}
           onChange={handleChange}
           style={{ display: "none" }}
         />
-        <Photo onClick={imageUpload}>
+        <Photo htmlFor="imgInput">
           <svg
             width="48"
             height="48"
@@ -90,7 +87,7 @@ const Divleft = styled.div`
   width: 49.5%;
   /* margin: 1%; */
 `;
-const Photo = styled.button`
+const Photo = styled.label`
   cursor: pointer;
   font: inherit;
   margin: 0;
