@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Selectbox from "../Post/Selectbox";
 import Textbox from "../Post/Textbox";
 import Button from "../Layout/Button";
-import { _addPost } from "../../redux/modules/addPostSlice";
+import { _addPost } from "../../redux/modules/PostSlice";
 
 const PostContainer = () => {
   const dispatch = useDispatch();
@@ -25,19 +25,15 @@ const PostContainer = () => {
     setContent(content);
   };
 
-  console.log("setType =", type);
-  console.log("setStyle =", style);
-  console.log("setContent =", content);
-
   const addPost = {
-    style: style,
-    type: type,
-    // image : image,
+    // style: style, BE요청후에 추가
+    // type: type,
+    image: "",
     content: content,
   };
 
   const addClickHandler = () => {
-    // dispatch(_addPost(addPost));
+    dispatch(_addPost(addPost));
     console.log("_addPost요청", addPost);
   };
 

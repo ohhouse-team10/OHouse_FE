@@ -17,7 +17,6 @@ const Textbox = ({ contentInfo }) => {
     setContent(e.target.value); // content 받고
     contentInfo(e.target.value); // props에 담고
   };
-  // console.log("content" + content);
 
   return (
     <Divboxes>
