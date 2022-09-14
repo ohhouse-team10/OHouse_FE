@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-
 import "./pagenation.css";
 import CommentList from "./CommentList";
 
@@ -13,7 +12,6 @@ import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
 
 export default function Comment() {
-
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -28,12 +26,11 @@ export default function Comment() {
   };
 
   useEffect(() => {
-    dispatch(getComments());
+    dispatch(getComments({ id: param.id }));
   }, [dispatch]);
   const commentList = useSelector((state) => state.comments.comments);
   let newList =
-    commentList && commentList.filter((element) => element.postId === 1);
-  // id는 파라미터자리
+    commentList && commentList.filter((element) => element)[0].data;
 
   // 댓글개수 확인
   useEffect(() => {
@@ -46,21 +43,26 @@ export default function Comment() {
   };
 
   let data = {
-    // profile_image:"imageUrl"
     nickname: "닉네임",
     content: commentInput,
     isEditable: true,
-    postId: 1,
+    id: param.id,
   };
 
   const addComment = () => {
-    dispatch(addComments(data));
+    dispatch(addComments(
+      {
+        nickname:JSON.parse(window.localStorage.user).userInfo.nickname,
+        content: commentInput,
+        isEditable: true,
+        id: param.id,
+      }
+    ));
     setDisabled(true);
     document.getElementById("commentEnter").value = "";
   };
 
-
-
+  // console.log(JSON.parse(window.localStorage.user).userInfo.nickname)
   return (
     <CommentLayout>
       <HeadLine />
@@ -83,7 +85,7 @@ export default function Comment() {
             </ButtonStyle>
           </InputBox>
         </FormStyle>
-          <CommentList page={page} />
+        <CommentList page={page} />
         <Pagination
           activePage={page}
           itemsCountPerPage={5}
@@ -101,20 +103,20 @@ export default function Comment() {
 
 const HeadLine = styled.hr`
   display: block;
-    unicode-bidi: isolate;
-    margin-block-start: 0.5em;
-    margin-block-end: 0.5em;
-    margin-inline-start: auto;
-    margin-inline-end: auto;
-    overflow: hidden;
-    margin: 0px;
-    margin-top:40px;
-    margin-bottom:48px;
-    padding: 0px;
-    height: 1px;
-    border: none;
-    background-color: rgb(234, 237, 239);
-`
+  unicode-bidi: isolate;
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  overflow: hidden;
+  margin: 0px;
+  margin-top: 40px;
+  margin-bottom: 48px;
+  padding: 0px;
+  height: 1px;
+  border: none;
+  background-color: rgb(234, 237, 239);
+`;
 
 const CommentLayout = styled.div`
   margin-right: auto;

@@ -127,7 +127,7 @@ const CommunityCard = ({post}) => {
       </Media>
 
 
-      <span onClick={() => navigate("/detail")}>
+      <span onClick={() => navigate(`/detail/${post_id}`)}>
       <div className="card-image" style={{overflow: "hidden"}}>
         <Img
           src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"

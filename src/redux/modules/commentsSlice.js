@@ -1,5 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { SignalCellularNoSimOutlined } from "@mui/icons-material";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { commentAPI } from "../../server/api";
 
 const BASE_URL = "http://localhost:3001";
 
@@ -17,22 +19,9 @@ export const getComments = createAsyncThunk(
   "GET_ALL_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/comments`);
-      // const { data } = await axios.get(`${BASE_URL}/${payload}/comments`);
-      return thunkAPI.fulfillWithValue([...data]);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-// [GET - 특정ID를 가진 Comments 데이터만 조회]
-export const getEachComment = createAsyncThunk(
-  "GET_Comments",
-  async (payload, thunkAPI) => {
-    try {
-      const { data } = await axios.get(`${BASE_URL}/${payload}`);
-      // const { data } = await axios.get(`${BASE_URL}/${payload}`);
-      return thunkAPI.fulfillWithValue([...data]);
+      // const { data } = await axios.get(`${BASE_URL}/comments`);
+      const { data } = await commentAPI.getComment(payload.id);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -44,8 +33,13 @@ export const addComments = createAsyncThunk(
   "POST_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${BASE_URL}/comments`, payload);
-      return thunkAPI.fulfillWithValue(data);
+      // const { data } = await axios.post(`${BASE_URL}/comments`, payload);
+      const { data } = await commentAPI.postComment(
+        { content: payload.content },
+        payload.id
+      );
+      console.log(data);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (errer) {
       return thunkAPI.rejectWithValue(errer);
     }
@@ -57,13 +51,17 @@ export const updateComments = createAsyncThunk(
   "UPDATAE_Comments",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
-      const response = await axios.put(
-        `${BASE_URL}/comments/${payload.id}`,
-        payload
+      // console.log(payload);
+      // const response = await axios.put(
+      //   `${BASE_URL}/comments/${payload.id}`,
+      //   payload
+      // );
+      const { data } = await commentAPI.putComment(
+        { content: payload.content },
+        payload.comment_id
       );
-      console.log("response", response);
-      return thunkAPI.fulfillWithValue(response.data);
+      console.log("data", data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -75,7 +73,8 @@ export const deleteComments = createAsyncThunk(
   "DELETE_Comments",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`${BASE_URL}/comments/${payload}`);
+      // await axios.delete(`${BASE_URL}/comments/${payload}`);
+      await commentAPI.deleteComment(payload.comment_id);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -97,9 +96,6 @@ export const CommentsSlice = createSlice({
     [getComments.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getEachComment.pending]: (state, action) => {
-      state.isLoading = true;
-    },
     [addComments.pending]: (state, action) => {
       state.isLoading = true;
     },
@@ -109,46 +105,40 @@ export const CommentsSlice = createSlice({
     /* Fulfilled */
     [getComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments = [...action.payload];
-      console.log("[comment 전체 데이터 조회]", state.comments);
-    },
-    [getEachComment.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.comments = [...action.payload];
-      // console.log("[comment 개별데이터 조회 ]", state.comments);
+      state.comments = [action.payload];
+      console.log(state);
     },
     [addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.comments.push(action.payload);
+      state.comments[0].data = state.comments[0].data
+        .concat(action.payload)
+        .map((item) => item);
+      return state;
     },
     [updateComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const newState = state.comments.map((item) =>
-        action.payload.id === item.id
-          ? { ...item, content: action.payload.content }
+      console.log(current(state));
+      console.log(action);
+
+      const newState = state.comments[0].data.map((item) =>
+        action.meta.arg.comment_id === item.comment_id
+          ? { ...item, content: action.meta.arg.content }
           : item
       );
-      state.comments = newState;
-      return state;
-      state.comments = newState;
+      state.comments[0].data = newState;
+      console.log(current(state));
       return state;
     },
     [deleteComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const newState = state.comments.filter(
-        (item) => item.id !== action.meta.arg
+      const newState = state.comments[0].data.filter(
+        (item) => item.comment_id !== action.payload.comment_id
       );
-      state.comments = newState;
-      return state;
-      state.comments = newState;
+      state.comments[0].data = newState;
       return state;
     },
     /* Rejected */
     [getComments.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    [getEachComment.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
