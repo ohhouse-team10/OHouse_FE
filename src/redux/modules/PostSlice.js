@@ -1,6 +1,7 @@
 import axios from "axios";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../server/api";
+
 const initialState = {
   post: [],
   isLoading: false,
@@ -27,7 +28,7 @@ export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
   async (payload, thunkAPI) => {
     try {
-      const {data} = await api.get(
+      const { data } = await api.get(
         `/post?page=${payload}&size=6&sort=createdAt,desc`
       ); //3의 배수
       console.log(data.data);
@@ -75,4 +76,4 @@ const post = createSlice({
   },
 });
 export default post.reducer;
-export const {initial} = post.actions; // 액션내보내기
+export const { initial } = post.actions; // 액션내보내기

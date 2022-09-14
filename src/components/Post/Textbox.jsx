@@ -1,20 +1,23 @@
-import { React, useRef } from "react";
+import { React, useRef, useState } from "react";
 import styled from "styled-components";
 
-const Textbox = () => {
+const Textbox = ({ contentInfo }) => {
+  const [content, setContent] = useState("");
+
   const fileInput = useRef(null);
   const imageUpload = () => {
     fileInput.current.click();
   };
+
   const handleChange = (e) => {
     console.log(e.target.files[0]);
   };
 
-  const contentInput = useRef(null);
   const textareaHandler = (e) => {
-    e.preventDefault();
-    console.log("textarea" + contentInput);
+    setContent(e.target.value); // content 받고
+    contentInfo(e.target.value); // props에 담고
   };
+  // console.log("content" + content);
 
   return (
     <Divboxes>
@@ -60,14 +63,12 @@ const Textbox = () => {
           <Option value="13">외관&amp;기타</Option>
         </Select4>
         <Textarea
-          onchange={textareaHandler}
-          ref={contentInput}
+          onChange={textareaHandler}
           field="[object Object]"
           name="description"
           placeholder="사진에 대해 설명해주세요."
           rows="6"
         ></Textarea>
-        {/* <button onSubmit={textareaHandler}> add </button> */}
         <Footbox>#키워드</Footbox>
       </Divright>
     </Divboxes>
