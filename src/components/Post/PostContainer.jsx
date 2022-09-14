@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Selectbox from "../Post/Selectbox";
 import Textbox from "../Post/Textbox";
 import Button from "../Layout/Button";
+import { _addPost } from "../../redux/modules/addPostSlice";
 
 const PostContainer = () => {
   const dispatch = useDispatch();
@@ -28,19 +29,23 @@ const PostContainer = () => {
   console.log("setStyle =", style);
   console.log("setContent =", content);
 
-  const addPost = [
-    // type,style,content (+file) 다 담아놓고 한번에 post
-  ];
+  const addPost = {
+    style: style,
+    type: type,
+    // image : image,
+    content: content,
+  };
 
-  useEffect(() => {
-    // dispatch(보내는slice(addPost));
-  }, []);
+  const addClickHandler = () => {
+    // dispatch(_addPost(addPost));
+    console.log("_addPost요청", addPost);
+  };
 
   return (
     <Wraper>
       <Selectbox typeInfo={typeInfo} styleInfo={styleInfo} />
       <Textbox contentInfo={contentInfo} />
-      <BtnBox>
+      <BtnBox onClick={addClickHandler}>
         <Button btnName={"올리기"} />
       </BtnBox>
     </Wraper>
@@ -50,7 +55,6 @@ const PostContainer = () => {
 export default PostContainer;
 
 const Wraper = styled.div`
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,6 +72,6 @@ const Wraper = styled.div`
 const BtnBox = styled.div`
   position: absolute;
   right: 30px;
-  bottom: -50px;
+  bottom: -55px;
   width: 100px;
 `;

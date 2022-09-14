@@ -6,7 +6,7 @@ import PostContainer from "../components/Post/PostContainer";
 const Post = () => {
   return (
     <Layout footer={false} header={true}>
-      <PostContainer></PostContainer>
+      <PostContainer />
     </Layout>
   );
 };
