@@ -29,20 +29,29 @@ const PostContainer = () => {
   };
 
   // BE요청 후 수정 / 추가
+
   const addPost = {
-    // style: style,
-    // type: type,
-    image: img,
+    style: style,
+    type: type,
     content: content,
   };
 
   const addClickHandler = () => {
+    // console.log("addPost", addPost);
+    console.log("addPost", addPost);
+
     let formData = new FormData();
     formData.append(
-      "addPost",
+      "data",
       new Blob([JSON.stringify(addPost)], { type: "application/json" })
     );
-    formData.append("image", img);
+
+    formData.append("file", img);
+
+    for (let i of formData.entries()) {
+      console.log("i", i[1]);
+    }
+    // console.log("formData", formData);
     dispatch(_addPost(formData));
   };
 

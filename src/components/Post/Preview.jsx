@@ -29,6 +29,7 @@ const Preview = ({ img }) => {
 export default Preview;
 
 const PreviewImage = styled.img`
+  /* position: absolute; */
   height: 80px;
-  width: 100px;
+  width: 80px;
 `;
