@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import api from "../../server/api";
 const initialState = {
     post: [
      
@@ -8,6 +8,8 @@ const initialState = {
     ],
     isLoading: false,
     error: null,
+    last : false,
+    totalPage:0
 };
 
 
@@ -30,8 +32,8 @@ export const getInfiniteList = createAsyncThunk(
     "house/getInfiniteList ",
     async (payload, thunkAPI) => {
         try {
-            const data = await axios.get(`http://localhost:3001/post?_limit=6&_page=${payload}`); //3의 배수
-            // console.log(data.data);
+            const {data} = await api.get(`/post?page=${payload}&size=6&sort=createdAt,desc`); //3의 배수
+            console.log(data.data);
           return thunkAPI.fulfillWithValue(data.data);
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
@@ -42,15 +44,15 @@ export const getInfiniteList = createAsyncThunk(
 
 
 
+
 const post = createSlice({
     name: "post",
     initialState,
     reducers: {
 
-     initial:(state,action) =>{
-     return initialState
-     
-     }   
+    //  initial:(state,action) =>{
+    //  return initialState
+    //  }   
      
 
 
@@ -78,8 +80,10 @@ const post = createSlice({
 
         [getInfiniteList.fulfilled]: (state, action) => {
             state.isLoading = false;
-            state.post  =[...state.post, ...action.payload];
-            console.log(state.post);
+            state.post  =[...state.post, ...action.payload.content];
+            state.last = action.payload.last;
+            state.totalPage = action.payload.totalPages;
+            console.log(action.payload.content);
         },
 
       

@@ -14,7 +14,7 @@ const  CommunityCardList = () => {
 //무한스크롤 구현 
 
 
-const [pageNum, setPageNum] = useState(1);
+const [pageNum, setPageNum] = useState(0);
 
 const observerRef = useRef();
 
@@ -38,12 +38,12 @@ const observer = (node) => {
  const {post} = useSelector ((state) =>state.post)
 
  //초기화진행 포스트 슬라이스 리듀서 불러옴
- useEffect(() => {
+//  useEffect(() => {
 
-  dispatch(initial());
-  console.log("초기화진행",pageNum)
+//   dispatch(initial());
+//   console.log("초기화진행",pageNum)
  
- }, []);
+//  }, []);
 
 const { list, hasMore, isLoading } = useFetch(pageNum);
 
@@ -56,7 +56,7 @@ const { list, hasMore, isLoading } = useFetch(pageNum);
          {post.map((post) => (
         <CommunityCard className="card"  
          key={post.id}
-       post={post}
+         post={post}
        />
          
          ))}  

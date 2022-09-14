@@ -10,6 +10,9 @@ const useFetch = (page) => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const {last,totalPage}= useSelector(state => state.post);
+  console.log(totalPage)
+  console.log(last)
 
 
   //query API 요청 보내기
@@ -19,10 +22,11 @@ const useFetch = (page) => {
       
       let response = await dispatch(getInfiniteList(page));
       response = response.payload
+      console.log(response)
       
    
     //   setList((prev) => [...new Set([...prev, ...response])]);
-      setHasMore(response.length > 0);
+      setHasMore(page<=totalPage);
       setIsLoading(false);
     } catch (e) {
       throw new Error(`오류입니다. ${e.message}`);
@@ -34,7 +38,7 @@ const useFetch = (page) => {
   {sendQuery()
  setIsLoading(true)}
 
-  }, [sendQuery, page]);
+  }, [sendQuery,page]);
 
   return { hasMore,
     // list,
