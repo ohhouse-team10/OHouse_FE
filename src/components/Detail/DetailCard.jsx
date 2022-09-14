@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 
 const DetailCard = () => {
- const { id } = useParams();
 
 
 

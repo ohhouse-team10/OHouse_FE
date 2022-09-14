@@ -1,13 +1,64 @@
-import React from 'react';
+
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import { color } from '@mui/system';
-import "../../style/slideStyle.css";
 
-import { useEffect } from 'react';
+import "../../style/slideStyle.css";
+import React, { useState, useRef, useEffect } from 'react';
+
+
 
 
 const MainRecommendCard = ({ posts }) => {
+
+  const delay = 2000;
+const [currentSlide, setCurrentSlide] = useState(0);
+  const slideRef = useRef(null);
+  const TOTAL_SLIDES=3
+const [index, setIndex] = React.useState(0);
+  
+
+//자동 구현중
+    // React.useEffect(() => {
+    //   setTimeout(
+    //     () =>
+    //       setIndex((prevIndex) =>
+    //         prevIndex === TOTAL_SLIDES - 1 ? 0 : prevIndex +1
+    //       ),
+    //     delay
+    //   );
+  
+    //   return () => {};
+    // }, [index]);
+
+
+
+
+  
+// Next 버튼 클릭 시
+const NextSlide = () => {
+  if (currentSlide >= TOTAL_SLIDES) {
+    // 더 이상 넘어갈 슬라이드가 없으면
+    setCurrentSlide(0); // 1번째 사진으로 넘어갑니다.
+    // return;  // 클릭이 작동하지 않습니다.
+  } else {
+    setCurrentSlide(currentSlide + 1);
+  }
+};
+// Prev 버튼 클릭 시
+const PrevSlide = () => {
+  if (currentSlide < TOTAL_SLIDES) {
+    setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
+    // return;  // 클릭이 작동하지 않습니다.
+  } else {
+    setCurrentSlide(currentSlide - 1);
+  }
+};
+useEffect(() => {
+  slideRef.current.style.transition = 'all 0.5s ease-in-out';
+  slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+}, [currentSlide]);
+
+
 
 
 
@@ -43,10 +94,11 @@ const MainRecommendCard = ({ posts }) => {
                 color: "#ffffff",
                 position: "relative",
                 bottom: "28%",
+                width: "120px",
                 height: "50px",
               }}
             >
-              Outlined
+              보러가기
             </Button>
           </Div>
         </Left>
@@ -58,52 +110,58 @@ const MainRecommendCard = ({ posts }) => {
         }}
  
         >
-  
-   <div className='container'>
-      <div className='slides'>
-        <div className='slide'>
-        <img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262124262191325.png"
+     
+   < Container className='container'>
       
-        />
-        </div>
-        <div className='slide'>
-        <img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262164701257920.png"
-      
-        />
-        </div>
-        <div className='slide'>
-        <img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262122173492571.png"
+      <div className='slides' ref={slideRef}>
+
        
-        />
+
+        <div className='slide'>
+        <a href="https://ohou.se/exhibitions/2683?affect_type=Home&affect_id=0" target="_blank">
+        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262124262191325.png"/>
+        </a>
+         </div>
+       
+
+        <div className='slide'>
+        <a href="https://ohou.se/competitions/807?affect_type=Home&affect_id=0" target="_blank">
+        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262164701257920.png"/>
+        </a>
+         </div>
+
+        <div className='slide'>
+        <a href="https://ohou.se/exhibitions/2667?affect_type=Home&affect_id=0" target="_blank">
+        <img 
+        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262122173492571.png"/>
+           </a> 
         </div>
+
        <div className='slide'>
-        <img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166262124262191325.png"
-    
-        />
+       <a href="https://ohou.se/competitions/799?affect_type=Home&affect_id=0" target="_blank">
+       <img
+        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/banners/home_banner/166216891267911371.png" />
+        </a>
+        </div>
+
+     
        </div>
+    <div className="slide-controls">
 
-    </div>
- <div className="slide-controls">
-  <button id="prev-btn">
-  <img
-        src="https://velog.velcdn.com/images/soonger3306/post/908f22fd-fa75-4199-acf9-438662ab7d4e/image.png"
-        style={{height: "50px", width: "50px", float: "right"}}
-        />
-  </button>
-  <button id="next-btn">
-  <img
-        src="https://velog.velcdn.com/images/soonger3306/post/f884d60d-ab5b-4689-8cd9-96f72e6418a2/image.png"
-        style={{height: "50px", width: "50px", float: "right"}}
-        />
-  </button>
-
- </div>
-
-  </div>
+        <button id="prev-btn" onClick={PrevSlide}>
+        <img
+              src="https://velog.velcdn.com/images/soonger3306/post/908f22fd-fa75-4199-acf9-438662ab7d4e/image.png"
+              style={{height: "50px", width: "50px", float: "right"}}
+              />
+        </button>
+        <button id="next-btn" onClick={NextSlide}>
+        <img 
+              src="https://velog.velcdn.com/images/soonger3306/post/f884d60d-ab5b-4689-8cd9-96f72e6418a2/image.png"
+              style={{height: "50px", width: "50px", float: "right"}}
+              />
+        </button>
+         </div>
+         </ Container>
 
         </Right>
       </Card> 
@@ -174,6 +232,13 @@ const Right = styled.div`
   float: right;
   border-radius: 10px;
   box-sizing: border-box;
-  background: #8799c1;
+
   overflow: hidden;
+`;
+const Container = styled.div`
+  width: 60%;
+
+  display: flex;
+  width: 100%;
+  display: flex;// 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
 `;
