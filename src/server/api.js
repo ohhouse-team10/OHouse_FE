@@ -53,8 +53,8 @@ export const postAPI = {
   getPost: (postId) => api.get(`/post/${postId}`), // 게시글 하나 가져오기
   putPost: (request, postId) => api.put(`/auth/post/${postId}`, request), // 게시글 수정하기
   deletePost: (postId) => api.delete(`/auth/post/${postId}`), // 게시글 삭제하기
-
-  likePost: (postId) => api.post(`/auth/likes/${postId}`),
+  likePost: (postId) => api.post(`/auth/likes/${postId}`), //좋아요
+  deletelikePost: (postId) => api.delete(`/auth/likes/${postId}`), //좋아요 삭제하기
 };
 
 export const commentAPI = {
