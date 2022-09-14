@@ -30,8 +30,8 @@ const PostContainer = () => {
 
   // BE요청 후 수정 / 추가
   const addPost = {
-    style: style,
-    type: type,
+    // style: style,
+    // type: type,
     image: img,
     content: content,
   };
