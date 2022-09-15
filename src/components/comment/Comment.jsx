@@ -42,12 +42,6 @@ export default function Comment() {
     commentInput.length > 0 ? setDisabled(false) : setDisabled(true);
   };
 
-  let data = {
-    nickname: "닉네임",
-    content: commentInput,
-    isEditable: true,
-    id: param.id,
-  };
 
   const addComment = () => {
     dispatch(addComments(
@@ -62,7 +56,6 @@ export default function Comment() {
     document.getElementById("commentEnter").value = "";
   };
 
-  // console.log(JSON.parse(window.localStorage.user).userInfo.nickname)
   return (
     <CommentLayout>
       <HeadLine />
@@ -90,8 +83,6 @@ export default function Comment() {
           activePage={page}
           itemsCountPerPage={5}
           totalItemsCount={allCommentsCnt === undefined ? 1 : allCommentsCnt}
-          // totalItemsCount={50}
-          // pageRangeDisplayed={5}
           prevPageText={"<"}
           nextPageText={">"}
           onChange={handlePageChange}

@@ -43,7 +43,6 @@ export default function CommentCard(props) {
 
   const editInputText = (e) => {
     setEditInput(e.target.value);
-    console.log(editInput);
   };
 
   let editData = {
