@@ -24,20 +24,6 @@ export const getHouseList = createAsyncThunk(
   }
 );
 
-//디테일 get 요청 구현중.
-export const getDetailPage = createAsyncThunk(
-  "travel/getDetailPage ",
-  async (post_id, thunkAPI) => {
-    try {
-      const data = await api.get(`/post/${post_id}`);
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
 //무한스크롤
 export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
@@ -71,10 +57,7 @@ export const _getDetail = createAsyncThunk(
   "travel/getDetail ",
   async (post_id, thunkAPI) => {
     try {
-      console.log("post_id =", post_id);
       const data = await postAPI.getPost(post_id);
-      console.log(data.data);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -88,7 +71,7 @@ export const _likepost = createAsyncThunk(
   async (post_id, thunkAPI) => {
     try {
       const {data} = await postAPI.likePost(post_id);
-
+      console.log("get request");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

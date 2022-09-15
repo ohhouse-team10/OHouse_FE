@@ -1,54 +1,55 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { _getDetail } from "../../redux/modules/PostSlice";
+import {useState} from "react";
+import {_getDetail} from "../../redux/modules/PostSlice";
+import {useQuery} from "react-query";
+import {useParams} from "react-router-dom";
+import {postAPI} from "../../server/api";
 
 const DetailCard = () => {
-  const dispatch = useDispatch();
-  //팔로우토글 손봐야함
+  const {id} = useParams();
+
+  const getDetail = async (id) => {
+    const response = await postAPI.getPost(id);
+    return response;
+  };
+
+  const {data, isLoading} = useQuery("detail", () => getDetail(id), {
+    staleTime: 0,
+    retry: 1,
+    keepPreviousData: true,
+  });
+  const detailInfo = data?.data?.data;
+
+  // follow 수정필
   const [follow, setFollow] = useState(true);
   const [followCount, setFollowCount] = useState(false);
-
   const followeHandler = (e) => {
     e.preventDefault();
     setFollowCount(followCount + 1);
-    //   setFollowCount(followCount == isFollow);
     setFollow(!follow);
-    // axios.post("/post", { postId: id });
   };
-
   const cancelfollowHandler = (e) => {
     e.preventDefault();
     if (followCount > 0) {
       setFollowCount(followCount - 1);
-      // setFollowCount(followCount == isFollow);
     }
     setFollow(!follow);
-    // axios.post("/post", { postId: id });
   };
-
-  useEffect(() => {
-    dispatch(_getDetail());
-    console.log("get request");
-  }, [dispatch]);
-
+  if (isLoading) return;
   return (
     <Card className="card-image">
       <Contentcard>
         <Font>평수</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
-        <Font>주거형태</Font>&nbsp;
+        <Font>{detailInfo.type}</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
-        <Font>스타일</Font>&nbsp;
+        <Font>{detailInfo.style}</Font>&nbsp;
       </Contentcard>
 
-      <Img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
-        alt="Placeholder image"
-      />
-      <Contentcard style={{ marginBottom: "40px" }}>
-        (코멘트 부분) 😎😎😎
+      <Img src={detailInfo.thumbnail} alt="Placeholder image" />
+      <Contentcard style={{marginBottom: "40px"}}>
+        {detailInfo.content}
       </Contentcard>
 
       <BorderLine class="border">
@@ -56,7 +57,7 @@ const DetailCard = () => {
           <div className="media-left">
             <img
               src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
-              alt="Placeholdser image"
+              alt="Placeholdser"
               style={{
                 width: "40px",
                 height: "40px",
@@ -65,17 +66,15 @@ const DetailCard = () => {
             />
           </div>
           <div className="media-content">
-            <div style={{ display: "flex" }}>
-              <h3
-                style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}
-              >
+            <div style={{display: "flex"}}>
+              <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold"}}>
                 닉네임
               </h3>
             </div>
             <h6>@soonger</h6>
           </div>
         </ProfileLayout>
-        <div style={{ float: "right", marginLeft: "auto" }}>
+        <div style={{float: "right", marginLeft: "auto"}}>
           {follow ? (
             <Follow onClick={followeHandler}>
               <h5>＋팔로우</h5>

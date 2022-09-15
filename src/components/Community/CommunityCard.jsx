@@ -62,6 +62,7 @@ const CommunityCard = ({post}) => {
 
   const [like, setLike] = useState(isLike);
   const [joinCount, setJoinCount] = useState(0);
+
   const likeHandler = (e) => {
     e.preventDefault();
     if (joinCount > 0) {
