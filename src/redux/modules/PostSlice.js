@@ -66,6 +66,22 @@ export const _addPost = createAsyncThunk(
   }
 );
 
+// 디테일 get
+export const _getDetail = createAsyncThunk(
+  "travel/getDetail ",
+  async (post_id, thunkAPI) => {
+    try {
+      console.log("post_id =", post_id);
+      const data = await postAPI.getPost(post_id);
+      console.log(data.data);
+
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 //좋아요 요청
 export const _likepost = createAsyncThunk(
   "like/post",
@@ -82,10 +98,11 @@ export const _likepost = createAsyncThunk(
 
 export const _deletelikepost = createAsyncThunk(
   "like/delete",
-  async (post_id, thunkAPI) => {
+  async (payload, thunkAPI) => {
     try {
-      await postAPI.deletelikePost(post_id);
-      return thunkAPI.fulfillWithValue(post_id);
+      const {data} = await postAPI.deletelikePost(payload);
+
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -96,9 +113,9 @@ const post = createSlice({
   name: "post",
   initialState,
   reducers: {
-    //  initial:(state,action) =>{
-    //  return initialState
-    //  }
+    initial: (state, action) => {
+      return initialState;
+    },
   },
   extraReducers: {
     // getHouseList Thunk
@@ -161,7 +178,11 @@ const post = createSlice({
     },
     [_deletelikepost.fulfilled]: (state, action) => {
       state.success = false;
-      state.post = state.post.filter((like) => like.id !== action.payload);
+      const newState = state.post.map((p) =>
+        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+      );
+      state.post = newState;
+      return state;
     },
     [_deletelikepost.rejected]: (state, action) => {
       state.success = false;
