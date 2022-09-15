@@ -148,7 +148,7 @@ const RegisterForm = () => {
       })
     );
 
-    if (response?.error.message === "Rejected") {
+    if (response.error && response.error.message === "Rejected") {
       alert("중복된 이메일 입니다!");
       return;
     }

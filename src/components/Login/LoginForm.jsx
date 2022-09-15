@@ -27,7 +27,7 @@ const LoginForm = () => {
     const {payload} = await dispatch(
       __userLogin({email: email, password: password})
     );
-    if (payload.data.isSuccess) {
+    if (payload.data?.isSuccess) {
       navigate("/");
     } else {
       sendErrorMsg(payload.data.message);
