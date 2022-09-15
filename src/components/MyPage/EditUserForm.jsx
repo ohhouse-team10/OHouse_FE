@@ -28,14 +28,14 @@ const EditUserForm = () => {
     event.preventDefault();
     const data = {
       nickname: nickName,
-      statusMessage: statusMessage,
+      status_message: statusMessage,
     };
     let formData = new FormData();
     formData.append(
       "data",
       new Blob([JSON.stringify(data)], {type: "application/json"})
     );
-    formData.append("profile_image", img);
+    formData.append("file", img);
     dispatch(__userUpdate(formData));
     navigate("/");
   };
@@ -56,7 +56,7 @@ const EditUserForm = () => {
         <FormItem title={"홈페이지"} disable={true} />
         <FormItem title={"생년월일"} disable={true} />
         <FormItem
-          title={"프로필 이미지(URL)"}
+          title={"프로필 이미지"}
           getInfo={getImg}
           required={true}
           isImg={true}

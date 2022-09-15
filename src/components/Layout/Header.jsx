@@ -98,9 +98,9 @@ const Header = () => {
                     <AddShoppingCartIcon />
                     <ProfileImage
                       src={
-                        state.userInfo.profile_image === ""
+                        state.userInfo?.profile_image === ""
                           ? defaultImage
-                          : state.userInfo.profile_image
+                          : state.userInfo?.profile_image
                       }
                       onClick={() => onSetIsOpen("mypage")}
                     />
