@@ -39,7 +39,7 @@ const DetailCard = () => {
   }, []);
 
   return (
-    <Card className="card-image">
+    <Card>
       <Contentcard>
         <Font>평수</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
@@ -56,9 +56,9 @@ const DetailCard = () => {
         (코멘트 부분) 😎😎😎
       </Contentcard>
 
-      <BorderLine class="border">
+      <BorderLine>
         <ProfileLayout>
-          <div className="media-left">
+          <div>
             <img
               src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
               alt="Placeholdser"
@@ -69,7 +69,7 @@ const DetailCard = () => {
               }}
             />
           </div>
-          <div className="media-content">
+          <div>
             <div style={{ display: "flex" }}>
               <h3
                 style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}
@@ -99,7 +99,7 @@ const DetailCard = () => {
 export default DetailCard;
 
 const Card = styled.div`
-  border: 1px dashed red;
+  /* border: 1px dashed red; */
   margin: auto;
   width: 100%;
   height: 100%;
@@ -107,7 +107,7 @@ const Card = styled.div`
 
 const BorderLine = styled.div`
   border: 1px solid black;
-  background-color: red;
+  /* background-color: red; */
 
   list-style: none;
   display: flex;
@@ -119,7 +119,7 @@ const BorderLine = styled.div`
   height: 40px;
 `;
 const ProfileLayout = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
 
   display: flex;
   margin: 5px;
@@ -141,7 +141,7 @@ const Img = styled.img`
   align-items: center;
 `;
 const Contentcard = styled.div`
-  background-color: purple;
+  /* background-color: purple; */
 
   display: flex;
   margin: auto;
