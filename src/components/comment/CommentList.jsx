@@ -13,15 +13,18 @@ export default function CommentList(props) {
   const [loading, setLoading] = useState(true);
   const [pagingDataSet, setPagingDataSet] = useState([]);
 
-  // 게시글 ID에 해당하는 댓글 목록만 호출
   useEffect(() => {
     dispatch(getComments({ id: param.id }));
-  }, [dispatch]);
+  }, [props.page]);
+  // 게시글 ID에 해당하는 댓글 목록만 호출
   const data = useSelector((state) => state.comments.comments);
   let newData = data && data.filter((element) => element)[0].data;
   // let newData = data && data.filter((element) => element.postId === 1);
   // 파라미터자리 filter
-
+  
+  useEffect(() => {
+    dispatch(getComments({ id: param.id }));
+  }, []);
   // 데이터 인입보다 렌더링이 먼저될 떄 경우 처리
   useEffect(() => {
     if (newData !== undefined) {
@@ -29,7 +32,7 @@ export default function CommentList(props) {
       setLoading(false);
     } else {
     }
-  }, [props.page, data]);
+  }, [props.page, data,dispatch]);
 
   // 한 페이지에 보여줄 배열들의 인덱스 & 데이터 패치
   let indexArr = [0, 1, 2, 3, 4];
@@ -73,3 +76,4 @@ export default function CommentList(props) {
     </>
   );
 }
+

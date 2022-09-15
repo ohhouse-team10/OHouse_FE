@@ -1,14 +1,27 @@
 
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-
+import {useDispatch, useSelector} from "react-redux";
 import "../../style/slideStyle.css";
 import React, { useState, useRef, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 
 
 
+const MainRecommendCard = ({post}) => {
+  const navigate = useNavigate();
+  const {
+    thumbnail,
+    nickname,
+    like_num,
+    statusMessage,
+    isFollow,
+    content,
+    post_id,
+    isLike,
+  } = post;
 
-const MainRecommendCard = ({ posts }) => {
+  console.log(nickname)
 
   const delay = 2000;
 const [currentSlide, setCurrentSlide] = useState(0);
@@ -73,7 +86,7 @@ useEffect(() => {
         }}
         >
           <Div>
-              <H1>해당페이지 제목 </H1>
+              <H1>따뜻한 정서가 담긴 신혼 부부의 공존(共存) 하우스 </H1>
               
                <Div2>
                 <Img
@@ -81,11 +94,11 @@ useEffect(() => {
                   className="rounded float-start"
                   alt="..."
                 />
-                <h3 style={{marginLeft: "10px", color: "white"}}> 닉네임</h3>
+                <h3 style={{marginLeft: "10px", color: "white"}}>{nickname}</h3>
               </Div2>
 
               <br />
-      
+              <span onClick={() => navigate(`/detail/${post_id}`)}>
             <Button
               variant="outlined"
               style={{
@@ -100,6 +113,7 @@ useEffect(() => {
             >
               보러가기
             </Button>
+            </span>
           </Div>
         </Left>
 
@@ -201,7 +215,7 @@ const Div2 = styled.div`
 const H1 = styled.h1`
   margin: 20px;
   color: white;
-  font-size: 40px;
+  font-size: 20px;
 `;
 
 const Img = styled.img`

@@ -5,14 +5,15 @@ import emptyheart from "../../image/emptyheart.png";
 import fillbookmark from "../../image/bookmarkfill.png";
 import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { _likepost } from "../../redux/modules/PostSlice";
-import { _deletelikepost } from "../../redux/modules/PostSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 
-const CommunityCard = ({ post }) => {
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {_likepost} from "../../redux/modules/PostSlice";
+import {_deletelikepost} from "../../redux/modules/PostSlice";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
+
+const CommunityCard = ({post}) => {
   const navigate = useNavigate();
 
   const {
@@ -69,7 +70,7 @@ const CommunityCard = ({ post }) => {
       setJoinCount(joinCount + 1);
     }
     setLike(!like);
-    dispatch(_likepost(post_id));
+    dispatch(_likepost(post_id,like_num));
   };
 
   const cencelHandler = (e) => {
@@ -80,6 +81,10 @@ const CommunityCard = ({ post }) => {
     setLike(!like);
     dispatch(_deletelikepost(post_id));
   };
+
+//   useEffect(() => {
+//     dispatch(_likepost());
+// }, [like_num]);
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -120,9 +125,10 @@ const CommunityCard = ({ post }) => {
                 letterSpacing: "-1px",
               }}
             >
+
               {nickname}
             </h3>
-
+     
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (

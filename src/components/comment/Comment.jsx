@@ -27,7 +27,7 @@ export default function Comment() {
 
   useEffect(() => {
     dispatch(getComments({ id: param.id }));
-  }, [dispatch]);
+  }, []);
   const commentList = useSelector((state) => state.comments.comments);
   let newList =
     commentList && commentList.filter((element) => element)[0].data;
@@ -54,7 +54,12 @@ export default function Comment() {
     ));
     setDisabled(true);
     document.getElementById("commentEnter").value = "";
+    
   };
+
+  useEffect(() => {
+    dispatch(getComments({ id: param.id }));
+  }, [allCommentsCnt]);
 
   return (
     <CommentLayout>

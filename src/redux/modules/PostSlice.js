@@ -24,6 +24,35 @@ export const getHouseList = createAsyncThunk(
   }
 );
 
+//인기많은 게시글 가져오기 
+export const _topRankingHouse = createAsyncThunk(
+  "house/topRankingHouse ",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await postAPI.getPostAll();
+      // console.log(data.data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
+//디테일 get 요청 구현중.
+export const getDetailPage = createAsyncThunk(
+  "travel/getDetailPage ",
+  async (post_id, thunkAPI) => {
+    try {
+      const data = await api.get(`/post/${post_id}`);
+      console.log(data.data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 //무한스크롤
 export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
@@ -129,6 +158,7 @@ const post = createSlice({
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },
+    
 
     [getInfiniteList.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
@@ -139,13 +169,16 @@ const post = createSlice({
       state.last = action.payload.last;
       state.totalPage = action.payload.totalPages;
     },
-
+    [getInfiniteList.rejected]: (state, action) => {
+      state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
+      state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
+    },
     [_addPost.pending]: (state) => {
       state.isLoading = true;
     },
     [_addPost.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.posts = action.payload;
+     
     },
     [_addPost.rejected]: (state, action) => {
       state.isLoading = false;
@@ -158,7 +191,8 @@ const post = createSlice({
     [_likepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-        action.meta.arg === p.post_id ? { ...p, isLike: !p.isLike } : p
+
+        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike,  like_num: p.like_num+1  } : p
       );
       state.post = newState;
       return state;
@@ -177,7 +211,8 @@ const post = createSlice({
     [_deletelikepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-        action.meta.arg === p.post_id ? { ...p, isLike: !p.isLike } : p
+
+        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike,like_num: p.like_num-1} : p
       );
       state.post = newState;
       return state;
@@ -185,7 +220,26 @@ const post = createSlice({
     [_deletelikepost.rejected]: (state, action) => {
       state.success = false;
       state.error = action.payload;
+    },   
+    
+    //인기글
+  
+    [_topRankingHouse.pending]: (state) => {
+      state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
+    [_topRankingHouse.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.post = action.payload;
+      // console.log(state);
+    },
+    [_topRankingHouse.rejected]: (state, action) => {
+      state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
+      state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
+    },
+    
+
+
+
   },
 });
 export default post.reducer;
