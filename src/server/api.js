@@ -32,17 +32,18 @@ api.interceptors.response.use(
   },
   function (error) {
     // 오류 응답을 처리
-    try {
-      if (error.response.data.code === "EXPIRED_TOKEN") {
-        return api.request(error.config);
+    if (error.response && error.response.data.code === "EXPIRED_TOKEN") {
+      try {
+        const originalRequest = error.config;
+        localStorage.removeItem("user");
+        // 이따가 리프레시토큰을 검사하는 주소 물어보기
+      } catch (error) {
+        removeAccessToken();
+        removeRefreshToken();
+        localStorage.removeItem("user");
+        window.location.href = "/login";
       }
-    } catch (error) {
-      removeAccessToken();
-      removeRefreshToken();
-      localStorage.removeItem("user");
-      window.location.href = "/login";
     }
-    console.log(error.response);
     return Promise.reject(error);
   }
 );

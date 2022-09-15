@@ -111,7 +111,14 @@ const CommunityCard = ({post}) => {
         </div>
         <div className="media-content">
           <div style={{display: "flex"}}>
-            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold"}}>
+            <h3
+              style={{
+                margin: "1px",
+                fontSize: "18px",
+                fontWeight: "bold",
+                letterSpacing: "-1px",
+              }}
+            >
               {nickname}
             </h3>
 

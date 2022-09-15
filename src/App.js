@@ -3,13 +3,17 @@ import {AnimatePresence} from "framer-motion";
 import "./style/font.css";
 import {Reset} from "styled-reset";
 import {useDispatch} from "react-redux";
-import {loadUser} from "./redux/modules/userSlice";
+import {loadUser, __userLogOut} from "./redux/modules/userSlice";
 import {useEffect} from "react";
+import {getAccessToken} from "./server/cookie";
 
 function App() {
   const dispatch = useDispatch();
   /** STAY SIGNED IN */
   const staySignedIn = () => {
+    if (!getAccessToken()) {
+      dispatch(__userLogOut());
+    }
     try {
       const user = localStorage.getItem("user");
       if (!user) return;
