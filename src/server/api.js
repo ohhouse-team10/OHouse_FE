@@ -1,9 +1,11 @@
 import axios from "axios";
+
 import {getRefreshToken, getAccessToken} from "./cookie";
 import {removeAccessToken, removeRefreshToken} from "./cookie";
 import {setAccessToken, setRefreshToken} from "./cookie";
 
-const BASE_URL = " http://3.38.162.168";
+// const BASE_URL = " http://3.38.162.168"; //개발용
+const BASE_URL = " https://sparta-jk.shop"; //배포test
 
 const api = axios.create({
   baseURL: BASE_URL,
