@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "../components/Layout/Layout";
+import MainList from "../components/Main/MainList";
 
 import MainRecommendCard from "../components/Main/MainRecommendCard";
 import MainMidNav from "../components/Main/MainMidNav";
@@ -11,6 +12,7 @@ const MainPage = () => {
       <MainRecommendCard />
       <MainMidNav />
       <MainCategory />
+      <MainList/>
     </Layout>
   );
 };
