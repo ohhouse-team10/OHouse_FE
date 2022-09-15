@@ -102,10 +102,11 @@ export const _likepost = createAsyncThunk(
 
 export const _deletelikepost = createAsyncThunk(
   "like/delete",
-  async (post_id, thunkAPI) => {
-      try {await postAPI.deletelikePost(post_id);
+  async (payload, thunkAPI) => {
+      try {
+        const {data} = await postAPI.deletelikePost(payload);
           
-          return thunkAPI.fulfillWithValue(post_id);
+          return thunkAPI.fulfillWithValue(payload);
       } catch (error) {
           return thunkAPI.rejectWithValue(error);
       }
@@ -118,9 +119,9 @@ const post = createSlice({
   name: "post",
   initialState,
   reducers: {
-    //  initial:(state,action) =>{
-    //  return initialState
-    //  }
+     initial:(state,action) =>{
+     return initialState
+     }
   },
   extraReducers: {
     // getHouseList Thunk
@@ -166,14 +167,11 @@ const post = createSlice({
       },
       [_likepost.fulfilled]: (state, action) => {
         state.success = false;
-        const newState = state.post.map((p)=>{
-          if(action.payload.arg === p.post_id)p.isLike = !p.isLike
-        })
-        state.post = newState
-         return state  
-
-      
-        console.log("ㅎㅎ",action);
+        const newState = state.post.map((p) =>
+          action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        );
+        state.post = newState;
+        return state;
       },
 
       [_likepost.rejected]: (state, action) => {
@@ -188,9 +186,11 @@ const post = createSlice({
       },
       [ _deletelikepost.fulfilled]: (state, action) => {
           state.success = false;
-          state.post = state.posts.filter(
-              (like) => like.id !== action.payload
-          );
+          const newState = state.post.map((p) =>
+          action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        );
+        state.post = newState;
+        return state;
       },
       [ _deletelikepost.rejected]: (state, action) => {
           state.success = false;
