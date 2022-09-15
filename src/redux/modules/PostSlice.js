@@ -2,6 +2,18 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../server/api";
 import { postAPI } from "../../server/api";
+import {userAPI} from "../../server/api";
+
+import {
+  setAccessToken,
+  getAccessToken,
+  removeAccessToken,
+  setRefreshToken,
+  getRefreshToken,
+  removeRefreshToken,
+} from "../../server/cookie";
+
+
 
 const initialState = {
   post: [],
@@ -72,13 +84,44 @@ export const _addPost = createAsyncThunk(
   }
 );
 
+//좋아요 요청 
+export const _likepost = createAsyncThunk(
+  "like/post",
+  async (post_id, thunkAPI) => {
+
+      try {
+          const {data} = await postAPI.likePost(post_id);
+
+       return thunkAPI.fulfillWithValue(data.data);
+      } catch (error) {
+          return thunkAPI.rejectWithValue(error);
+      }
+  }
+);
+
+
+export const _deletelikepost = createAsyncThunk(
+  "like/delete",
+  async (payload, thunkAPI) => {
+      try {
+        const {data} = await postAPI.deletelikePost(payload);
+          
+          return thunkAPI.fulfillWithValue(payload);
+      } catch (error) {
+          return thunkAPI.rejectWithValue(error);
+      }
+  }
+);
+
+
+
 const post = createSlice({
   name: "post",
   initialState,
   reducers: {
-    //  initial:(state,action) =>{
-    //  return initialState
-    //  }
+     initial:(state,action) =>{
+     return initialState
+     }
   },
   extraReducers: {
     // getHouseList Thunk
@@ -118,6 +161,42 @@ const post = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+      //좋아요 
+      [_likepost.pending]: (state) => {
+        state.success = true;
+      },
+      [_likepost.fulfilled]: (state, action) => {
+        state.success = false;
+        const newState = state.post.map((p) =>
+          action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        );
+        state.post = newState;
+        return state;
+      },
+
+      [_likepost.rejected]: (state, action) => {
+        state.success = false;
+        state.error = action.payload.data;
+      },
+
+     //좋아요 삭제하기 
+    
+        [ _deletelikepost.pending]: (state) => {
+          state.success = true;
+      },
+      [ _deletelikepost.fulfilled]: (state, action) => {
+          state.success = false;
+          const newState = state.post.map((p) =>
+          action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        );
+        state.post = newState;
+        return state;
+      },
+      [ _deletelikepost.rejected]: (state, action) => {
+          state.success = false;
+          state.error = action.payload;
+      },
+
   },
 });
 export default post.reducer;

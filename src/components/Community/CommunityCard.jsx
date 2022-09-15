@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
@@ -7,6 +7,10 @@ import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import { _likepost, } from "../../redux/modules/PostSlice";
+import { _deletelikepost, } from "../../redux/modules/PostSlice";
+import {useDispatch} from "react-redux"
+import { useSelector } from "react-redux";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -20,8 +24,10 @@ const CommunityCard = ({post}) => {
     content,
     post_id,
     isLike,
+  
   } = post;
 
+ 
   // const data = {
   //    nickname:nickname,
   //    like_num:like_num,
@@ -54,28 +60,33 @@ const CommunityCard = ({post}) => {
 
   //하트토글
 
-  //  const likeHandler = (e) => { e.preventDefault()
-  //  const updateLike = { id, like: !like }
-  //   dispatch(__updateMusic(updateLike)) if(!like)alert("liked!") };
 
-  const [like, setLike] = useState(true);
+
+  const dispatch = useDispatch();
+
+
+
+  const [like, setLike] = useState(isLike);
   const [joinCount, setJoinCount] = useState(0);
-
   const likeHandler = (e) => {
     e.preventDefault();
+    if (joinCount >0) {
     setJoinCount(joinCount + 1);
+    }
     setLike(!like);
-    // axios.post("/post", { postId: id });
+ dispatch( _likepost(post_id));
   };
 
   const cencelHandler = (e) => {
     e.preventDefault();
-    if (joinCount > 0) {
+    if (joinCount >0) {
       setJoinCount(joinCount - 1);
     }
     setLike(!like);
-    // axios.post("/post", { postId: id });
+    dispatch( _deletelikepost(post_id));
+  
   };
+ 
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -130,7 +141,7 @@ const CommunityCard = ({post}) => {
       <span onClick={() => navigate("/detail")}>
       <div className="card-image" style={{overflow: "hidden"}}>
         <Img
-          src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
+         hover src={thumbnail}
           alt="Placeholder image"
         />
       </div>
@@ -141,17 +152,17 @@ const CommunityCard = ({post}) => {
       <Buttons>
         <Media className="media">
           <div className="media-left" style={{display: "flex"}}>
-            {like ? (
-              <JoinBtn src={emptyheart} onClick={likeHandler}></JoinBtn>
-            ) : (
+            {!isLike ? (
+              <JoinBtn src={emptyheart} onClick={(e)=>likeHandler(e)}></JoinBtn>
+            ) : 
+            (
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
-            )}
+            )
+            }
 
-            {/* {like ? ( <Like onClick={likeHandler}>♥️</Like> 
-) : (
-   <Like onClick={likeHandler}>♡</Like> )} */}
 
-            <div style={{margin: "6px"}}>{like_num + joinCount}</div>
+
+            <div style={{margin: "6px"}}>{like_num}</div>
           </div>
         </Media>
         <Media className="media">
