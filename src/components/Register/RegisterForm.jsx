@@ -175,10 +175,16 @@ const RegisterForm = () => {
                 onChange={idHandler}
                 required
                 ref={emailRef}
+                disabled={emailValid}
               />
               <span>@</span>
               <SelectBox>
-                <select type="text" onChange={emailHandler} ref={ref}>
+                <select
+                  type="text"
+                  onChange={emailHandler}
+                  ref={ref}
+                  disabled={emailValid}
+                >
                   <option value="1">선택해주세요</option>
                   <option value="naver.com">naver.com</option>
                   <option value="hanmail.net">hanmail.net</option>
