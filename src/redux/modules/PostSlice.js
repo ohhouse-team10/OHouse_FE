@@ -1,7 +1,7 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../server/api";
-import { postAPI } from "../../server/api";
+import {postAPI} from "../../server/api";
 
 const initialState = {
   post: [],
@@ -24,7 +24,7 @@ export const getHouseList = createAsyncThunk(
   }
 );
 
-//인기많은 게시글 가져오기 
+//인기많은 게시글 가져오기
 export const _topRankingHouse = createAsyncThunk(
   "house/topRankingHouse ",
   async (payload, thunkAPI) => {
@@ -37,7 +37,6 @@ export const _topRankingHouse = createAsyncThunk(
     }
   }
 );
-
 
 //디테일 get 요청 구현중.
 export const getDetailPage = createAsyncThunk(
@@ -58,7 +57,7 @@ export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await api.get(
+      const {data} = await api.get(
         `/post?page=${payload}&size=6&sort=createdAt,desc`
       ); //3의 배수
       return thunkAPI.fulfillWithValue(data.data);
@@ -74,7 +73,7 @@ export const _addPost = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await postAPI.writePost(payload);
-      return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -87,7 +86,7 @@ export const _getDetail = createAsyncThunk(
   async (post_id, thunkAPI) => {
     try {
       const data = await postAPI.getPost(post_id);
-      return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -114,7 +113,7 @@ export const _likepost = createAsyncThunk(
   "like/post",
   async (post_id, thunkAPI) => {
     try {
-      const { data } = await postAPI.likePost(post_id);
+      const {data} = await postAPI.likePost(post_id);
       console.log("get request");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -127,8 +126,7 @@ export const _deletelikepost = createAsyncThunk(
   "like/delete",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await postAPI.deletelikePost(payload);
-
+      await postAPI.deletelikePost(payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -158,7 +156,6 @@ const post = createSlice({
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },
-    
 
     [getInfiniteList.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
@@ -178,7 +175,6 @@ const post = createSlice({
     },
     [_addPost.fulfilled]: (state, action) => {
       state.isLoading = false;
-     
     },
     [_addPost.rejected]: (state, action) => {
       state.isLoading = false;
@@ -191,8 +187,9 @@ const post = createSlice({
     [_likepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-
-        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike,  like_num: p.like_num+1  } : p
+        action.meta.arg === p.post_id
+          ? {...p, isLike: !p.isLike, like_num: p.like_num + 1}
+          : p
       );
       state.post = newState;
       return state;
@@ -211,8 +208,9 @@ const post = createSlice({
     [_deletelikepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-
-        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike,like_num: p.like_num-1} : p
+        action.meta.arg === p.post_id
+          ? {...p, isLike: !p.isLike, like_num: p.like_num - 1}
+          : p
       );
       state.post = newState;
       return state;
@@ -220,10 +218,10 @@ const post = createSlice({
     [_deletelikepost.rejected]: (state, action) => {
       state.success = false;
       state.error = action.payload;
-    },   
-    
+    },
+
     //인기글
-  
+
     [_topRankingHouse.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
@@ -236,11 +234,7 @@ const post = createSlice({
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },
-    
-
-
-
   },
 });
 export default post.reducer;
-export const { initial } = post.actions; // 액션내보내기
+export const {initial} = post.actions; // 액션내보내기
