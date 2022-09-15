@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import {useState} from "react";
-import {useQuery} from "react-query";
-import {useNavigate, useParams} from "react-router-dom";
-import {postAPI} from "../../server/api";
-import {useDispatch} from "react-redux";
-import {_deletDetail} from "../../redux/modules/PostSlice";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { postAPI } from "../../server/api";
+import { useDispatch } from "react-redux";
+import { _deletDetail } from "../../redux/modules/PostSlice";
 import BorderLine from "./BorderLine";
 
 const DetailCard = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,7 +17,7 @@ const DetailCard = () => {
     return response;
   };
 
-  const {data, isLoading} = useQuery("detail", () => getDetail(id), {
+  const { data, isLoading } = useQuery("detail", () => getDetail(id), {
     staleTime: 0,
     retry: 1,
     keepPreviousData: true,
@@ -45,7 +44,7 @@ const DetailCard = () => {
       </Contentcard>
 
       <Img src={detailInfo.thumbnail} alt="Placeholder image" />
-      <Contentcard style={{marginBottom: "40px"}}>
+      <Contentcard style={{ marginBottom: "40px" }}>
         {detailInfo.content}
       </Contentcard>
 
