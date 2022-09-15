@@ -29,8 +29,7 @@ export default function Comment() {
     dispatch(getComments({ id: param.id }));
   }, []);
   const commentList = useSelector((state) => state.comments.comments);
-  let newList =
-    commentList && commentList.filter((element) => element)[0].data;
+  let newList = commentList && commentList.filter((element) => element)[0].data;
 
   // 댓글개수 확인
   useEffect(() => {
@@ -42,19 +41,19 @@ export default function Comment() {
     commentInput.length > 0 ? setDisabled(false) : setDisabled(true);
   };
 
-
   const addComment = () => {
-    dispatch(addComments(
-      {
-        nickname:JSON.parse(window.localStorage.user).userInfo.nickname,
+    dispatch(
+      addComments({
+        profile_image: JSON.parse(window.localStorage.user).userInfo
+          .profile_image,
+        nickname: JSON.parse(window.localStorage.user).userInfo.nickname,
         content: commentInput,
         isEditable: true,
         id: param.id,
-      }
-    ));
+      })
+    );
     setDisabled(true);
     document.getElementById("commentEnter").value = "";
-    
   };
 
   useEffect(() => {
@@ -71,7 +70,13 @@ export default function Comment() {
           </p>
         </div>
         <FormStyle>
-          <Image src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQb2EH%2FbtrKdRqtkYJ%2FiuflvkiIkWB0wvFxrhkqD1%2Fimg.png" />
+          <Image
+            src={
+              JSON.parse(window.localStorage.user).userInfo.profile_image !== ""
+                ? JSON.parse(window.localStorage.user).userInfo.profile_image
+                : "https://m.esthetichouse.co.kr/onespoon/m.top_icon01.png"
+            }
+          />
           <InputBox>
             <InputStyle
               id="commentEnter"
@@ -109,17 +114,19 @@ const HeadLine = styled.hr`
   margin-top: 40px;
   margin-bottom: 48px;
   padding: 0px;
+  width: 730px;
   height: 1px;
   border: none;
   background-color: rgb(234, 237, 239);
 `;
 
 const CommentLayout = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  width: 1136px;
+  /* margin-right: auto;
+  margin-left: auto; */
+  margin: 0 auto;
   max-width: 100%;
   box-sizing: border-box;
+  width: 750px;
   min-height: 1px;
 `;
 
