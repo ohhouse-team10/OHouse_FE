@@ -134,12 +134,12 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
-    [__userUpdate.fulfilled]: (state, payload) => {
+    [__userUpdate.fulfilled]: (state, {payload}) => {
+      state.userInfo = payload.data?.data;
+      localStorage.setItem("user", JSON.stringify(state));
       console.log(payload);
     },
-    [__userUpdate.rejected]: (state, payload) => {
-      console.log(payload);
-    },
+    [__userUpdate.rejected]: (state, payload) => {},
   },
 });
 
