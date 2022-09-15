@@ -3,35 +3,40 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { _getDetail } from "../../redux/modules/PostSlice";
+import { useParams } from "react-router-dom";
 
 const DetailCard = () => {
   const dispatch = useDispatch();
-  //팔로우토글 손봐야함
+  const params = useParams();
+
+  console.log("params", params.id);
+  console.log("Number_params", Number(params.id));
+
+  // follow 수정필
   const [follow, setFollow] = useState(true);
   const [followCount, setFollowCount] = useState(false);
-
   const followeHandler = (e) => {
     e.preventDefault();
     setFollowCount(followCount + 1);
-    //   setFollowCount(followCount == isFollow);
     setFollow(!follow);
-    // axios.post("/post", { postId: id });
   };
-
   const cancelfollowHandler = (e) => {
     e.preventDefault();
     if (followCount > 0) {
       setFollowCount(followCount - 1);
-      // setFollowCount(followCount == isFollow);
     }
     setFollow(!follow);
-    // axios.post("/post", { postId: id });
+  };
+  const getDetail = async () => {
+    const reponse = await dispatch(_getDetail(Number(params.id)));
+    return reponse;
   };
 
-  useEffect(() => {
-    dispatch(_getDetail());
-    console.log("get request");
-  }, [dispatch]);
+  useEffect(async () => {
+    getDetail();
+    // const reponse = await dispatch(_getDetail(Number(params.id)));
+    // console.log("reponse", reponse);
+  }, []);
 
   return (
     <Card className="card-image">
@@ -56,7 +61,7 @@ const DetailCard = () => {
           <div className="media-left">
             <img
               src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
-              alt="Placeholdser image"
+              alt="Placeholdser"
               style={{
                 width: "40px",
                 height: "40px",

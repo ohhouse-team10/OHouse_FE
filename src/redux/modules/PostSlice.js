@@ -1,7 +1,7 @@
 import axios from "axios";
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../server/api";
-import {postAPI} from "../../server/api";
+import { postAPI } from "../../server/api";
 
 const initialState = {
   post: [],
@@ -24,26 +24,12 @@ export const getHouseList = createAsyncThunk(
   }
 );
 
-//디테일 get 요청 구현중.
-export const getDetailPage = createAsyncThunk(
-  "travel/getDetailPage ",
-  async (post_id, thunkAPI) => {
-    try {
-      const data = await api.get(`/post/${post_id}`);
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
 //무한스크롤
 export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
   async (payload, thunkAPI) => {
     try {
-      const {data} = await api.get(
+      const { data } = await api.get(
         `/post?page=${payload}&size=6&sort=createdAt,desc`
       ); //3의 배수
       return thunkAPI.fulfillWithValue(data.data);
@@ -72,6 +58,7 @@ export const _getDetail = createAsyncThunk(
   async (post_id, thunkAPI) => {
     try {
       console.log("post_id =", post_id);
+
       const data = await postAPI.getPost(post_id);
       console.log(data.data);
 
@@ -87,8 +74,8 @@ export const _likepost = createAsyncThunk(
   "like/post",
   async (post_id, thunkAPI) => {
     try {
-      const {data} = await postAPI.likePost(post_id);
-
+      const { data } = await postAPI.likePost(post_id);
+      console.log("get request");
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -100,7 +87,7 @@ export const _deletelikepost = createAsyncThunk(
   "like/delete",
   async (payload, thunkAPI) => {
     try {
-      const {data} = await postAPI.deletelikePost(payload);
+      const { data } = await postAPI.deletelikePost(payload);
 
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
@@ -160,7 +147,7 @@ const post = createSlice({
     [_likepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        action.meta.arg === p.post_id ? { ...p, isLike: !p.isLike } : p
       );
       state.post = newState;
       return state;
@@ -179,7 +166,7 @@ const post = createSlice({
     [_deletelikepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        action.meta.arg === p.post_id ? { ...p, isLike: !p.isLike } : p
       );
       state.post = newState;
       return state;
@@ -191,4 +178,4 @@ const post = createSlice({
   },
 });
 export default post.reducer;
-export const {initial} = post.actions; // 액션내보내기
+export const { initial } = post.actions; // 액션내보내기
