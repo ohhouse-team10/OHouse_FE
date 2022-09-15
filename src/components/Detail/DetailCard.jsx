@@ -1,92 +1,55 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { postAPI } from "../../server/api";
 import { useDispatch } from "react-redux";
-import { _getDetail } from "../../redux/modules/PostSlice";
+import { _deletDetail } from "../../redux/modules/PostSlice";
+import BorderLine from "./BorderLine";
 
 const DetailCard = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  //팔로우토글 손봐야함
-  const [follow, setFollow] = useState(true);
-  const [followCount, setFollowCount] = useState(false);
 
-  const followeHandler = (e) => {
-    e.preventDefault();
-    setFollowCount(followCount + 1);
-    //   setFollowCount(followCount == isFollow);
-    setFollow(!follow);
-    // axios.post("/post", { postId: id });
+  const getDetail = async (id) => {
+    const response = await postAPI.getPost(id);
+    return response;
   };
 
-  const cancelfollowHandler = (e) => {
-    e.preventDefault();
-    if (followCount > 0) {
-      setFollowCount(followCount - 1);
-      // setFollowCount(followCount == isFollow);
-    }
-    setFollow(!follow);
-    // axios.post("/post", { postId: id });
+  const { data, isLoading } = useQuery("detail", () => getDetail(id), {
+    staleTime: 0,
+    retry: 1,
+    keepPreviousData: true,
+  });
+  const detailInfo = data?.data?.data;
+
+  const deleteClickHandler = () => {
+    const post_id = Number(id);
+    dispatch(_deletDetail(post_id));
+    navigate(`/community`);
   };
 
-  useEffect(() => {
-    dispatch(_getDetail());
-    console.log("get request");
-  }, [dispatch]);
+  if (isLoading) return;
 
   return (
-    <Card className="card-image">
+    <Card>
       <Contentcard>
-        <Font>평수</Font>&nbsp;
+        <Font>{detailInfo.type}</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
-        <Font>주거형태</Font>&nbsp;
-        <Stick>❘</Stick>&nbsp;
-        <Font>스타일</Font>&nbsp;
+        <Font>{detailInfo.style}</Font>&nbsp;
+        <DelWarp>
+          <DelButton onClick={deleteClickHandler}>삭제하기</DelButton>
+        </DelWarp>
       </Contentcard>
 
-      <Img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
-        alt="Placeholder image"
-      />
+      <Img src={detailInfo.thumbnail} alt="Placeholder image" />
       <Contentcard style={{ marginBottom: "40px" }}>
-        (코멘트 부분) 😎😎😎
+        {detailInfo.content}
       </Contentcard>
 
-      <BorderLine class="border">
-        <ProfileLayout>
-          <div className="media-left">
-            <img
-              src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
-              alt="Placeholdser image"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "30px",
-              }}
-            />
-          </div>
-          <div className="media-content">
-            <div style={{ display: "flex" }}>
-              <h3
-                style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}
-              >
-                닉네임
-              </h3>
-            </div>
-            <h6>@soonger</h6>
-          </div>
-        </ProfileLayout>
-        <div style={{ float: "right", marginLeft: "auto" }}>
-          {follow ? (
-            <Follow onClick={followeHandler}>
-              <h5>＋팔로우</h5>
-            </Follow>
-          ) : (
-            <UnFollow onClick={cancelfollowHandler}>
-              <h5> ✓ 팔로잉</h5>
-            </UnFollow>
-          )}
-        </div>
-      </BorderLine>
+      <BorderLine />
     </Card>
   );
 };
@@ -94,33 +57,10 @@ const DetailCard = () => {
 export default DetailCard;
 
 const Card = styled.div`
-  border: 1px dashed red;
   margin: auto;
+  padding-top: 7%;
   width: 100%;
   height: 100%;
-`;
-
-const BorderLine = styled.div`
-  border: 1px solid black;
-  background-color: red;
-
-  list-style: none;
-  display: flex;
-  padding: 11px;
-  border-top-style: solid;
-
-  border-width: 1.5px;
-  border-color: #e4e3e3;
-  height: 40px;
-`;
-const ProfileLayout = styled.div`
-  background-color: yellow;
-
-  display: flex;
-  margin: 5px;
-  overflow: hidden;
-  height: 40px;
-  position: relative;
 `;
 
 const Img = styled.img`
@@ -136,8 +76,6 @@ const Img = styled.img`
   align-items: center;
 `;
 const Contentcard = styled.div`
-  background-color: purple;
-
   display: flex;
   margin: auto;
 `;
@@ -146,19 +84,22 @@ const Stick = styled.h1`
   font-size: 17px;
 `;
 
-// style, type
 const Font = styled.h1`
   color: #7f7f7f;
   font-size: 15px;
   margin-top: 2px;
 `;
+const DelWarp = styled.div`
+  width: 100px;
+  padding-left: 67%;
+`;
+const DelButton = styled.button`
+  float: left;
 
-const Follow = styled.button`
-  float: right;
   font-size: 14px;
-  width: 90px;
+  width: 80px;
   height: 100%;
-
+  margin-left: 100%;
   font-weight: bold;
   position: relative;
   background-color: #10bbff;
@@ -166,25 +107,6 @@ const Follow = styled.button`
   border-radius: 4px;
   outline: 0;
   color: white;
-  &:hover {
-    opacity: 0.5;
-  }
-`;
-
-const UnFollow = styled.button`
-  float: right;
-  height: 100%;
-  font-size: 14px;
-  width: 90px;
-  font-weight: bold;
-  color: #878787;
-  background-color: transparent;
-  border: 1px;
-  border-radius: 4px;
-  position: relative;
-  border-color: #b7b7b7;
-  border-style: solid;
-  border-width: 1px;
   &:hover {
     opacity: 0.5;
   }

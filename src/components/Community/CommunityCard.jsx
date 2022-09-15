@@ -1,17 +1,17 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
 import fillbookmark from "../../image/bookmarkfill.png";
 import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
+
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {_likepost} from "../../redux/modules/PostSlice";
 import {_deletelikepost} from "../../redux/modules/PostSlice";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
-import { Hidden } from "@mui/material";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -63,6 +63,7 @@ const CommunityCard = ({post}) => {
 
   const [like, setLike] = useState(isLike);
   const [joinCount, setJoinCount] = useState(0);
+
   const likeHandler = (e) => {
     e.preventDefault();
     if (joinCount > 0) {
@@ -115,17 +116,23 @@ const CommunityCard = ({post}) => {
           />
         </div>
         <div className="media-content">
-          <div style={{display: "flex"}}>  
+          <div style={{ display: "flex" }}>
+            <h3
+              style={{
+                margin: "1px",
+                fontSize: "18px",
+                fontWeight: "bold",
+                letterSpacing: "-1px",
+              }}
+            >
 
-
-            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold",whiteSpace:"nowrap",overflow:"hidden",textOverflow:'ellipsis',width:"220px"}}>
               {nickname}
             </h3>
      
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (
-              <Follow style={{color: "gray"}} onClick={cancelfollowHandler}>
+              <Follow style={{ color: "gray" }} onClick={cancelfollowHandler}>
                 팔로잉
               </Follow>
             )}
@@ -136,14 +143,14 @@ const CommunityCard = ({post}) => {
       </Media>
 
       <span onClick={() => navigate(`/detail/${post_id}`)}>
-        <div className="card-image" style={{overflow: "hidden"}}>
+        <div className="card-image" style={{ overflow: "hidden" }}>
           <Img hover src={thumbnail} alt="Placeholder image" />
         </div>
       </span>
 
       <Buttons>
         <Media className="media">
-          <div className="media-left" style={{display: "flex"}}>
+          <div className="media-left" style={{ display: "flex" }}>
             {!isLike ? (
               <JoinBtn
                 src={emptyheart}
@@ -153,7 +160,7 @@ const CommunityCard = ({post}) => {
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
             )}
 
-            <div style={{margin: "6px"}}>{like_num}</div>
+            <div style={{ margin: "6px" }}>{like_num}</div>
           </div>
         </Media>
         <Media className="media">
@@ -175,7 +182,7 @@ const CommunityCard = ({post}) => {
       </Buttons>
 
       <Media className="media">
-        <div className="media-left" style={{margin: "6px"}}>
+        <div className="media-left" style={{ margin: "6px" }}>
           {content}
         </div>
         <div className="media-content"></div>
