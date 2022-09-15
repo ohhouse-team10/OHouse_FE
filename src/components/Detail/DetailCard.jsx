@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { _getDetail } from "../../redux/modules/PostSlice";
 import { useParams } from "react-router-dom";
+import { _getDetail } from "../../redux/modules/PostSlice";
 
 const DetailCard = () => {
   const dispatch = useDispatch();
   const params = useParams();
-
-  console.log("params", params.id);
-  console.log("Number_params", Number(params.id));
 
   // follow 수정필
   const [follow, setFollow] = useState(true);
@@ -68,6 +64,7 @@ const DetailCard = () => {
                 borderRadius: "30px",
               }}
             />
+            f
           </div>
           <div>
             <div style={{ display: "flex" }}>
@@ -104,6 +101,33 @@ const Card = styled.div`
   width: 100%;
   height: 100%;
 `;
+const Contentcard = styled.div`
+  /* background-color: purple; */
+
+  display: flex;
+  margin: auto;
+`;
+const Font = styled.h1`
+  color: #7f7f7f;
+  font-size: 15px;
+  margin-top: 2px;
+`;
+const Stick = styled.h1`
+  color: #dfdfdf;
+  font-size: 17px;
+`;
+const Img = styled.img`
+  width: 100%;
+
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 50px;
+  background-size: cover;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const BorderLine = styled.div`
   border: 1px solid black;
@@ -127,37 +151,6 @@ const ProfileLayout = styled.div`
   height: 40px;
   position: relative;
 `;
-
-const Img = styled.img`
-  width: 100%;
-
-  margin: auto;
-  margin-top: 15px;
-  margin-bottom: 50px;
-  background-size: cover;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Contentcard = styled.div`
-  /* background-color: purple; */
-
-  display: flex;
-  margin: auto;
-`;
-const Stick = styled.h1`
-  color: #dfdfdf;
-  font-size: 17px;
-`;
-
-// style, type
-const Font = styled.h1`
-  color: #7f7f7f;
-  font-size: 15px;
-  margin-top: 2px;
-`;
-
 const Follow = styled.button`
   float: right;
   font-size: 14px;
@@ -175,7 +168,6 @@ const Follow = styled.button`
     opacity: 0.5;
   }
 `;
-
 const UnFollow = styled.button`
   float: right;
   height: 100%;
