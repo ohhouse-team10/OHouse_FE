@@ -42,17 +42,14 @@ const DetailCard = () => {
       <Contentcard>
         <Font>평수</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
-        <Font>주거형태</Font>&nbsp;
+        <Font>{detailInfo.type}</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
-        <Font>스타일</Font>&nbsp;
+        <Font>{detailInfo.style}</Font>&nbsp;
       </Contentcard>
 
-      <Img
-        src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
-        alt="Placeholder image"
-      />
+      <Img src={detailInfo.thumbnail} alt="Placeholder image" />
       <Contentcard style={{ marginBottom: "40px" }}>
-        (코멘트 부분) 😎😎😎
+        {detailInfo.content}
       </Contentcard>
 
       <BorderLine>
@@ -69,7 +66,7 @@ const DetailCard = () => {
             />
             f
           </div>
-          <div>
+          <div className="media-content">
             <div style={{ display: "flex" }}>
               <h3
                 style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}
@@ -99,37 +96,10 @@ const DetailCard = () => {
 export default DetailCard;
 
 const Card = styled.div`
-  /* border: 1px dashed red; */
+  border: 1px dashed red;
   margin: auto;
   width: 100%;
   height: 100%;
-`;
-const Contentcard = styled.div`
-  /* background-color: purple; */
-
-  display: flex;
-  margin: auto;
-`;
-const Font = styled.h1`
-  color: #7f7f7f;
-  font-size: 15px;
-  margin-top: 2px;
-`;
-const Stick = styled.h1`
-  color: #dfdfdf;
-  font-size: 17px;
-`;
-const Img = styled.img`
-  width: 100%;
-
-  margin: auto;
-  margin-top: 15px;
-  margin-bottom: 50px;
-  background-size: cover;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const BorderLine = styled.div`
@@ -154,6 +124,37 @@ const ProfileLayout = styled.div`
   height: 40px;
   position: relative;
 `;
+
+const Img = styled.img`
+  width: 100%;
+
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 50px;
+  background-size: cover;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Contentcard = styled.div`
+  background-color: purple;
+
+  display: flex;
+  margin: auto;
+`;
+const Stick = styled.h1`
+  color: #dfdfdf;
+  font-size: 17px;
+`;
+
+// style, type
+const Font = styled.h1`
+  color: #7f7f7f;
+  font-size: 15px;
+  margin-top: 2px;
+`;
+
 const Follow = styled.button`
   float: right;
   font-size: 14px;
