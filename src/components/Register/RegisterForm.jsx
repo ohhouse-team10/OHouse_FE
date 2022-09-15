@@ -106,7 +106,6 @@ const RegisterForm = () => {
     setEmailValidator(true);
   };
   const getIsValid = (bool) => {
-    console.log(bool);
     setEmailValid(bool);
   };
 
@@ -148,6 +147,7 @@ const RegisterForm = () => {
         nickname: nickname,
       })
     );
+    console.log(response);
     // Error Code가 오면 return logic 추가
     // Duplicate Error
     navigate("/login");

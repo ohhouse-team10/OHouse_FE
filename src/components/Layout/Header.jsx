@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import logo from "../../image/ohou_text_logo.PNG";
-import defaultImage from "../../image/defaultImage.jpg";
 import SearchBox from "./SearchBox";
 import Button from "./Button";
 import ToggleMenu from "./ToggleMenu";
@@ -21,6 +20,7 @@ const Header = () => {
   /** REACT-REDUX */
   const state = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  console.log(state);
 
   /** Toggle Menu Management */
   const [isOpen, setIsOpen] = React.useState("initial");
@@ -48,7 +48,10 @@ const Header = () => {
     },
   ];
   const MyPageMenu = [
-    {title: "마이페이지", clickFn: () => navigate("/mypage/123")},
+    {
+      title: "마이페이지",
+      clickFn: () => navigate(`/mypage/${state.userInfo?.nickname}`),
+    },
     {
       title: "로그아웃",
       clickFn: () => {
@@ -93,7 +96,7 @@ const Header = () => {
                     <NotificationsNoneIcon />
                     <AddShoppingCartIcon />
                     <ProfileImage
-                      src={defaultImage}
+                      src={state.userInfo?.profile_image}
                       onClick={() => onSetIsOpen("mypage")}
                     />
                     {isOpen === "mypage" ? (
