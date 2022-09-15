@@ -26,17 +26,24 @@ const EditUserForm = () => {
 
   const onClickHandler = (event) => {
     event.preventDefault();
-    const data = {
-      nickname: nickName,
-      statusMessage: statusMessage,
-    };
-    let formData = new FormData();
-    formData.append(
-      "data",
-      new Blob([JSON.stringify(data)], {type: "application/json"})
+    // const data = {
+    //   nickname: nickName,
+    //   statusMessage: statusMessage,
+    // };
+    // let formData = new FormData();
+    // formData.append(
+    //   "data",
+    //   new Blob([JSON.stringify(data)], {type: "application/json"})
+    // );
+    // formData.append("profile_image", img);
+    // dispatch(__userUpdate(formData));
+    dispatch(
+      __userUpdate({
+        nickname: nickName,
+        profile_image: img,
+        statusMessage: statusMessage,
+      })
     );
-    formData.append("profile_image", img);
-    dispatch(__userUpdate(formData));
     navigate("/");
   };
 
@@ -56,8 +63,7 @@ const EditUserForm = () => {
         <FormItem title={"홈페이지"} disable={true} />
         <FormItem title={"생년월일"} disable={true} />
         <FormItem
-          title={"프로필 이미지"}
-          isImg={true}
+          title={"프로필 이미지(URL)"}
           getInfo={getImg}
           required={true}
         />

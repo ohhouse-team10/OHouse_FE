@@ -162,7 +162,9 @@ const post = createSlice({
     [_deletelikepost.fulfilled]: (state, action) => {
       state.success = false;
       const newState = state.post.map((p) =>
-        action.meta.arg === p.post_id ? {...p, isLike: !p.isLike} : p
+        action.meta.arg === p.post_id
+          ? {...p, isLike: !p.isLike, like_num: p.like_num - 1}
+          : p
       );
       state.post = newState;
       return state;

@@ -29,7 +29,7 @@ const useFetch = (page) => {
       sendQuery();
       setIsLoading(true);
     }
-  }, [sendQuery, page, isLoading, dispatch]);
+  }, [sendQuery, page]);
 
   return {
     hasMore,
