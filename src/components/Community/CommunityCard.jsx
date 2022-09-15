@@ -68,7 +68,7 @@ const CommunityCard = ({post}) => {
       setJoinCount(joinCount + 1);
     }
     setLike(!like);
-    dispatch(_likepost(post_id));
+    dispatch(_likepost(post_id, like_num));
   };
 
   const cencelHandler = (e) => {
@@ -79,6 +79,10 @@ const CommunityCard = ({post}) => {
     setLike(!like);
     dispatch(_deletelikepost(post_id));
   };
+
+  //   useEffect(() => {
+  //     dispatch(_likepost());
+  // }, [like_num]);
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);

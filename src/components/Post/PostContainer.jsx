@@ -17,6 +17,7 @@ const PostContainer = () => {
   const [content, setContent] = useState("");
   const [img, setImg] = useState("");
 
+  // input value > state
   const typeInfo = (type) => {
     setType(type);
   };
@@ -30,8 +31,6 @@ const PostContainer = () => {
     setImg(img);
   };
 
-  // BE요청 후 수정 / 추가
-
   const addPost = {
     style: style,
     type: type,
@@ -39,19 +38,18 @@ const PostContainer = () => {
   };
 
   const addClickHandler = () => {
-    // console.log("addPost", addPost);
     let formData = new FormData();
     formData.append(
       "data",
       new Blob([JSON.stringify(addPost)], {type: "application/json"})
     );
-
     formData.append("file", img);
 
     // console.log("formData", formData);
     dispatch(_addPost(formData));
 
-    navigate("/community");
+    //이동할때 새로고침하고 들어가짐
+    window.location.replace("/community");
   };
 
   return (

@@ -1,11 +1,11 @@
 import {useState, useEffect, useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getInfiniteList} from "../redux/modules/PostSlice";
-
+import {useLocation, useParams} from "react-router-dom";
 const useFetch = (page) => {
   //list => 리덕스,post 로 사용해서 안씀
   //   const [list, setList] = useState([]);
-
+  const {id} = useParams();
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();

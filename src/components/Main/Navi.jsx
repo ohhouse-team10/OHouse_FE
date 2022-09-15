@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Navi = () => {
   return (
-    <Div class="menu">
+    <Div className="menu">
       <li>
         <A href="">홈</A>
       </li>

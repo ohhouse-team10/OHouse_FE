@@ -1,13 +1,30 @@
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-
+import {useDispatch, useSelector} from "react-redux";
 import "../../style/slideStyle.css";
 import React, {useState, useRef, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
-const MainRecommendCard = () => {
+const MainRecommendCard = ({post}) => {
+  const navigate = useNavigate();
+  const {
+    thumbnail,
+    nickname,
+    like_num,
+    statusMessage,
+    isFollow,
+    content,
+    post_id,
+    isLike,
+  } = post;
+
+  console.log(nickname);
+
+  const delay = 2000;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const TOTAL_SLIDES = 3;
+  const [index, setIndex] = React.useState(0);
 
   //자동 구현중
   // React.useEffect(() => {
@@ -53,7 +70,7 @@ const MainRecommendCard = () => {
         style={{height: "55vh", width: "70%", float: "left"}}
       >
         <Div>
-          <H1>해당페이지 제목 </H1>
+          <H1>따뜻한 정서가 담긴 신혼 부부의 공존(共存) 하우스 </H1>
 
           <Div2>
             <Img
@@ -61,25 +78,26 @@ const MainRecommendCard = () => {
               className="rounded float-start"
               alt="..."
             />
-            <h3 style={{marginLeft: "10px", color: "white"}}> 닉네임</h3>
+            <h3 style={{marginLeft: "10px", color: "white"}}>{nickname}</h3>
           </Div2>
 
           <br />
-
-          <Button
-            variant="outlined"
-            style={{
-              float: "right",
-              borderColor: "#ffffff",
-              color: "#ffffff",
-              position: "relative",
-              bottom: "28%",
-              width: "120px",
-              height: "50px",
-            }}
-          >
-            보러가기
-          </Button>
+          <span onClick={() => navigate(`/detail/${post_id}`)}>
+            <Button
+              variant="outlined"
+              style={{
+                float: "right",
+                borderColor: "#ffffff",
+                color: "#ffffff",
+                position: "relative",
+                bottom: "28%",
+                width: "120px",
+                height: "50px",
+              }}
+            >
+              보러가기
+            </Button>
+          </span>
         </Div>
       </Left>
 
@@ -165,7 +183,6 @@ const Div = styled.div`
   padding: 40px;
   top: 50%;
   align-items: flex-end;
-
   float: left;
 `;
 const Div2 = styled.div`
@@ -176,7 +193,7 @@ const Div2 = styled.div`
 const H1 = styled.h1`
   margin: 20px;
   color: white;
-  font-size: 40px;
+  font-size: 20px;
 `;
 
 const Img = styled.img`
@@ -190,12 +207,9 @@ const Img = styled.img`
 
 const Left = styled.div`
   position: relative;
-
   float: left;
   border-radius: 10px;
-
   overflow: hidden;
-
   box-sizing: border-box;
   /* background-color: aqua; */
   background-size: cover;
@@ -207,20 +221,11 @@ const Right = styled.div`
   float: right;
   border-radius: 10px;
   box-sizing: border-box;
-
   overflow: hidden;
 `;
 const Container = styled.div`
   width: 60%;
-
   display: flex;
   width: 100%;
   display: flex; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
-  div {
-    a {
-      img {
-        object-fit: cover;
-      }
-    }
-  }
 `;
