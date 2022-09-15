@@ -23,6 +23,7 @@ const CommunityCard = ({post}) => {
     content,
     post_id,
     isLike,
+    profile_image
   } = post;
 
   // const data = {
@@ -104,7 +105,7 @@ const CommunityCard = ({post}) => {
       <Media className="media">
         <div className="media-left">
           <img
-            src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
+            src={ profile_image}
             alt="Placeholdser image"
             style={{
               width: "40px",
