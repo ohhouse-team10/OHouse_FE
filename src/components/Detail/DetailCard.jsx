@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { _getDetail } from "../../redux/modules/PostSlice";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { postAPI } from "../../server/api";
 
 const DetailCard = () => {
-  const dispatch = useDispatch();
-  const params = useParams();
+  const { id } = useParams();
+
+  const getDetail = async (id) => {
+    const response = await postAPI.getPost(id);
+    return response;
+  };
+
+  const { data, isLoading } = useQuery("detail", () => getDetail(id), {
+    staleTime: 0,
+    retry: 1,
+    keepPreviousData: true,
+  });
+  const detailInfo = data?.data?.data;
 
   // follow 수정필
   const [follow, setFollow] = useState(true);
@@ -23,17 +36,7 @@ const DetailCard = () => {
     }
     setFollow(!follow);
   };
-  const getDetail = async () => {
-    const reponse = await dispatch(_getDetail(Number(params.id)));
-    return reponse;
-  };
-
-  useEffect(async () => {
-    getDetail();
-    // const reponse = await dispatch(_getDetail(Number(params.id)));
-    // console.log("reponse", reponse);
-  }, []);
-
+  if (isLoading) return;
   return (
     <Card>
       <Contentcard>
