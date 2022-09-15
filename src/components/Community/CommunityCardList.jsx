@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import CommunityCard from "./CommunityCard";
 import useFetch from "../../hooks/useFetch";
-import {getInfiniteList} from "../../redux/modules/PostSlice"
+import {getInfiniteList} from "../../redux/modules/PostSlice";
 import {useRef} from "react";
-import { initial } from "../../redux/modules/PostSlice";
+import {initial} from "../../redux/modules/PostSlice";
 const CommunityCardList = () => {
   //무한스크롤 구현
   const [pageNum, setPageNum] = useState(0);
@@ -25,15 +25,14 @@ const CommunityCardList = () => {
   const dispatch = useDispatch();
   const {post: posts} = useSelector((state) => state.post);
   //초기화진행 포스트 슬라이스 리듀서 불러옴
-   useEffect(() => {
+  useEffect(() => {
     dispatch(initial());
-    console.log("초기화진행",pageNum)
-   }, []);
+    console.log("초기화진행", pageNum);
+  }, []);
 
-
-//    useEffect(() => {
-//     dispatch(getInfiniteList());
-// }, []);
+  //    useEffect(() => {
+  //     dispatch(getInfiniteList());
+  // }, []);
 
   const {_, hasMore, isLoading} = useFetch(pageNum);
   return (

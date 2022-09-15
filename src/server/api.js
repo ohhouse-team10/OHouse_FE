@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getRefreshToken, getAccessToken } from "./cookie";
+import {getRefreshToken, getAccessToken} from "./cookie";
+import {removeAccessToken, removeRefreshToken} from "./cookie";
 
 const BASE_URL = " http://3.38.162.168";
 
@@ -25,18 +26,36 @@ api.interceptors.request.use((config) => {
   }
 });
 
-api.interceptors.response.use((response) => {
-  return response;
-});
+api.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    // 오류 응답을 처리
+    try {
+      if (error.response.data.code === "EXPIRED_TOKEN") {
+        return api.request(error.config);
+      }
+    } catch (error) {
+      removeAccessToken();
+      removeRefreshToken();
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+    console.log(error.response);
+    return Promise.reject(error);
+  }
+);
 
 export default api;
 
 // auth는 인증이 필요한 URL (로그인이 되어있어야 함.);
 
 export const userAPI = {
-  signUp: (request) => api.post("/member/singup", request), //회원가입
+  signUp: (request) => api.post("/member/signup", request), //회원가입
   logIn: (request) => api.post("/member/login", request), // 로그인
   logout: () => api.delete("/auth/member/logout"), // 로그아웃
+  userUpdate: (request) => api.put("/auth/member/update", request), // 회원정보 수정
 };
 
 export const postAPI = {
@@ -52,8 +71,8 @@ export const postAPI = {
   getPost: (postId) => api.get(`/post/${postId}`), // 게시글 하나 가져오기
   putPost: (request, postId) => api.put(`/auth/post/${postId}`, request), // 게시글 수정하기
   deletePost: (postId) => api.delete(`/auth/post/${postId}`), // 게시글 삭제하기
-  likePost: (postId) => api.post(`/auth/likes/${postId}`),//좋아요 
-  deletelikePost: (postId) => api.delete(`/auth/likes/${postId}`),//좋아요 삭제하기 
+  likePost: (postId) => api.post(`/auth/likes/${postId}`), //좋아요
+  deletelikePost: (postId) => api.delete(`/auth/likes/${postId}`), //좋아요 삭제하기
 };
 
 export const commentAPI = {

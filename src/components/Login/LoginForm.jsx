@@ -7,8 +7,7 @@ import {useNavigate} from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import {useDispatch} from "react-redux";
 import {__userLogin} from "../../redux/modules/userSlice";
-import ErrorMessage from "./ErrorMessage";
-import {SendToMobile} from "@mui/icons-material";
+import Message from "./Message";
 import {AnimatePresence} from "framer-motion";
 
 const LoginForm = () => {
@@ -80,7 +79,7 @@ const LoginForm = () => {
         <NonLoginMsg>비회원 주문 조회하기</NonLoginMsg>
       </Wrapper>
       <AnimatePresence>
-        {isError ? <ErrorMessage msg={msg} /> : null}
+        {isError ? <Message msg={msg} /> : null}
       </AnimatePresence>
     </>
   );

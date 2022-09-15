@@ -1,7 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
+import Preview from "../Post/Preview";
 
-const FormItem = ({title, required = false, isImg = false, msg = ""}) => {
+const FormItem = ({
+  title,
+  required = false,
+  isImg = false,
+  msg = "",
+  getInfo = null,
+  disable = false,
+}) => {
+  const [input, setInput] = useState("");
+  const onChangeInput = (event) => {
+    isImg ? setInput(event.target.files[0]) : setInput(event.target.value);
+  };
+
+  useEffect(() => {
+    if (getInfo !== null) getInfo(input);
+  }, [input, setInput]);
+
   return (
     <Container>
       <FormItemTitle>
@@ -12,14 +29,17 @@ const FormItem = ({title, required = false, isImg = false, msg = ""}) => {
         <FormItemInputBox>
           {isImg ? (
             <FormImgBox>
-              <FormImg
-                src={
-                  "https://image.ohou.se/i/bucketplace-v2-development/uploads/users/profile_images/1662687088_kakao_2422245639.jpg?gif=1&w=640&h=640&c=c&webp=1"
-                }
-              />
+              <label htmlFor="img">
+                {input === "" ? (
+                  <FormImg src="https://image.ohou.se/i/bucketplace-v2-development/uploads/users/profile_images/1662687088_kakao_2422245639.jpg?gif=1&w=640&h=640&c=c&webp=1" />
+                ) : (
+                  <Preview id="preview" img={input} />
+                )}
+                <input id="img" type="file" onChange={onChangeInput} />
+              </label>
             </FormImgBox>
           ) : (
-            <FormItemInput />
+            <FormItemInput onChange={onChangeInput} disabled={disable} />
           )}
         </FormItemInputBox>
         <Msg>{msg}</Msg>
@@ -69,15 +89,26 @@ const FormItemInput = styled.input`
   padding: 0 15px;
   line-height: 40px;
   border: 1px solid #dbdbdb;
-  background-color: #fff;
+  background-color: ${(props) => (props.disabled ? "#ddd" : "#fff")};
   color: #424242;
 `;
 
 const FormImgBox = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+
+  input {
+    display: none;
+  }
+  label {
+  }
+`;
+const FormImg = styled.img`
   width: 200px;
   height: 200px;
 `;
-const FormImg = styled.img`
+const PreviewBox = styled.div`
   width: 200px;
   height: 200px;
 `;

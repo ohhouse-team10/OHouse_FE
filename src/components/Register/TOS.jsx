@@ -22,7 +22,6 @@ const TOS = ({bringPassInfo}) => {
   const isCheck = (value) => {
     return items.includes(value);
   };
-  console.log(items);
   /** PASS */
   const [pass, setPass] = useState(false);
 

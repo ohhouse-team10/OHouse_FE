@@ -4,6 +4,7 @@ import "./style/font.css";
 import {Reset} from "styled-reset";
 import {useDispatch} from "react-redux";
 import {loadUser} from "./redux/modules/userSlice";
+import {useEffect} from "react";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +18,9 @@ function App() {
       console.log("localStorage is not working");
     }
   };
-  staySignedIn();
+  useEffect(() => {
+    staySignedIn();
+  }, []);
 
   return (
     <>

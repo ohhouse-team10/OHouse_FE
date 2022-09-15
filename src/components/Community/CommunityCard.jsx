@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
@@ -7,12 +7,12 @@ import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import { _likepost, } from "../../redux/modules/PostSlice";
-import { _deletelikepost, } from "../../redux/modules/PostSlice";
-import {useDispatch} from "react-redux"
-import { useSelector } from "react-redux";
+import {_likepost} from "../../redux/modules/PostSlice";
+import {_deletelikepost} from "../../redux/modules/PostSlice";
+import {useDispatch} from "react-redux";
+import {useSelector} from "react-redux";
 
-const CommunityCard = ({ post }) => {
+const CommunityCard = ({post}) => {
   const navigate = useNavigate();
 
   const {
@@ -24,10 +24,8 @@ const CommunityCard = ({ post }) => {
     content,
     post_id,
     isLike,
-  
   } = post;
 
- 
   // const data = {
   //    nickname:nickname,
   //    like_num:like_num,
@@ -60,33 +58,27 @@ const CommunityCard = ({ post }) => {
 
   //하트토글
 
-
-
   const dispatch = useDispatch();
-
-
 
   const [like, setLike] = useState(isLike);
   const [joinCount, setJoinCount] = useState(0);
   const likeHandler = (e) => {
     e.preventDefault();
-    if (joinCount >0) {
-    setJoinCount(joinCount + 1);
+    if (joinCount > 0) {
+      setJoinCount(joinCount + 1);
     }
     setLike(!like);
- dispatch( _likepost(post_id));
+    dispatch(_likepost(post_id));
   };
 
   const cencelHandler = (e) => {
     e.preventDefault();
-    if (joinCount >0) {
+    if (joinCount > 0) {
       setJoinCount(joinCount - 1);
     }
     setLike(!like);
-    dispatch( _deletelikepost(post_id));
-  
+    dispatch(_deletelikepost(post_id));
   };
- 
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -118,15 +110,15 @@ const CommunityCard = ({ post }) => {
           />
         </div>
         <div className="media-content">
-          <div style={{ display: "flex" }}>
-            <h3 style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}>
+          <div style={{display: "flex"}}>
+            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold"}}>
               {nickname}
             </h3>
 
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (
-              <Follow style={{ color: "gray" }} onClick={cancelfollowHandler}>
+              <Follow style={{color: "gray"}} onClick={cancelfollowHandler}>
                 팔로잉
               </Follow>
             )}
@@ -136,29 +128,23 @@ const CommunityCard = ({ post }) => {
         </div>
       </Media>
 
-
       <span onClick={() => navigate(`/detail/${post_id}`)}>
-      <div className="card-image" style={{overflow: "hidden"}}>
-        <Img
-         hover src={thumbnail}
-          alt="Placeholder image"
-        />
-      </div>
+        <div className="card-image" style={{overflow: "hidden"}}>
+          <Img hover src={thumbnail} alt="Placeholder image" />
+        </div>
       </span>
 
       <Buttons>
         <Media className="media">
           <div className="media-left" style={{display: "flex"}}>
             {!isLike ? (
-              <JoinBtn src={emptyheart} onClick={(e)=>likeHandler(e)}></JoinBtn>
-            ) : 
-            (
+              <JoinBtn
+                src={emptyheart}
+                onClick={(e) => likeHandler(e)}
+              ></JoinBtn>
+            ) : (
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
-            )
-            }
-
-
-
+            )}
 
             <div style={{margin: "6px"}}>{like_num}</div>
           </div>
@@ -182,7 +168,7 @@ const CommunityCard = ({ post }) => {
       </Buttons>
 
       <Media className="media">
-        <div className="media-left" style={{ margin: "6px" }}>
+        <div className="media-left" style={{margin: "6px"}}>
           {content}
         </div>
         <div className="media-content"></div>

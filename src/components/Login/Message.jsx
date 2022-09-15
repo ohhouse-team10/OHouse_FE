@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {motion} from "framer-motion";
 
-const ErrorMessage = ({msg}) => {
+const Message = ({msg}) => {
   return (
     <Container
       variants={MsgAnimation}
@@ -15,7 +15,7 @@ const ErrorMessage = ({msg}) => {
   );
 };
 
-export default ErrorMessage;
+export default Message;
 
 const Container = styled(motion.span)`
   position: absolute;
