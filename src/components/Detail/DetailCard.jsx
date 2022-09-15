@@ -90,7 +90,7 @@ const Font = styled.h1`
 `;
 const DelWarp = styled.div`
   width: 100px;
-  padding-left: 67%;
+  padding-left: 60%;
 `;
 const DelButton = styled.button`
   float: left;
