@@ -1,6 +1,7 @@
 import axios from "axios";
 import {getRefreshToken, getAccessToken} from "./cookie";
 import {removeAccessToken, removeRefreshToken} from "./cookie";
+import {setAccessToken, setRefreshToken} from "./cookie";
 
 const BASE_URL = " http://3.38.162.168";
 
@@ -34,13 +35,16 @@ api.interceptors.response.use(
     // 오류 응답을 처리
     if (error.response && error.response.data.code === "EXPIRED_TOKEN") {
       try {
-        // const originalRequest = error.config;
-        localStorage.removeItem("user");
         // 이따가 리프레시토큰을 검사하는 주소 물어보기.. 아래는 임시코드
-        removeAccessToken();
-        removeRefreshToken();
-        localStorage.removeItem("user");
-        window.location.href = "/login";
+        const response = api.get("/auth/");
+        if (response && response.isSuccess) {
+          removeAccessToken();
+          setAccessToken(response.data);
+        } else {
+          localStorage.removeItem("user");
+          removeAccessToken();
+          window.location.href = "/login";
+        }
       } catch (error) {
         removeAccessToken();
         removeRefreshToken();
