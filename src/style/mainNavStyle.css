@@ -1,19 +1,16 @@
-*{
-    font-family: 'Nanum Gothic', sans-serif;
-}
-a * {
+.libox a {
     border: none;
 }
-a {
+.libox a {
     color: black;
     text-decoration-line: none;
     text-align: center;
     font-size: 8px;
 }
-a:visited { color:black; }
+.libox a:visited { color:black; }
 
 
-ul {
+.ulbox ul {
     display: flex;
     list-style: none;
     margin-block-start: 1em;
@@ -23,13 +20,13 @@ ul {
     padding-inline-start: 40px;
 }
 
-li {
+.libox li {
     width: 120px;
     height: 120px;
     cursor: pointer;
 }
 
-img {
+.css-iked8e img {
     min-width: 40px;
     width: 120px;
     height: 80px;
