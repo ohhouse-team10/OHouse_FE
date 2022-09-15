@@ -5,10 +5,10 @@ import emptyheart from "../../image/emptyheart.png";
 import fillbookmark from "../../image/bookmarkfill.png";
 import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CommunityCard = ({post}) => {
+const CommunityCard = ({ post }) => {
   const navigate = useNavigate();
 
   const {
@@ -97,7 +97,6 @@ const CommunityCard = ({post}) => {
       <Media className="media">
         <div className="media-left">
           <img
-          
             src="https://i.pinimg.com/564x/29/f6/df/29f6dfff21b5e71169245e389ced72bd.jpg"
             alt="Placeholdser image"
             style={{
@@ -108,15 +107,15 @@ const CommunityCard = ({post}) => {
           />
         </div>
         <div className="media-content">
-          <div style={{display: "flex"}}>
-            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold"}}>
+          <div style={{ display: "flex" }}>
+            <h3 style={{ margin: "1px", fontSize: "18px", fontWeight: "bold" }}>
               {nickname}
             </h3>
 
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (
-              <Follow style={{color: "gray"}} onClick={cancelfollowHandler}>
+              <Follow style={{ color: "gray" }} onClick={cancelfollowHandler}>
                 팔로잉
               </Follow>
             )}
@@ -126,21 +125,18 @@ const CommunityCard = ({post}) => {
         </div>
       </Media>
 
-
       <span onClick={() => navigate("/detail")}>
-      <div className="card-image" style={{overflow: "hidden"}}>
-        <Img
-          src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
-          alt="Placeholder image"
-        />
-      </div>
+        <div className="card-image" style={{ overflow: "hidden" }}>
+          <Img
+            src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/166266591662644543.jpeg?gif=1&w=1080&webp=1"
+            alt="Placeholder image"
+          />
+        </div>
       </span>
-
-
 
       <Buttons>
         <Media className="media">
-          <div className="media-left" style={{display: "flex"}}>
+          <div className="media-left" style={{ display: "flex" }}>
             {like ? (
               <JoinBtn src={emptyheart} onClick={likeHandler}></JoinBtn>
             ) : (
@@ -151,7 +147,7 @@ const CommunityCard = ({post}) => {
 ) : (
    <Like onClick={likeHandler}>♡</Like> )} */}
 
-            <div style={{margin: "6px"}}>{like_num + joinCount}</div>
+            <div style={{ margin: "6px" }}>{like_num + joinCount}</div>
           </div>
         </Media>
         <Media className="media">
@@ -173,7 +169,7 @@ const CommunityCard = ({post}) => {
       </Buttons>
 
       <Media className="media">
-        <div className="media-left" style={{margin: "6px"}}>
+        <div className="media-left" style={{ margin: "6px" }}>
           {content}
         </div>
         <div className="media-content"></div>
