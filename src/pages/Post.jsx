@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "../components/Layout/Layout";
-
 import PostContainer from "../components/Post/PostContainer";
 
 const Post = () => {

@@ -108,10 +108,6 @@ const FormImg = styled.img`
   width: 200px;
   height: 200px;
 `;
-const PreviewBox = styled.div`
-  width: 200px;
-  height: 200px;
-`;
 
 const Msg = styled.div`
   font-size: 12px;

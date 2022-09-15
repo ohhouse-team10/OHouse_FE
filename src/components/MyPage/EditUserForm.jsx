@@ -15,15 +15,12 @@ const EditUserForm = () => {
   const navigate = useNavigate();
 
   const getNickName = (name) => {
-    console.log(name);
     setNickName(name);
   };
   const getStatusMsg = (msg) => {
-    console.log(msg);
     setStatusMessage(msg);
   };
   const getImg = (img) => {
-    console.log(img);
     setImg(img);
   };
 
@@ -59,10 +56,10 @@ const EditUserForm = () => {
         <FormItem title={"홈페이지"} disable={true} />
         <FormItem title={"생년월일"} disable={true} />
         <FormItem
-          title={"프로필 이미지"}
-          isImg={true}
+          title={"프로필 이미지(URL)"}
           getInfo={getImg}
           required={true}
+          isImg={true}
         />
         <FormItem title={"한줄 소개"} getInfo={getStatusMsg} required={true} />
         <BtnBox>
