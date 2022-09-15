@@ -9,10 +9,9 @@ import MainCategory from "../components/Main/MainCategory";
 const MainPage = () => {
   return (
     <Layout>
-      <MainRecommendCard />
+      <MainList />
       <MainMidNav />
       <MainCategory />
-      <MainList />
     </Layout>
   );
 };

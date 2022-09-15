@@ -16,7 +16,7 @@ const MainRecommendCard = ({post}) => {
     content,
     post_id,
     isLike,
-  } = post || {};
+  } = post;
 
   console.log(nickname);
 
