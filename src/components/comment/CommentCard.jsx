@@ -13,6 +13,8 @@ import { useState } from "react";
 import { deleteComments } from "../../redux/modules/commentsSlice";
 import { updateComments } from "../../redux/modules/commentsSlice";
 
+import { TimeToToday } from "../../utils/TimeToToday";
+
 export default function CommentCard(props) {
   // console.log(props); //card data
   const dispatch = useDispatch();
@@ -25,14 +27,13 @@ export default function CommentCard(props) {
 
   const deleteComment = () => {
     if (window.confirm("삭제하실건가욥...?")) {
-      dispatch(deleteComments(props.id));
+      dispatch(deleteComments({ comment_id: props.comment_id }));
     } else {
       alert("휴");
     }
   };
 
   const editBtn = (e) => {
-    console.log("수정하기");
     if (e.target.innerText === "수정") {
       setEditCheck("취소");
     } else {
@@ -42,16 +43,11 @@ export default function CommentCard(props) {
 
   const editInputText = (e) => {
     setEditInput(e.target.value);
-    console.log(editInput);
   };
 
   let editData = {
-    // profile_image:"imageUrl"
-    nickname: props.nickname,
     content: editInput,
-    postId: props.postId,
-    isEditable: true,
-    id: props.id,
+    comment_id: props.comment_id,
   };
 
   const editComment = () => {
@@ -59,13 +55,14 @@ export default function CommentCard(props) {
     setEditCheck("수정");
   };
 
+  // createdAt 로직은 한국 표준시 / 서버 데이터는 미국
   // 본인의 댓글인 경우 수정/삭제 가능(내 댓글 표시 추가)
   if (props.isEditable === true) {
     return (
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar
-            src="/static/images/avatar/1.jpg"
+            src={props.profile_image}
             style={{ width: "30px", height: "30px", cursor: "pointer" }}
           />
         </ListItemAvatar>
@@ -123,7 +120,7 @@ export default function CommentCard(props) {
             }
           />
           <CardInfo>
-            <CardInfoSpan>30분 전</CardInfoSpan>
+            <CardInfoSpan>{TimeToToday(new Date(props.createdAt))}</CardInfoSpan>
             <CardInfoSpan> · </CardInfoSpan>
             <CardInfoFooter style={{ cursor: "pointer" }}>
               답글 달기
@@ -171,7 +168,7 @@ export default function CommentCard(props) {
             }
           />
           <CardInfo>
-            <CardInfoSpan>30분 전</CardInfoSpan>
+            <CardInfoSpan>{TimeToToday(new Date(props.createdAt))}</CardInfoSpan>
             <CardInfoSpan> · </CardInfoSpan>
             <CardInfoFooter style={{ cursor: "pointer" }}>
               답글 달기

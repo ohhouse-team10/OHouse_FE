@@ -136,7 +136,8 @@ const CommunityCard = ({ post }) => {
         </div>
       </Media>
 
-      <span onClick={() => navigate("/detail")}>
+
+      <span onClick={() => navigate(`/detail/${post_id}`)}>
       <div className="card-image" style={{overflow: "hidden"}}>
         <Img
          hover src={thumbnail}
