@@ -85,9 +85,11 @@ useEffect(() => {
           style={{height: "55vh", width: "70%", float: "left"
         }}
         >
+      <Imgmain src={thumbnail}/>
+
           <Div>
               <H1>따뜻한 정서가 담긴 신혼 부부의 공존(共存) 하우스 </H1>
-              
+                
                <Div2>
                 <Img
                   src="https://i.pinimg.com/564x/c1/86/54/c18654579c567258e4df5bad55930381.jpg"
@@ -111,7 +113,7 @@ useEffect(() => {
                 height: "50px",
               }}
             >
-              보러가기
+               보러가기
             </Button>
             </span>
           </Div>
@@ -256,3 +258,15 @@ const Container = styled.div`
   width: 100%;
   display: flex;// 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
 `;
+
+
+const Imgmain = styled.img`
+ position: absolute;
+ width: 100%;
+ height:55vh;
+ transition: all 0.2s linear;
+ :hover {
+    transform: scale(1.1);
+  }
+ 
+ `
