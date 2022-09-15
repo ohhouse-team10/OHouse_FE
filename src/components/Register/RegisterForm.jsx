@@ -106,7 +106,6 @@ const RegisterForm = () => {
     setEmailValidator(true);
   };
   const getIsValid = (bool) => {
-    console.log(bool);
     setEmailValid(bool);
   };
 

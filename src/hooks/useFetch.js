@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import {useState, useEffect, useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getInfiniteList} from "../redux/modules/PostSlice";
 
@@ -9,13 +9,12 @@ const useFetch = (page) => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const {last, totalPage} = useSelector((state) => state.post);
+  const {totalPage} = useSelector((state) => state.post);
 
   //query API 요청 보내기
   const sendQuery = useCallback(async () => {
     try {
-      let response = await dispatch(getInfiniteList(page));
-      response = response.payload;
+      await dispatch(getInfiniteList(page));
 
       //   setList((prev) => [...new Set([...prev, ...response])]);
       setHasMore(page <= totalPage);
@@ -30,7 +29,7 @@ const useFetch = (page) => {
       sendQuery();
       setIsLoading(true);
     }
-  }, [sendQuery, page]);
+  }, [sendQuery, page, isLoading, dispatch]);
 
   return {
     hasMore,

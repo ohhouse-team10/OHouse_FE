@@ -15,15 +15,12 @@ const EditUserForm = () => {
   const navigate = useNavigate();
 
   const getNickName = (name) => {
-    console.log(name);
     setNickName(name);
   };
   const getStatusMsg = (msg) => {
-    console.log(msg);
     setStatusMessage(msg);
   };
   const getImg = (img) => {
-    console.log(img);
     setImg(img);
   };
 

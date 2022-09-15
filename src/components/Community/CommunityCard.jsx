@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
@@ -10,7 +10,6 @@ import {useNavigate} from "react-router-dom";
 import {_likepost} from "../../redux/modules/PostSlice";
 import {_deletelikepost} from "../../redux/modules/PostSlice";
 import {useDispatch} from "react-redux";
-import {useSelector} from "react-redux";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ const CommunityCard = ({post}) => {
 
   const followeHandler = (e) => {
     e.preventDefault();
-    setFollowCount(followCount == isFollow);
+    setFollowCount(followCount === isFollow);
     setFollow(!follow);
     // axios.post("/post", { postId: id });
   };
@@ -50,7 +49,7 @@ const CommunityCard = ({post}) => {
   const cancelfollowHandler = (e) => {
     e.preventDefault();
     if (followCount > 0) {
-      setFollowCount(followCount == isFollow);
+      setFollowCount(followCount === isFollow);
     }
     setFollow(!follow);
     // axios.post("/post", { postId: id });
@@ -132,12 +131,15 @@ const CommunityCard = ({post}) => {
             )}
             {followCount == isFollow}
           </div>
-          <h>@soonger{post_id}</h>
+          <h1>{statusMessage}</h1>
         </div>
       </Media>
 
       <span onClick={() => navigate(`/detail/${post_id}`)}>
-        <div className="card-image" style={{overflow: "hidden"}}>
+        <div
+          className="card-image"
+          style={{overflow: "hidden", borderRadius: "10px"}}
+        >
           <Img hover src={thumbnail} alt="Placeholder image" />
         </div>
       </span>
@@ -188,6 +190,7 @@ export default CommunityCard;
 const Media = styled.div`
   display: flex;
   margin: 5px;
+  border-radius: 10px;
   overflow: hidden;
 `;
 const Img = styled.img`
@@ -199,8 +202,10 @@ const Img = styled.img`
   max-height: 100%;
   transition: all 0.2s linear;
   :hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
+  object-fit: cover;
+  overflow: hidden;
 `;
 
 const Card = styled.div`
@@ -236,8 +241,4 @@ const Follow = styled.button`
   &:hover {
     opacity: 0.5;
   }
-`;
-
-const Wrapper = styled.div`
-  height: 100%;
 `;

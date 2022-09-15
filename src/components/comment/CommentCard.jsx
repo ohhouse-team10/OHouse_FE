@@ -7,16 +7,15 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import {useDispatch} from "react-redux";
+import {useState} from "react";
 
-import { deleteComments } from "../../redux/modules/commentsSlice";
-import { updateComments } from "../../redux/modules/commentsSlice";
+import {deleteComments} from "../../redux/modules/commentsSlice";
+import {updateComments} from "../../redux/modules/commentsSlice";
 
-import { TimeToToday } from "../../utils/TimeToToday";
+import {TimeToToday} from "../../utils/TimeToToday";
 
 export default function CommentCard(props) {
-  // console.log(props); //card data
   const dispatch = useDispatch();
   const [editCheck, setEditCheck] = useState("수정");
   const [editInput, setEditInput] = useState(props.content);
@@ -27,7 +26,7 @@ export default function CommentCard(props) {
 
   const deleteComment = () => {
     if (window.confirm("삭제하실건가욥...?")) {
-      dispatch(deleteComments({ comment_id: props.comment_id }));
+      dispatch(deleteComments({comment_id: props.comment_id}));
     } else {
       alert("휴");
     }
@@ -63,7 +62,7 @@ export default function CommentCard(props) {
         <ListItemAvatar>
           <Avatar
             src={props.profile_image}
-            style={{ width: "30px", height: "30px", cursor: "pointer" }}
+            style={{width: "30px", height: "30px", cursor: "pointer"}}
           />
         </ListItemAvatar>
         <CardBody>
@@ -71,7 +70,7 @@ export default function CommentCard(props) {
             primary={
               <React.Fragment>
                 <Typography
-                  sx={{ display: "inline" }}
+                  sx={{display: "inline"}}
                   component="span"
                   variant="body2"
                   color="text.primary"
@@ -91,7 +90,7 @@ export default function CommentCard(props) {
               editCheck === "수정" ? (
                 <React.Fragment>
                   <Typography
-                    sx={{ display: "inline" }}
+                    sx={{display: "inline"}}
                     component="span"
                     variant="body2"
                     color="text.primary"
@@ -102,8 +101,8 @@ export default function CommentCard(props) {
               ) : (
                 <React.Fragment>
                   <Typography
-                    sx={{ display: "inline" }}
-                    style={{ display: "flex", alignItems: "center" }}
+                    sx={{display: "inline"}}
+                    style={{display: "flex", alignItems: "center"}}
                     component="span"
                     variant="body2"
                     color="text.primary"
@@ -120,20 +119,19 @@ export default function CommentCard(props) {
             }
           />
           <CardInfo>
-            <CardInfoSpan>{TimeToToday(new Date(props.createdAt))}</CardInfoSpan>
+            <CardInfoSpan>
+              {TimeToToday(new Date(props.createdAt))}
+            </CardInfoSpan>
             <CardInfoSpan> · </CardInfoSpan>
-            <CardInfoFooter style={{ cursor: "pointer" }}>
+            <CardInfoFooter style={{cursor: "pointer"}}>
               답글 달기
             </CardInfoFooter>
             <CardInfoSpan> · </CardInfoSpan>
-            <CardInfoFooter style={{ cursor: "pointer" }}>
+            <CardInfoFooter style={{cursor: "pointer"}}>
               <CardInfoSpan onClick={editBtn}>{editCheck}</CardInfoSpan>
             </CardInfoFooter>
             <CardInfoSpan> · </CardInfoSpan>
-            <CardInfoFooter
-              style={{ cursor: "pointer" }}
-              onClick={deleteComment}
-            >
+            <CardInfoFooter style={{cursor: "pointer"}} onClick={deleteComment}>
               삭제
             </CardInfoFooter>
           </CardInfo>
@@ -148,7 +146,7 @@ export default function CommentCard(props) {
         <ListItemAvatar>
           <Avatar
             src="/static/images/avatar/1.jpg"
-            style={{ width: "30px", height: "30px" }}
+            style={{width: "30px", height: "30px"}}
           />
         </ListItemAvatar>
         <CardBody>
@@ -157,7 +155,7 @@ export default function CommentCard(props) {
             secondary={
               <React.Fragment>
                 <Typography
-                  sx={{ display: "inline" }}
+                  sx={{display: "inline"}}
                   component="span"
                   variant="body2"
                   color="text.primary"
@@ -168,13 +166,15 @@ export default function CommentCard(props) {
             }
           />
           <CardInfo>
-            <CardInfoSpan>{TimeToToday(new Date(props.createdAt))}</CardInfoSpan>
+            <CardInfoSpan>
+              {TimeToToday(new Date(props.createdAt))}
+            </CardInfoSpan>
             <CardInfoSpan> · </CardInfoSpan>
-            <CardInfoFooter style={{ cursor: "pointer" }}>
+            <CardInfoFooter style={{cursor: "pointer"}}>
               답글 달기
             </CardInfoFooter>
             <CardInfoSpan> · </CardInfoSpan>
-            <CardInfoFooter style={{ cursor: "pointer" }} onClick={sendReport}>
+            <CardInfoFooter style={{cursor: "pointer"}} onClick={sendReport}>
               신고
             </CardInfoFooter>
           </CardInfo>

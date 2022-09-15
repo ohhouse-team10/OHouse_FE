@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import {useState} from "react";
 
-const Selectbox = ({ typeInfo, styleInfo }) => {
+const Selectbox = ({typeInfo, styleInfo}) => {
   const [type, setType] = useState("");
   const [style, setStyle] = useState("");
 

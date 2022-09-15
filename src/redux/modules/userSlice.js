@@ -46,8 +46,7 @@ export const __register = createAsyncThunk(
   "user/register",
   async (payload, {rejectWithValue}) => {
     try {
-      const response = await userAPI.signUp(payload);
-      console.log(response);
+      await userAPI.signUp(payload);
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -59,8 +58,7 @@ export const __userLogOut = createAsyncThunk(
   "user/logout",
   async (payload, thunkAPI) => {
     try {
-      const response = await userAPI.logout();
-      console.log(response);
+      await userAPI.logout();
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -112,7 +110,6 @@ const userSlice = createSlice({
     [__userLogin.rejected]: (state, payload) => {
       state.loading = false;
       state.error = payload;
-      console.log(state.error);
     },
     [__register.pending]: (state, payload) => {
       state.loading = true;

@@ -1,6 +1,5 @@
-import { SignalCellularNoSimOutlined } from "@mui/icons-material";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { commentAPI } from "../../server/api";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {commentAPI} from "../../server/api";
 
 /* InitialState */
 // data, isLoading, error로 상태관리
@@ -16,7 +15,7 @@ export const getComments = createAsyncThunk(
   "GET_ALL_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await commentAPI.getComment(payload.id);
+      const {data} = await commentAPI.getComment(payload.id);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -29,11 +28,7 @@ export const addComments = createAsyncThunk(
   "POST_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await commentAPI.postComment(
-        { content: payload.content },
-        payload.id
-      );
-      console.log(data);
+      await commentAPI.postComment({content: payload.content}, payload.id);
       return thunkAPI.fulfillWithValue(payload);
     } catch (errer) {
       return thunkAPI.rejectWithValue(errer);
@@ -46,8 +41,8 @@ export const updateComments = createAsyncThunk(
   "UPDATAE_Comments",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await commentAPI.putComment(
-        { content: payload.content },
+      const {data} = await commentAPI.putComment(
+        {content: payload.content},
         payload.comment_id
       );
       return thunkAPI.fulfillWithValue(data);
@@ -95,7 +90,6 @@ export const CommentsSlice = createSlice({
     [getComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.comments = [action.payload];
-      console.log(state);
     },
     [addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -108,7 +102,7 @@ export const CommentsSlice = createSlice({
       state.isLoading = false;
       const newState = state.comments[0].data.map((item) =>
         action.meta.arg.comment_id === item.comment_id
-          ? { ...item, content: action.meta.arg.content }
+          ? {...item, content: action.meta.arg.content}
           : item
       );
       state.comments[0].data = newState;
@@ -143,5 +137,4 @@ export const CommentsSlice = createSlice({
 });
 
 /* export */
-export const {} = CommentsSlice.actions;
 export default CommentsSlice.reducer;

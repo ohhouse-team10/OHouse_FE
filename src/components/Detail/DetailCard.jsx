@@ -52,7 +52,7 @@ const DetailCard = () => {
         {detailInfo.content}
       </Contentcard>
 
-      <BorderLine class="border">
+      <BorderLine className="border">
         <ProfileLayout>
           <div className="media-left">
             <img

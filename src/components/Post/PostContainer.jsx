@@ -1,13 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import {useState} from "react";
+import {useDispatch} from "react-redux";
 import styled from "styled-components";
 
 import Selectbox from "../Post/Selectbox";
 import Textbox from "../Post/Textbox";
 import Button from "../Layout/Button";
-import { _addPost } from "../../redux/modules/PostSlice";
-import { useNavigate } from "react-router-dom";
+import {_addPost} from "../../redux/modules/PostSlice";
+import {useNavigate} from "react-router-dom";
 
 const PostContainer = () => {
   const navigate = useNavigate();
@@ -40,19 +40,14 @@ const PostContainer = () => {
 
   const addClickHandler = () => {
     // console.log("addPost", addPost);
-    console.log("addPost", addPost);
-
     let formData = new FormData();
     formData.append(
       "data",
-      new Blob([JSON.stringify(addPost)], { type: "application/json" })
+      new Blob([JSON.stringify(addPost)], {type: "application/json"})
     );
 
     formData.append("file", img);
 
-    for (let i of formData.entries()) {
-      console.log("i", i[1]);
-    }
     // console.log("formData", formData);
     dispatch(_addPost(formData));
 
