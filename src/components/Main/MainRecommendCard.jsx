@@ -18,8 +18,6 @@ const MainRecommendCard = ({post}) => {
     isLike,
   } = post;
 
-  console.log(nickname);
-
   const delay = 2000;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);

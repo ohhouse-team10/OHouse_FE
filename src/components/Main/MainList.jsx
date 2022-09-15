@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 const MainList = () => {
   const dispatch = useDispatch();
   const {post} = useSelector((state) => state.post);
-  console.log(post);
 
   useEffect(() => {
     dispatch(getInfiniteList());
