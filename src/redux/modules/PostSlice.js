@@ -2,16 +2,6 @@ import axios from "axios";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import api from "../../server/api";
 import {postAPI} from "../../server/api";
-import {userAPI} from "../../server/api";
-
-import {
-  setAccessToken,
-  getAccessToken,
-  removeAccessToken,
-  setRefreshToken,
-  getRefreshToken,
-  removeRefreshToken,
-} from "../../server/cookie";
 
 const initialState = {
   post: [],
@@ -68,14 +58,9 @@ export const _addPost = createAsyncThunk(
   "post/posts",
   async (payload, thunkAPI) => {
     try {
-      console.log("payload", payload);
-
       const data = await postAPI.writePost(payload);
-      console.log(data);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -100,7 +85,6 @@ export const _deletelikepost = createAsyncThunk(
   async (post_id, thunkAPI) => {
     try {
       await postAPI.deletelikePost(post_id);
-
       return thunkAPI.fulfillWithValue(post_id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -139,7 +123,6 @@ const post = createSlice({
       state.post = [...state.post, ...action.payload.content];
       state.last = action.payload.last;
       state.totalPage = action.payload.totalPages;
-      console.log(action.payload.content);
     },
 
     [_addPost.pending]: (state) => {
@@ -148,7 +131,6 @@ const post = createSlice({
     [_addPost.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.posts = action.payload;
-      console.log("_addPost", action.payload);
     },
     [_addPost.rejected]: (state, action) => {
       state.isLoading = false;

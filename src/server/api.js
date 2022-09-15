@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getRefreshToken, getAccessToken } from "./cookie";
+import {getRefreshToken, getAccessToken} from "./cookie";
+import {removeAccessToken, removeRefreshToken} from "./cookie";
 
 const BASE_URL = " http://3.38.162.168";
 
@@ -36,6 +37,9 @@ api.interceptors.response.use(
         return api.request(error.config);
       }
     } catch (error) {
+      removeAccessToken();
+      removeRefreshToken();
+      localStorage.removeItem("user");
       window.location.href = "/login";
     }
     console.log(error.response);

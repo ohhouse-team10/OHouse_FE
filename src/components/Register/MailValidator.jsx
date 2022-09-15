@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React from "react";
 import {useState} from "react";
 import {useEffect} from "react";
+import {motion} from "framer-motion";
 import {init, send} from "emailjs-com";
 
 const MailValidator = ({email, getIsValid}) => {
@@ -35,7 +36,7 @@ const MailValidator = ({email, getIsValid}) => {
   }, [isValid, setIsValid]);
 
   return (
-    <Container>
+    <Container variants={CreateAnimation} initial="start" animate="end">
       <Wrapper>
         <Wrapper2>
           <Msg>이메일로 전송된 인증코드를 입력해주세요.</Msg>
@@ -64,7 +65,7 @@ const MailValidator = ({email, getIsValid}) => {
 
 export default MailValidator;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   overflow: hidden;
   margin-bottom: 20px;
   width: 100%;
@@ -141,3 +142,8 @@ const Button = styled.button`
   border-color: #a3e4f8;
   color: #e5f9ff;
 `;
+
+const CreateAnimation = {
+  start: {opacity: 1, y: -10},
+  end: {opacity: 1, y: 0, transition: {duration: 0.4, ease: "linear"}},
+};

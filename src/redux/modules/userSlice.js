@@ -123,7 +123,6 @@ const userSlice = createSlice({
     [__register.rejected]: (state, payload) => {
       state.loading = false;
       state.error = payload;
-      console.log(state.error);
     },
     [__userLogOut.pending]: (state, payload) => {
       state.loading = true;
@@ -137,7 +136,6 @@ const userSlice = createSlice({
     [__userLogOut.rejected]: (state, payload) => {
       state.loading = false;
       state.error = payload;
-      console.log(state.error);
     },
     [__userUpdate.fulfilled]: (state, payload) => {
       console.log(payload);
