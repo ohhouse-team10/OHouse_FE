@@ -46,7 +46,7 @@ const NextSlide = () => {
 };
 // Prev 버튼 클릭 시
 const PrevSlide = () => {
-  if (currentSlide < TOTAL_SLIDES) {
+  if (currentSlide ===0) {
     setCurrentSlide(TOTAL_SLIDES); // 마지막 사진으로 넘어갑니다.
     // return;  // 클릭이 작동하지 않습니다.
   } else {
