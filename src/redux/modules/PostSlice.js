@@ -36,23 +36,6 @@ export const getHouseList = createAsyncThunk(
   }
 );
 
-//디테일 get 요청 구현중.
-export const getDetailPage = createAsyncThunk(
-  "travel/getDetailPage ",
-  async (post_id, thunkAPI) => {
-      try {
-          const data = await api.get(
-              `/post/${post_id}`
-          );
-          console.log(data.data);
-          return thunkAPI.fulfillWithValue(data.data);
-      } catch (error) {
-          return thunkAPI.rejectWithValue(error.message);
-      }
-  }
-);
-
-
 //무한스크롤
 export const getInfiniteList = createAsyncThunk(
   "house/getInfiniteList ",
@@ -68,18 +51,36 @@ export const getInfiniteList = createAsyncThunk(
   }
 );
 
-// post요청
+// 게시글 post
 export const _addPost = createAsyncThunk(
   "post/posts",
   async (payload, thunkAPI) => {
     try {
       console.log("payload", payload);
+
       const data = await postAPI.writePost(payload);
       console.log(data);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+// 디테일 get
+export const _getDetail = createAsyncThunk(
+  "travel/getDetail ",
+  async (post_id, thunkAPI) => {
+    try {
+      console.log("post_id =", post_id);
+      const data = await postAPI.getPost(post_id);
+      console.log(data.data);
+
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -99,7 +100,6 @@ export const _likepost = createAsyncThunk(
   }
 );
 
-
 export const _deletelikepost = createAsyncThunk(
   "like/delete",
   async (payload, thunkAPI) => {
@@ -112,8 +112,6 @@ export const _deletelikepost = createAsyncThunk(
       }
   }
 );
-
-
 
 const post = createSlice({
   name: "post",

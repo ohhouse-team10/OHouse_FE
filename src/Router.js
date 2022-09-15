@@ -20,7 +20,7 @@ const Router = () => {
         <Route path="/post" element={<Post />} />
         <Route path="/community" element={<Community />} />
         <Route path="/comment" element={<Comment />} />
-        <Route path="/detail/" element={<DetailPage />} />
+        <Route path="/detail/:id" element={<DetailPage />} />
       </Routes>
     </BrowserRouter>
   );

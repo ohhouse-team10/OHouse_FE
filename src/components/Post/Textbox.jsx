@@ -70,8 +70,6 @@ const Textbox = ({ contentInfo, imgInfo }) => {
         ></Textarea>
         <Footbox>#키워드</Footbox>
       </Divright>
-
-      {/* <img src={img} alt="pre" /> */}
     </Divboxes>
   );
 };
