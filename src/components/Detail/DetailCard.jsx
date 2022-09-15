@@ -39,14 +39,14 @@ const DetailCard = () => {
         <Font>{detailInfo.type}</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
         <Font>{detailInfo.style}</Font>&nbsp;
+        <DelWarp>
+          <DelButton onClick={deleteClickHandler}>삭제하기</DelButton>
+        </DelWarp>
       </Contentcard>
 
       <Img src={detailInfo.thumbnail} alt="Placeholder image" />
       <Contentcard style={{ marginBottom: "40px" }}>
         {detailInfo.content}
-        <DelWarp>
-          <DelButton onClick={deleteClickHandler}>삭제하기</DelButton>
-        </DelWarp>
       </Contentcard>
 
       <BorderLine />
@@ -91,7 +91,7 @@ const Font = styled.h1`
 `;
 const DelWarp = styled.div`
   width: 100px;
-  padding-left: 68%;
+  padding-left: 67%;
 `;
 const DelButton = styled.button`
   float: left;
