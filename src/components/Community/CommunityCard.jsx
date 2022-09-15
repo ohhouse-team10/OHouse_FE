@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import heart from "../../image/heart.png";
 import emptyheart from "../../image/emptyheart.png";
 import fillbookmark from "../../image/bookmarkfill.png";
 import emptybookmark from "../../image/bookmark.png";
 import comment from "../../image/comment.png";
-
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {_likepost} from "../../redux/modules/PostSlice";
 import {_deletelikepost} from "../../redux/modules/PostSlice";
 import {useDispatch} from "react-redux";
-import {useSelector} from "react-redux";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -43,7 +41,7 @@ const CommunityCard = ({post}) => {
 
   const followeHandler = (e) => {
     e.preventDefault();
-    setFollowCount(followCount == isFollow);
+    setFollowCount(followCount === isFollow);
     setFollow(!follow);
     // axios.post("/post", { postId: id });
   };
@@ -51,7 +49,7 @@ const CommunityCard = ({post}) => {
   const cancelfollowHandler = (e) => {
     e.preventDefault();
     if (followCount > 0) {
-      setFollowCount(followCount == isFollow);
+      setFollowCount(followCount === isFollow);
     }
     setFollow(!follow);
     // axios.post("/post", { postId: id });
@@ -70,7 +68,7 @@ const CommunityCard = ({post}) => {
       setJoinCount(joinCount + 1);
     }
     setLike(!like);
-    dispatch(_likepost(post_id,like_num));
+    dispatch(_likepost(post_id, like_num));
   };
 
   const cencelHandler = (e) => {
@@ -82,9 +80,9 @@ const CommunityCard = ({post}) => {
     dispatch(_deletelikepost(post_id));
   };
 
-//   useEffect(() => {
-//     dispatch(_likepost());
-// }, [like_num]);
+  //   useEffect(() => {
+  //     dispatch(_likepost());
+  // }, [like_num]);
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -116,7 +114,7 @@ const CommunityCard = ({post}) => {
           />
         </div>
         <div className="media-content">
-          <div style={{ display: "flex" }}>
+          <div style={{display: "flex"}}>
             <h3
               style={{
                 margin: "1px",
@@ -125,32 +123,34 @@ const CommunityCard = ({post}) => {
                 letterSpacing: "-1px",
               }}
             >
-
               {nickname}
             </h3>
-     
+
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (
-              <Follow style={{ color: "gray" }} onClick={cancelfollowHandler}>
+              <Follow style={{color: "gray"}} onClick={cancelfollowHandler}>
                 팔로잉
               </Follow>
             )}
             {followCount == isFollow}
           </div>
-          <h>@soonger{post_id}</h>
+          <h1>{statusMessage}</h1>
         </div>
       </Media>
 
       <span onClick={() => navigate(`/detail/${post_id}`)}>
-        <div className="card-image" style={{ overflow: "hidden" }}>
+        <div
+          className="card-image"
+          style={{overflow: "hidden", borderRadius: "10px"}}
+        >
           <Img hover src={thumbnail} alt="Placeholder image" />
         </div>
       </span>
 
       <Buttons>
         <Media className="media">
-          <div className="media-left" style={{ display: "flex" }}>
+          <div className="media-left" style={{display: "flex"}}>
             {!isLike ? (
               <JoinBtn
                 src={emptyheart}
@@ -160,7 +160,7 @@ const CommunityCard = ({post}) => {
               <JoinBtn src={heart} onClick={cencelHandler}></JoinBtn>
             )}
 
-            <div style={{ margin: "6px" }}>{like_num}</div>
+            <div style={{margin: "6px"}}>{like_num}</div>
           </div>
         </Media>
         <Media className="media">
@@ -182,7 +182,7 @@ const CommunityCard = ({post}) => {
       </Buttons>
 
       <Media className="media">
-        <div className="media-left" style={{ margin: "6px" }}>
+        <div className="media-left" style={{margin: "6px"}}>
           {content}
         </div>
         <div className="media-content"></div>
@@ -194,6 +194,7 @@ export default CommunityCard;
 const Media = styled.div`
   display: flex;
   margin: 5px;
+  border-radius: 10px;
   overflow: hidden;
 `;
 const Img = styled.img`
@@ -205,8 +206,10 @@ const Img = styled.img`
   max-height: 100%;
   transition: all 0.2s linear;
   :hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
+  object-fit: cover;
+  overflow: hidden;
 `;
 
 const Card = styled.div`
@@ -242,8 +245,4 @@ const Follow = styled.button`
   &:hover {
     opacity: 0.5;
   }
-`;
-
-const Wrapper = styled.div`
-  height: 100%;
 `;

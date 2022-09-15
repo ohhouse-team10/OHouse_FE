@@ -14,7 +14,7 @@ const TOS = ({bringPassInfo}) => {
   };
   const agreeHandler = (event) => {
     if (items.includes(event.target.value)) {
-      setItems(items.filter((item) => item != event.target.value));
+      setItems(items.filter((item) => item !== event.target.value));
     } else {
       setItems([...items, event.target.value]);
     }
