@@ -55,8 +55,9 @@ const PostContainer = () => {
     }
     // console.log("formData", formData);
     dispatch(_addPost(formData));
-
-    navigate("/community");
+    
+    //이동할때 새로고침하고 들어가짐 
+    window.location.replace("/community");
   };
 
   return (
