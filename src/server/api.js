@@ -66,7 +66,12 @@ export const userAPI = {
   signUp: (request) => api.post("/member/signup", request), //회원가입
   logIn: (request) => api.post("/member/login", request), // 로그인
   logout: () => api.delete("/auth/member/logout"), // 로그아웃
-  userUpdate: (request) => api.put("/auth/member/update", request), // 회원정보 수정
+  userUpdate: (request) =>
+    api.put("/auth/member/update", request, {
+      headers: {
+        "Content-Type": `multipart/form-data`,
+      },
+    }), // 회원정보 수정
 };
 
 export const postAPI = {

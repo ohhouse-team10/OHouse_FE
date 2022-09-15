@@ -70,6 +70,7 @@ export const __userUpdate = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await userAPI.userUpdate(payload);
+      console.log(response);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -134,12 +135,17 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
-    [__userUpdate.fulfilled]: (state, payload) => {
+    [__userUpdate.pending]: (state, payload) => {
+      state.loading = true;
+    },
+    [__userUpdate.fulfilled]: (state, {payload}) => {
+      state.loading = false;
+      if (!payload.data?.data) return;
+      state.userInfo = payload.data?.data;
+      localStorage.setItem("user", JSON.stringify(state));
       console.log(payload);
     },
-    [__userUpdate.rejected]: (state, payload) => {
-      console.log(payload);
-    },
+    [__userUpdate.rejected]: (state, payload) => {},
   },
 });
 

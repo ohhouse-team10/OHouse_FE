@@ -147,7 +147,11 @@ const RegisterForm = () => {
         nickname: nickname,
       })
     );
-    console.log(response);
+
+    if (response?.error.message === "Rejected") {
+      alert("중복된 이메일 입니다!");
+      return;
+    }
     // Error Code가 오면 return logic 추가
     // Duplicate Error
     navigate("/login");

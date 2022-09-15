@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../image/ohou_text_logo.PNG";
+import defaultImage from "../../image/defaultImage.jpg";
 import SearchBox from "./SearchBox";
 import Button from "./Button";
 import ToggleMenu from "./ToggleMenu";
@@ -96,7 +97,11 @@ const Header = () => {
                     <NotificationsNoneIcon />
                     <AddShoppingCartIcon />
                     <ProfileImage
-                      src={state.userInfo?.profile_image}
+                      src={
+                        state.userInfo?.profile_image === ""
+                          ? defaultImage
+                          : state.userInfo?.profile_image
+                      }
                       onClick={() => onSetIsOpen("mypage")}
                     />
                     {isOpen === "mypage" ? (
