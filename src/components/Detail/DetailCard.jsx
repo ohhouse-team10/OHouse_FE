@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
-import { _getDetail } from "../../redux/modules/PostSlice";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { postAPI } from "../../server/api";
+import { useDispatch } from "react-redux";
+import { _deletDetail } from "../../redux/modules/PostSlice";
 
 const DetailCard = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getDetail = async (id) => {
     const response = await postAPI.getPost(id);
@@ -20,6 +23,12 @@ const DetailCard = () => {
     keepPreviousData: true,
   });
   const detailInfo = data?.data?.data;
+
+  const deleteClickHandler = () => {
+    const post_id = Number(id);
+    dispatch(_deletDetail(post_id));
+    navigate(`/community`);
+  };
 
   // follow 수정필
   const [follow, setFollow] = useState(true);
@@ -37,6 +46,7 @@ const DetailCard = () => {
     setFollow(!follow);
   };
   if (isLoading) return;
+
   return (
     <Card>
       <Contentcard>
@@ -45,6 +55,9 @@ const DetailCard = () => {
         <Font>{detailInfo.type}</Font>&nbsp;
         <Stick>❘</Stick>&nbsp;
         <Font>{detailInfo.style}</Font>&nbsp;
+        <div>
+          <button onClick={deleteClickHandler}>del</button>
+        </div>
       </Contentcard>
 
       <Img src={detailInfo.thumbnail} alt="Placeholder image" />
@@ -96,7 +109,6 @@ const DetailCard = () => {
 export default DetailCard;
 
 const Card = styled.div`
-  border: 1px dashed red;
   margin: auto;
   width: 100%;
   height: 100%;
@@ -104,7 +116,6 @@ const Card = styled.div`
 
 const BorderLine = styled.div`
   border: 1px solid black;
-  /* background-color: red; */
 
   list-style: none;
   display: flex;
@@ -116,8 +127,6 @@ const BorderLine = styled.div`
   height: 40px;
 `;
 const ProfileLayout = styled.div`
-  /* background-color: yellow; */
-
   display: flex;
   margin: 5px;
   overflow: hidden;
@@ -138,8 +147,6 @@ const Img = styled.img`
   align-items: center;
 `;
 const Contentcard = styled.div`
-  background-color: purple;
-
   display: flex;
   margin: auto;
 `;
