@@ -45,11 +45,11 @@ const PostContainer = () => {
     );
     formData.append("file", img);
     for (let i of formData.entries()) {
-      console.log("i", i[1]);
+      // console.log("i", i[1]);
     }
     dispatch(_addPost(formData));
-    
-    //이동할때 새로고침하고 들어가짐 
+
+    //이동할때 새로고침하고 들어가짐(위험?)
     window.location.replace("/community");
   };
 
