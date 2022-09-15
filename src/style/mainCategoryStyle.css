@@ -35,6 +35,7 @@ hr {
     width: 240px;
     height: 240px;
     cursor: pointer;
+    border-radius: 20px;
 }
 .imgBox img:hover {
    width: 260px;
