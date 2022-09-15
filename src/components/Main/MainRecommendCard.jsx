@@ -16,7 +16,7 @@ const MainRecommendCard = ({post}) => {
     content,
     post_id,
     isLike,
-  } = post;
+  } = post || {};
 
   console.log(nickname);
 
@@ -202,7 +202,6 @@ const Img = styled.img`
   border-radius: 30px;
   bottom: 8px;
   position: relative;
-  object-fit: cover;
 `;
 
 const Left = styled.div`
@@ -228,14 +227,4 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   display: flex; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
-
-  div {
-    div {
-      a {
-        img {
-          object-fit: cover;
-        }
-      }
-    }
-  }
 `;
