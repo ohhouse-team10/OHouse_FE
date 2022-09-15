@@ -11,6 +11,7 @@ import {_likepost} from "../../redux/modules/PostSlice";
 import {_deletelikepost} from "../../redux/modules/PostSlice";
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
+import { Hidden } from "@mui/material";
 
 const CommunityCard = ({post}) => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const CommunityCard = ({post}) => {
       setJoinCount(joinCount + 1);
     }
     setLike(!like);
-    dispatch(_likepost(post_id));
+    dispatch(_likepost(post_id,like_num));
   };
 
   const cencelHandler = (e) => {
@@ -79,6 +80,10 @@ const CommunityCard = ({post}) => {
     setLike(!like);
     dispatch(_deletelikepost(post_id));
   };
+
+//   useEffect(() => {
+//     dispatch(_likepost());
+// }, [like_num]);
 
   //북마크토글
   const [bookmark, setBookmark] = useState(true);
@@ -110,11 +115,13 @@ const CommunityCard = ({post}) => {
           />
         </div>
         <div className="media-content">
-          <div style={{display: "flex"}}>
-            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold"}}>
+          <div style={{display: "flex"}}>  
+
+
+            <h3 style={{margin: "1px", fontSize: "18px", fontWeight: "bold",whiteSpace:"nowrap",overflow:"hidden",textOverflow:'ellipsis',width:"220px"}}>
               {nickname}
             </h3>
-
+     
             {follow ? (
               <Follow onClick={followeHandler}>팔로우</Follow>
             ) : (
