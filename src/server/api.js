@@ -4,7 +4,6 @@ import {getRefreshToken, getAccessToken} from "./cookie";
 import {removeAccessToken, removeRefreshToken} from "./cookie";
 import {setAccessToken, setRefreshToken} from "./cookie";
 
-// const BASE_URL = " http://3.38.162.168"; //개발용
 const BASE_URL = " https://sparta-jk.shop"; //배포test
 
 const api = axios.create({
@@ -37,7 +36,6 @@ api.interceptors.response.use(
     // 오류 응답을 처리
     if (error.response && error.response.data.code === "EXPIRED_TOKEN") {
       try {
-        // 이따가 리프레시토큰을 검사하는 주소 물어보기.. 아래는 임시코드
         const response = api.get("/auth/");
         if (response && response.isSuccess) {
           removeAccessToken();
@@ -60,7 +58,6 @@ api.interceptors.response.use(
 
 export default api;
 
-// auth는 인증이 필요한 URL (로그인이 되어있어야 함.);
 
 export const userAPI = {
   signUp: (request) => api.post("/member/signup", request), //회원가입
